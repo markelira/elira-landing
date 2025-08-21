@@ -1,0 +1,5 @@
+PLACEHOLDER: Create 1200x630px Twitter card with:
+- Same design as OG image
+- Optimized for Twitter display
+
+This should be created as twitter-card.jpg in Photoshop/Canva

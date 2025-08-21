@@ -1,0 +1,6 @@
+PLACEHOLDER: Create 1200x630px OG image with:
+- Elira logo
+- "Tanulj Ingyen. Alkalmazd Holnap."
+- "5 ingyenes anyag egyetemi oktatóktól"
+
+This should be created as og-image.jpg in Photoshop/Canva

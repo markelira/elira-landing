@@ -6,19 +6,40 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "deploy": "npm run build && firebase deploy",
+    "deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "init-db": "tsx scripts/init-firestore.ts",
+    "test-db": "tsx scripts/test-firestore.ts",
+    "deploy-rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.7"
+    "@hookform/resolvers": "^5.2.1",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@next/third-parties": "^15.5.0",
+    "@sendgrid/mail": "^8.1.5",
+    "firebase": "^12.1.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.540.0",
+    "next": "^15.5.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.62.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@next/bundle-analyzer": "^15.4.7",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "critters": "^0.0.23",
+    "firebase-admin": "^13.4.0",
+    "supports-color": "^10.2.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.4",
+    "typescript": "^5"
   }
 }

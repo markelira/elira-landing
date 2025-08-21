@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Stats: Public read, no client writes (admin only)
+    match /stats/{document} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // Leads: Anyone can create, no reading for privacy
+    match /leads/{document} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    
+    // Activities: Public read and create for real-time feed
+    match /activities/{document} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+  }
+}
