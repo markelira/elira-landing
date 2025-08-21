@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Firebase Admin SDK - NEVER COMMIT THIS!
+elira-landing-firebase-adminsdk-fbsvc-28bd30e58c.json
+*.json
