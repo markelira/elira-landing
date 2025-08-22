@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elira Landing Page
 
-## Getting Started
+Modern landing page for Elira's coaching services, built with Next.js and Firebase.
 
-First, run the development server:
+## 🚀 Tech Stack
 
+- **Frontend**: Next.js 15, React 18, TypeScript
+- **Styling**: Tailwind CSS, Framer Motion
+- **Backend**: Firebase (Firestore, Functions, Hosting)
+- **Email**: SendGrid
+- **Analytics**: Google Tag Manager
+- **Deployment**: Firebase Hosting
+
+## 📦 Features
+
+- ✅ Responsive design with mobile-first approach
+- ✅ Real-time statistics and activity feed
+- ✅ Email capture with SendGrid integration
+- ✅ Discord webhook notifications
+- ✅ PDF lead magnets with selector modal
+- ✅ Cookie consent banner
+- ✅ Exit intent popup
+- ✅ Smooth animations with Framer Motion
+- ✅ SEO optimized with Open Graph tags
+- ✅ TypeScript for type safety
+
+## 🛠️ Setup
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/markelira/elira-landing.git
+cd elira-landing
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+cd functions && npm install && cd ..
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Configure Firebase:
+```bash
+firebase use --add
+firebase deploy
+```
 
-## Learn More
+## 🔧 Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create `.env.local` with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Firebase Admin SDK
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
 
-## Deploy on Vercel
+# SendGrid
+SENDGRID_API_KEY=
+SENDGRID_FROM_EMAIL=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Discord
+DISCORD_WEBHOOK_URL=
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Google Tag Manager
+NEXT_PUBLIC_GTM_ID=
+```
+
+## 📝 Development
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run production build locally
+npm run start
+
+# Deploy to Firebase
+firebase deploy
+```
+
+## 🔄 Firebase Functions
+
+Functions are deployed to `europe-west1` region and include:
+- `/api/health` - Health check endpoint
+- `/api/subscribe` - Email subscription endpoint
+
+## 📊 Firestore Collections
+
+- `stats` - Global statistics (subscribers, discord members, etc.)
+- `leads` - Email subscribers
+- `activities` - Real-time activity feed
+- `resources` - PDF resources metadata
+
+## 🚢 Deployment
+
+The site is automatically deployed to Firebase Hosting:
+- Production: https://elira-landing-ce927.web.app
+
+## 📄 License
+
+All rights reserved. This is proprietary software for Elira's coaching business.
+
+## 👤 Contact
+
+For questions or support, contact: info@elira.hu

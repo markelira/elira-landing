@@ -50,6 +50,7 @@ functions/node_modules/
 # Firebase Admin SDK - service account keys
 *-service-account*.json
 serviceAccountKey.json
+*-firebase-adminsdk-*.json
 
 # Data Connect
 dataconnect-generated/
