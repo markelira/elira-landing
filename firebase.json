@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".next",
+    "public": "out",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "function": "nextjsFunc"
+        "function": "api"
       },
       {
         "source": "**",
@@ -37,10 +37,13 @@
       }
     ]
   },
-  "functions": {
-    "source": ".",
-    "runtime": "nodejs18"
-  },
+  "functions": [
+    {
+      "source": "functions",
+      "runtime": "nodejs18",
+      "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules"
   }

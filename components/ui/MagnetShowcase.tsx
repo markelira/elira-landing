@@ -94,7 +94,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
                     {magnet.title}
                   </h3>
                 </div>
-                <p className="text-base lg:text-lg text-teal-600 font-semibold">
+                <p className="text-base lg:text-lg text-teal-700 font-semibold">
                   {magnet.subtitle}
                 </p>
               </div>
@@ -119,7 +119,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
                   className="flex items-start gap-3"
                 >
                   <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3 h-3 text-teal-600" />
+                    <Check className="w-3 h-3 text-teal-700" />
                   </div>
                   <span className="text-gray-700">{benefit}</span>
                 </motion.li>
@@ -144,7 +144,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
             onClick={handleDownloadClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-teal-600 to-cyan-600 
+            className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-teal-700 to-cyan-600 
                        text-white font-semibold rounded-full shadow-lg 
                        hover:shadow-xl transition-all duration-300"
           >
@@ -207,7 +207,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
                     <span className="font-medium text-gray-900">
                       {magnet.preview.pages} oldal • {magnet.preview.fileSize}
                     </span>
-                    <span className="text-teal-600 font-semibold">
+                    <span className="text-teal-700 font-semibold">
                       PDF
                     </span>
                   </div>

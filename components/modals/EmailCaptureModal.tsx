@@ -14,7 +14,8 @@ import { logger } from '@/lib/logger';
 // Form validation schema
 const formSchema = z.object({
   email: z.string().email('Érvényes email címet adj meg'),
-  name: z.string().min(2, 'Legalább 2 karakter szükséges'),
+  firstName: z.string().min(2, 'Keresztnév legalább 2 karakter szükséges'),
+  lastName: z.string().min(1, 'Vezetéknév legalább 1 karakter szükséges'),
   job: z.enum(['Marketing', 'IT/Fejlesztő', 'HR', 'Pénzügy', 'Értékesítés', 'Vezetői pozíció', 'Diák', 'Egyéb']),
   education: z.enum(['Középiskola', 'Főiskola', 'Egyetem (BSc)', 'Mesterszint (MSc)', 'PhD'])
 });
@@ -82,6 +83,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
     setErrorMessage('');
 
     try {
+      // Try API first
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -95,9 +97,36 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
         }),
       });
 
+      // Check if response is OK first
+      if (!response.ok) {
+        // If API fails (404, 500, etc.), use client-side Firestore
+        logger.warn(`API error ${response.status}, using client-side submission`);
+        
+        const { submitFormDirectly } = await import('@/lib/client-submit');
+        await submitFormDirectly({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          occupation: data.job,
+          education: data.education,
+          selectedMagnets: [magnet.id]
+        });
+        
+        // Success via client-side fallback
+        setSubmissionState('success');
+        trackEmail(data.email, `magnet_${magnet.id}`);
+        submitForm('email_capture', true);
+
+        setTimeout(() => {
+          handleClose();
+        }, 3000);
+        return;
+      }
+
+      // Parse JSON response
       const result = await response.json();
 
-      if (!response.ok) {
+      if (!result.success) {
         throw new Error(result.error || 'Hiba történt a feldolgozás során');
       }
 
@@ -182,7 +211,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                   </div>
                   
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Még egy lépés a(z) <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">{magnet.title}</span> megszerzéséhez
+                    Még egy lépés a(z) <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-cyan-600">{magnet.title}</span> megszerzéséhez
                   </h3>
                   
                   <p className="text-gray-600">
@@ -210,21 +239,39 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                     )}
                   </div>
 
-                  {/* Name */}
+                  {/* First Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {content.emailCapture.modal.fields.name.label} *
+                      Keresztnév *
                     </label>
                     <input
-                      {...register('name')}
+                      {...register('firstName')}
                       type="text"
-                      placeholder={content.emailCapture.modal.fields.name.placeholder}
+                      placeholder="János"
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl
                                  focus:ring-2 focus:ring-teal-500 focus:border-transparent
                                  transition-all duration-200"
                     />
-                    {errors.name && (
-                      <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                    {errors.firstName && (
+                      <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                    )}
+                  </div>
+
+                  {/* Last Name */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Vezetéknév *
+                    </label>
+                    <input
+                      {...register('lastName')}
+                      type="text"
+                      placeholder="Kovács"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl
+                                 focus:ring-2 focus:ring-teal-500 focus:border-transparent
+                                 transition-all duration-200"
+                    />
+                    {errors.lastName && (
+                      <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
                     )}
                   </div>
 

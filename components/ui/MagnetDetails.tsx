@@ -47,7 +47,7 @@ const MagnetDetails: React.FC<MagnetDetailsProps> = ({
         {/* Enhanced Benefits */}
         <div className="space-y-4">
           <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-            <Check className="w-5 h-5 text-teal-600" />
+            <Check className="w-5 h-5 text-teal-700" />
             Részletes tartalomjegyzék:
           </h4>
           
@@ -64,7 +64,7 @@ const MagnetDetails: React.FC<MagnetDetailsProps> = ({
               >
                 <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center 
                               justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs font-bold text-teal-600">
+                  <span className="text-xs font-bold text-teal-700">
                     {index + 1}
                   </span>
                 </div>

@@ -2,39 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { CheckCircle, AlertCircle, Mail } from 'lucide-react';
+import { CheckCircle, Download, Sparkles } from 'lucide-react';
 import { content } from '@/lib/content/hu';
 import useAnalytics from '@/hooks/useAnalytics';
 import { useLeadCount } from '@/hooks/useFirestore';
-import { logger } from '@/lib/logger';
-
-// Simplified form schema - just email
-const emailSchema = z.object({
-  email: z.string().email('Érvényes email címet adj meg')
-});
-
-type EmailFormData = z.infer<typeof emailSchema>;
-
-type SubmissionState = 'idle' | 'loading' | 'success' | 'error';
+import PDFSelectorModal from '@/components/modals/PDFSelectorModal';
 
 const FinalCTA: React.FC = () => {
-  const [submissionState, setSubmissionState] = useState<SubmissionState>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  const { trackEmail, startForm, submitForm } = useAnalytics();
+  const [modalOpen, setModalOpen] = useState(false);
+  const { trackButton } = useAnalytics();
   const { leadCount } = useLeadCount();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm<EmailFormData>({
-    resolver: zodResolver(emailSchema)
-  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,46 +36,9 @@ const FinalCTA: React.FC = () => {
     };
   }, []);
 
-  const onSubmit = async (data: EmailFormData) => {
-    setSubmissionState('loading');
-    setErrorMessage('');
-    startForm('final_cta');
-
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          name: 'Final CTA Subscriber', // Default name for final CTA
-          source: 'final_cta'
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Hiba történt a feldolgozás során');
-      }
-
-      setSubmissionState('success');
-      trackEmail(data.email, 'final_cta');
-      submitForm('final_cta', true);
-      
-      // Reset form after success
-      setTimeout(() => {
-        reset();
-        setSubmissionState('idle');
-      }, 3000);
-
-    } catch (error: any) {
-      logger.error('Final CTA submission error:', error);
-      setSubmissionState('error');
-      setErrorMessage(error.message || 'Váratlan hiba történt. Próbáld újra!');
-      submitForm('final_cta', false);
-    }
+  const openPDFSelector = () => {
+    trackButton('Open PDF Selector', 'final-cta');
+    setModalOpen(true);
   };
 
   // Dynamic count for subtitle - use real lead count
@@ -108,7 +49,7 @@ const FinalCTA: React.FC = () => {
   return (
     <section id="cta" className="relative py-24 overflow-hidden">
       {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-600 to-cyan-600" />
+      <div className="absolute inset-0 bg-gradient-to-br from-teal-700 to-cyan-600" />
       
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -143,85 +84,37 @@ const FinalCTA: React.FC = () => {
             {dynamicSubtitle}
           </motion.p>
 
-          {/* Success State */}
-          {submissionState === 'success' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 mb-8 max-w-md mx-auto"
+          {/* PDF Selector CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-12"
+          >
+            <motion.button
+              onClick={openPDFSelector}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-teal-700 px-12 py-6 rounded-2xl 
+                         font-bold text-xl hover:bg-gray-50 
+                         transition-all duration-200 shadow-xl hover:shadow-2xl
+                         flex items-center space-x-4 mx-auto group"
             >
-              <CheckCircle className="w-12 h-12 text-white mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-2">Sikeres!</h3>
-              <p className="text-white/90">Elküldtük az emailt! Nézd meg a spam mappát is.</p>
-            </motion.div>
-          )}
-
-          {/* Form */}
-          {submissionState !== 'success' && (
-            <motion.form
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-8"
+              <Download className="w-8 h-8 group-hover:scale-110 transition-transform" />
+              <span>Válaszd ki az anyagokat!</span>
+              <Sparkles className="w-6 h-6 text-yellow-500 group-hover:rotate-12 transition-transform" />
+            </motion.button>
+            
+            {/* Sub text */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="text-white/80 text-lg mt-4"
             >
-              <div className="flex-1">
-                <input
-                  {...register('email')}
-                  type="email"
-                  placeholder={content.finalCta.placeholder}
-                  className="w-full px-6 py-4 rounded-full text-gray-900 
-                           placeholder-gray-500 border-0 focus:ring-4 
-                           focus:ring-white/30 transition-all duration-200
-                           shadow-lg hover:shadow-xl"
-                  disabled={submissionState === 'loading'}
-                />
-                {errors.email && (
-                  <p className="mt-2 text-sm text-white/90 text-left">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              
-              <motion.button
-                type="submit"
-                disabled={submissionState === 'loading'}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-teal-600 px-8 py-4 rounded-full 
-                           font-bold text-lg hover:bg-gray-50 
-                           transition-all duration-200 shadow-lg hover:shadow-xl
-                           disabled:opacity-70 disabled:cursor-not-allowed
-                           flex items-center justify-center min-w-[140px]"
-              >
-                {submissionState === 'loading' ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-teal-600 border-t-transparent 
-                                   rounded-full animate-spin" />
-                    <span>Küldés...</span>
-                  </div>
-                ) : (
-                  <>
-                    <Mail className="w-5 h-5 mr-2" />
-                    {content.finalCta.button}
-                  </>
-                )}
-              </motion.button>
-            </motion.form>
-          )}
-
-          {/* Error message */}
-          {submissionState === 'error' && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-center p-4 bg-red-500/20 
-                         backdrop-blur-sm border border-red-300/30 rounded-xl mb-6 max-w-md mx-auto"
-            >
-              <AlertCircle className="w-5 h-5 text-white mr-2" />
-              <p className="text-sm text-white">{errorMessage}</p>
-            </motion.div>
-          )}
+              📋 Jelöld be a PDF-eket és küldjük email-ben
+            </motion.p>
+          </motion.div>
 
           {/* Privacy Notice */}
           <motion.p
@@ -255,6 +148,12 @@ const FinalCTA: React.FC = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* PDF Selector Modal */}
+      <PDFSelectorModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 };

@@ -19,5 +19,11 @@ service cloud.firestore {
       allow create: if true;
       allow update, delete: if false;
     }
+    
+    // Resources: Public read for PDF downloads
+    match /resources/{document} {
+      allow read: if true;
+      allow write: if false;
+    }
   }
 }

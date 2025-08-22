@@ -119,7 +119,7 @@ const CookieBanner: React.FC = () => {
             <div className="flex items-start justify-between p-6 pb-4">
               <div className="flex items-center space-x-3">
                 <div className="p-2 bg-teal-100 rounded-lg">
-                  <Cookie className="w-5 h-5 text-teal-600" />
+                  <Cookie className="w-5 h-5 text-teal-700" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
@@ -268,8 +268,8 @@ const CookieBanner: React.FC = () => {
                   <button
                     onClick={handleAcceptAll}
                     className="flex-1 px-4 py-2 text-sm font-medium text-white 
-                             bg-gradient-to-r from-teal-500 to-teal-600 
-                             hover:from-teal-600 hover:to-teal-700 
+                             bg-gradient-to-r from-teal-500 to-teal-700 
+                             hover:from-teal-700 hover:to-teal-800 
                              rounded-lg transition-all duration-200 
                              shadow-lg shadow-teal-500/25"
                   >

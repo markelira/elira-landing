@@ -79,6 +79,30 @@ const LeadMagnetsGrid: React.FC = () => {
     setSelectedMagnet(null);
   };
 
+  // Cast content magnets to enhanced type
+  const enhancedMagnets = content.magnets.items as EnhancedMagnet[];
+
+  // Listen for navbar PDF clicks
+  useEffect(() => {
+    const handleNavbarPdfClick = (event: CustomEvent) => {
+      const { magnetId } = event.detail;
+      const magnet = enhancedMagnets.find(m => m.id === magnetId);
+      if (magnet) {
+        setSelectedMagnet(magnet);
+        setIsModalOpen(true);
+        track('navbar_pdf_click', { 
+          magnet: magnet.id, 
+          title: magnet.title 
+        });
+      }
+    };
+
+    window.addEventListener('openEmailCapture', handleNavbarPdfClick as EventListener);
+    return () => {
+      window.removeEventListener('openEmailCapture', handleNavbarPdfClick as EventListener);
+    };
+  }, [track, enhancedMagnets]);
+
 
   // Track magnet views
   useEffect(() => {
@@ -103,9 +127,6 @@ const LeadMagnetsGrid: React.FC = () => {
     return () => observer.disconnect();
   }, [track, viewedMagnets]);
 
-  // Cast content magnets to enhanced type
-  const enhancedMagnets = content.magnets.items as EnhancedMagnet[];
-
   return (
     <>
       <section id="lead-magnets" className="py-24 bg-gradient-to-b from-gray-50 to-white">
@@ -121,7 +142,7 @@ const LeadMagnetsGrid: React.FC = () => {
             className="text-center mb-20"
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 
-                          bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-6">
+                          bg-teal-100 text-teal-800 rounded-full text-sm font-semibold mb-6">
               <Eye className="w-4 h-4" />
               Részletes előnézet minden PDF-hez
             </div>
@@ -196,7 +217,7 @@ const LeadMagnetsGrid: React.FC = () => {
                 <div className="text-sm text-gray-600">Ingyenes</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-teal-600 mb-1">
+                <div className="text-2xl font-bold text-teal-700 mb-1">
                   5
                 </div>
                 <div className="text-sm text-gray-600">PDF anyag</div>
@@ -217,12 +238,6 @@ const LeadMagnetsGrid: React.FC = () => {
                   ⚡ Azonnali hozzáférés
                 </span>
               </div>
-              <div className="inline-flex items-center px-4 py-2 bg-white/80 
-                            backdrop-blur-sm rounded-full shadow-sm border border-gray-200">
-                <span className="text-sm text-gray-600 font-medium">
-                  🎓 Egyetemi minőség
-                </span>
-              </div>
             </div>
 
             {/* View Completion Tracker */}
@@ -235,7 +250,7 @@ const LeadMagnetsGrid: React.FC = () => {
                          text-white rounded-full font-semibold shadow-lg"
               >
                 <TrendingUp className="w-5 h-5" />
-                Gratulálunk! Mind az 5 anyagot megnézted! 🎉
+                Mind az 5 anyagot megnézted! 🎉
               </motion.div>
             )}
           </motion.div>

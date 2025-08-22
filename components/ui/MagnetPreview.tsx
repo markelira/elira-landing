@@ -113,8 +113,8 @@ const MagnetPreview: React.FC<MagnetPreviewProps> = ({
                   onClick={handleDownloadClick}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white 
-                           rounded-full font-medium hover:bg-teal-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-teal-700 text-white 
+                           rounded-full font-medium hover:bg-teal-800 transition-colors"
                 >
                   <Download className="w-4 h-4" />
                   Letöltés
@@ -250,7 +250,7 @@ const MagnetPreview: React.FC<MagnetPreviewProps> = ({
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full flex items-center justify-center gap-2 
-                               px-4 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 
+                               px-4 py-3 bg-gradient-to-r from-teal-700 to-cyan-600 
                                text-white font-semibold rounded-lg
                                hover:shadow-lg transition-all duration-200"
                     >

@@ -96,7 +96,7 @@ export async function sendDiscordNotification(
             type: 2,
             style: 5, // Link button
             label: "Üdvözöld őt a Discord-on",
-            url: "https://discord.gg/qrdENUbW",
+            url: "https://discord.gg/mcUyZXGERT",
             emoji: {
               name: "👋"
             }
@@ -164,20 +164,18 @@ export async function sendSimpleDiscordNotification(
 
 // Send activity notification for other events
 export async function sendDiscordActivity(
-  type: 'download' | 'join_whatsapp' | 'join_discord' | 'question',
+  type: 'download' | 'join_discord' | 'question',
   userName: string,
   details?: string
 ): Promise<{ success: boolean; error?: any }> {
   const activityMessages = {
     download: `📥 **${userName}** éppen letöltött egy anyagot`,
-    join_whatsapp: `📱 **${userName}** csatlakozott a WhatsApp VIP csoporthoz!`,
     join_discord: `💬 **${userName}** belépett a Discord szerverünkre!`,
     question: `❓ **${userName}** kérdést tett fel`
   };
 
   const colors = {
     download: 0x3b82f6, // Blue
-    join_whatsapp: 0x22c55e, // Green
     join_discord: 0x7c3aed, // Purple
     question: 0xf59e0b // Amber
   };

@@ -33,8 +33,8 @@ const ScrollProgressIndicator: React.FC = () => {
       {/* Progress bar */}
       <motion.div
         className="absolute top-0 left-0 h-full bg-gradient-to-r 
-                   from-teal-500 via-cyan-500 to-teal-600
-                   shadow-lg shadow-teal-500/20"
+                   from-teal-700 via-teal-600 to-teal-700
+                   shadow-lg shadow-teal-700/20"
         initial={{ width: '0%' }}
         animate={{ width: `${scrollProgress * 100}%` }}
         transition={{ 

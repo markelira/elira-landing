@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export', // Static export for Firebase Hosting
   images: {
+    unoptimized: true, // Required for static export
     domains: [],
     formats: ['image/webp', 'image/avif'],
   },
+  trailingSlash: true, // Better for static hosting
   
   // Performance optimizations
   poweredByHeader: false, // Remove X-Powered-By header
@@ -38,50 +41,7 @@ const nextConfig: NextConfig = {
     },
   }),
   
-  // Headers for security and performance
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-        ],
-      },
-      {
-        source: '/favicon.ico',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/(.*\\.(?:jpg|jpeg|png|webp|svg|gif|ico))',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
-  },
+  // Headers not supported with static export
 };
 
 export default nextConfig;

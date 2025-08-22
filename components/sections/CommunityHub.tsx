@@ -13,18 +13,10 @@ const CommunityHub: React.FC = () => {
 
   const valueStack = [
     {
-      icon: Target,
-      value: null, // Remove fake pricing
-      title: "Heti Live Q&A Sessions",
-      description: "Egyetemi oktatókkal közvetlenül",
-      delay: 0.2,
-      estimated: true // Flag as estimated value
-    },
-    {
       icon: BookOpen,
       value: null, // Remove fake pricing
       title: "Exclusive Mini-Kurzusok",
-      description: "Csak közösségi tagoknak",
+      description: "Szeptembertől, csak közösségi tagoknak",
       delay: 0.4,
       estimated: true
     },
@@ -48,14 +40,14 @@ const CommunityHub: React.FC = () => {
       icon: Gift,
       value: null, // Remove fake pricing
       title: "Havi Surprise Bonusok",
-      description: "Premium tartalmak ingyen",
+      description: "Premium tartalmak ingyen, minden héten",
       delay: 1.0,
       estimated: true
     }
   ];
 
   // Remove value calculation since we removed pricing
-  const totalStackValue = 0;
+  const totalStackValue = 79990;
 
   useEffect(() => {
     // Animate value calculation
@@ -83,7 +75,7 @@ const CommunityHub: React.FC = () => {
   // Use real VIP slots data from Firebase
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+    <section id="community" className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-200 to-blue-200 rounded-full blur-3xl opacity-20" />
@@ -102,18 +94,18 @@ const CommunityHub: React.FC = () => {
             initial={{ scale: 0.8 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center space-x-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center space-x-2 bg-teal-50 text-teal-800 px-4 py-2 rounded-full text-sm font-medium mb-6"
           >
             <Users className="w-4 h-4" />
-            <span>{totalMembers}+ Motivált Magyar Már Tagja</span>
+            <span>{totalMembers}+ Elira tag</span>
           </motion.div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Az <span className="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">Elira Közösség</span>
+            Az <span className="bg-gradient-to-r from-teal-700 to-blue-600 bg-clip-text text-transparent">Elira Közösség</span>
           </h2>
           
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-            Ahol a Tanulás Sosem Áll Meg és a Siker Garantált
+            Ahol a fejlődés sosem áll meg, és a siker garantált
           </p>
         </motion.div>
 
@@ -128,7 +120,7 @@ const CommunityHub: React.FC = () => {
           >
             <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                🎯 Mit Kapsz Ha Csatlakozol?
+                🎯 Mit kapsz ha csatlakozol?
               </h3>
               
               <div className="space-y-4">
@@ -142,7 +134,7 @@ const CommunityHub: React.FC = () => {
                     className="flex items-start space-x-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex-shrink-0 p-2 bg-teal-100 rounded-lg">
-                      <item.icon className="w-6 h-6 text-teal-600" />
+                      <item.icon className="w-6 h-6 text-teal-700" />
                     </div>
                     <div className="flex-1">
                       <div className="mb-1">
@@ -173,7 +165,7 @@ const CommunityHub: React.FC = () => {
                   TELJESEN INGYEN
                 </div>
                 <div className="text-sm opacity-90 mt-2">
-                  (csak most, az első 100 tagnak)
+                  (csak most, az első 1000 tagnak)
                 </div>
               </motion.div>
             </div>
@@ -198,7 +190,7 @@ const CommunityHub: React.FC = () => {
                   VIP Státusz Garanciával
                 </h3>
                 <p className="text-gray-600">
-                  Az első 100 tag VIP státuszt kap élethosszig
+                  Az első 1000 tag VIP státuszt kap élethosszig
                 </p>
               </div>
 
@@ -211,7 +203,7 @@ const CommunityHub: React.FC = () => {
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <motion.div
                     initial={{ width: '100%' }}
-                    animate={{ width: `${(vipSlotsLeft / 100) * 100}%` }}
+                    animate={{ width: `${(vipSlotsLeft / 1000) * 100}%` }}
                     className="bg-gradient-to-r from-red-500 to-orange-500 h-3 rounded-full transition-all duration-1000"
                   />
                 </div>
@@ -223,7 +215,7 @@ const CommunityHub: React.FC = () => {
               {/* CTAs */}
               <div className="space-y-4">
                 <motion.a
-                  href="https://discord.gg/qrdENUbW"
+                  href="https://discord.gg/mcUyZXGERT"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
@@ -233,16 +225,6 @@ const CommunityHub: React.FC = () => {
                   🎮 Discord Közösségbe (Ingyenes)
                 </motion.a>
                 
-                <motion.a
-                  href="https://chat.whatsapp.com/KvMY8eiJ3iZIs1EgfskUQb"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="block w-full bg-gradient-to-r from-green-600 to-green-700 text-white font-bold py-4 px-6 rounded-xl text-center text-lg shadow-lg hover:shadow-xl transition-all duration-200"
-                >
-                  💬 WhatsApp VIP Csoportba (Max 150 fő)
-                </motion.a>
               </div>
 
               <div className="mt-6 text-center">

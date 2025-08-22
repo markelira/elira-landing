@@ -161,7 +161,7 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ isOpen, onClose }) =>
                   Fantasztikus!
                 </h3>
                 <p className="text-gray-600">
-                  Elküldtük az összes ingyenes anyagot! Nézd meg a spam mappát is.
+                  Elküldtük az összes ingyenes anyagot! Nézd meg a spam és promóciók mappát is.
                 </p>
                 <div className="mt-4 text-sm text-gray-500">
                   Az ablak automatikusan bezáródik...
@@ -278,7 +278,7 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ isOpen, onClose }) =>
                     ) : (
                       <>
                         <Gift className="w-5 h-5 mr-2" />
-                        Igen, küldétek az összes anyagot!
+                        Igen, küldjétek az összes anyagot!
                       </>
                     )}
                   </button>

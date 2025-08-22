@@ -148,8 +148,8 @@ const ValueProposition: React.FC = () => {
         >
           <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r 
                          from-teal-50 to-cyan-50 rounded-full border border-teal-100">
-            <Sparkles className="w-5 h-5 text-teal-600 mr-2" />
-            <span className="text-sm font-medium text-teal-800">
+            <Sparkles className="w-5 h-5 text-teal-700 mr-2" />
+            <span className="text-sm font-medium text-teal-900">
               Valódi értéket teremtünk, nem csak ígérünk
             </span>
           </div>

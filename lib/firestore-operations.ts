@@ -18,12 +18,17 @@ import { logger } from './logger';
 // Types for our data structures
 export interface Lead {
   id?: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  // Backward compatibility
+  name?: string; // Will be deprecated
   email: string;
   job?: string;
   education?: string;
   phone?: string;
   selectedMagnets: string[];
+  source?: string;
+  downloadCount?: number; // How many PDFs this lead downloaded
   createdAt: any;
   ipAddress?: string;
   userAgent?: string;
@@ -34,7 +39,7 @@ export interface Activity {
   user: string;
   action: string;
   channel?: string;
-  platform: 'discord' | 'whatsapp' | 'both';
+  platform: 'discord';
   type: 'join' | 'message' | 'question' | 'success' | 'achievement';
   createdAt: any;
 }
@@ -48,7 +53,6 @@ export interface Stats {
   messagesToday?: number;
   questionsAnswered?: number;
   newMembersToday?: number;
-  whatsappSlots?: number;
   vipSlotsLeft?: number;
   lastUpdated: any;
 }
@@ -63,7 +67,6 @@ export interface StatsUpdate {
   messagesToday?: number | any;
   questionsAnswered?: number | any;
   newMembersToday?: number | any;
-  whatsappSlots?: number | any;
   vipSlotsLeft?: number | any;
   lastUpdated?: any;
 }
@@ -73,6 +76,21 @@ const handleFirestoreError = (error: any, operation: string) => {
   logger.error(`Firestore ${operation} error:`, error);
   // In production, you might want to send this to error tracking service
   return null;
+};
+
+// Helper function to create censored name for public display
+export const createCensoredName = (firstName: string, lastName?: string): string => {
+  if (!firstName) return 'Anonymous';
+  
+  const firstInitial = firstName.charAt(0).toUpperCase();
+  const censoredFirst = firstInitial + '***';
+  
+  if (lastName) {
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    return `${censoredFirst} ${lastInitial}.`;
+  }
+  
+  return censoredFirst;
 };
 
 // Lead Management Functions
@@ -91,17 +109,14 @@ export const addLead = async (leadData: Omit<Lead, 'id' | 'createdAt'>): Promise
 
     const docRef = await addDoc(collection(db, 'leads'), lead);
     
-    // Update stats counters
-    await updateStats({
-      totalLeads: increment(1),
-      newMembersToday: increment(1)
-    });
-
-    // Log activity
+    // Log activity with censored name (client-side - allowed by security rules)
+    const displayName = createCensoredName(leadData.firstName, leadData.lastName);
     await logActivity({
-      user: leadData.name.split(' ')[0] + ' ' + leadData.name.split(' ')[1]?.[0] + '.',
-      action: 'letöltötte az ingyenes anyagokat',
-      platform: 'both',
+      user: displayName,
+      action: leadData.selectedMagnets.length > 1 
+        ? `letöltötte: ${leadData.selectedMagnets.length} anyagot`
+        : 'letöltötte az ingyenes anyagokat',
+      platform: 'discord',
       type: 'success'
     });
 
@@ -130,13 +145,11 @@ export const updateStats = async (updates: StatsUpdate): Promise<boolean> => {
         id: 'global',
         totalLeads: 0,
         totalDownloads: 0,
-        vipSpotsRemaining: 100,  // Real WhatsApp limit
         communityMembers: 0,      // Start from 0
         activeNow: 0,            // Will be updated with real data
         messagesToday: 0,        // Real count only
         questionsAnswered: 0,    // Real count only
         newMembersToday: 0,      // Real count only
-        whatsappSlots: 150,      // Real WhatsApp group limit
         vipSlotsLeft: 150,       // Start with full availability
         ...updates,
         lastUpdated: serverTimestamp()
@@ -165,13 +178,11 @@ export const getRealtimeStats = (callback: (stats: Stats | null) => void): (() =
       updateStats({
         totalLeads: 0,
         totalDownloads: 0,
-        vipSpotsRemaining: 100,  // Real WhatsApp limit
         communityMembers: 0,      // Start from 0
         activeNow: 0,            // Will be updated with real data
         messagesToday: 0,        // Real count only
         questionsAnswered: 0,    // Real count only
         newMembersToday: 0,      // Real count only
-        whatsappSlots: 150,      // Real WhatsApp group limit
         vipSlotsLeft: 150        // Start with full availability
       });
       callback(null);
@@ -252,6 +263,62 @@ export const getRealtimeLeadCount = (callback: (count: number) => void): (() => 
   });
 };
 
+// Download tracking functions
+export const trackDownload = async (firstName: string, lastName: string, magnetTitle: string): Promise<string | null> => {
+  try {
+    if (!db) throw new Error('Firestore not initialized');
+    
+    // Update download counter
+    await updateStats({
+      totalDownloads: increment(1)
+    });
+
+    // Log download activity with censored name
+    const censoredName = createCensoredName(firstName, lastName);
+    await logActivity({
+      user: censoredName,
+      action: `letöltötte: ${magnetTitle}`,
+      platform: 'discord',
+      type: 'success',
+      channel: 'downloads'
+    });
+
+    return 'success';
+  } catch (error) {
+    return handleFirestoreError(error, 'trackDownload');
+  }
+};
+
+// Get magnet title by ID
+export const getMagnetTitle = (magnetId: string): string => {
+  const magnetTitles: { [key: string]: string } = {
+    'chatgpt-prompts': 'ChatGPT Prompt Sablonok',
+    'linkedin-calendar': 'LinkedIn Növekedési Naptár',
+    'email-templates': 'Email Marketing Sablonok',
+    'tiktok-guide': 'TikTok Algoritmus Guide',
+    'automation-workflows': 'Marketing Automatizáció'
+  };
+  
+  return magnetTitles[magnetId] || 'Ingyenes Anyag';
+};
+
+// Track milestone achievements
+export const trackMilestone = async (milestone: string, count: number): Promise<void> => {
+  try {
+    if (!db) return;
+    
+    await logActivity({
+      user: 'Elira Csapat',
+      action: `🎉 ${milestone}: ${count} ember!`,
+      platform: 'discord',
+      type: 'achievement',
+      channel: 'milestones'
+    });
+  } catch (error) {
+    handleFirestoreError(error, 'trackMilestone');
+  }
+};
+
 // Analytics helpers
 export const getLeadsToday = async (): Promise<number> => {
   try {
@@ -269,5 +336,32 @@ export const getLeadsToday = async (): Promise<number> => {
     handleFirestoreError(error, 'getLeadsToday');
     return 0;
   }
+};
+
+// Get recent download activities
+export const getRecentDownloads = (callback: (activities: Activity[]) => void): (() => void) => {
+  if (!db) {
+    callback([]);
+    return () => {};
+  }
+
+  const activitiesRef = collection(db, 'activities');
+  const q = query(
+    activitiesRef, 
+    where('type', '==', 'success'),
+    orderBy('createdAt', 'desc'), 
+    limit(5)
+  );
+  
+  return onSnapshot(q, (snapshot) => {
+    const activities: Activity[] = [];
+    snapshot.forEach((doc) => {
+      activities.push({ id: doc.id, ...doc.data() } as Activity);
+    });
+    callback(activities);
+  }, (error) => {
+    handleFirestoreError(error, 'getRecentDownloads');
+    callback([]);
+  });
 };
 

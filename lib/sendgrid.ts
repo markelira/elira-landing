@@ -206,7 +206,7 @@ export async function sendLeadMagnetEmail(
               <p>Örülünk, hogy csatlakoztál hozzánk! Az alábbi gombra kattintva azonnal letöltheted a kért anyagot:</p>
               
               <div class="button-container">
-                <a href="${magnet.downloadLink}" class="button">
+                <a href="${magnet.downloadLink}?utm_source=email&utm_medium=button&utm_campaign=${magnetType}&utm_content=${encodeURIComponent(to)}" class="button">
                   📥 Letöltés Most
                 </a>
               </div>
@@ -215,7 +215,7 @@ export async function sendLeadMagnetEmail(
                 <strong>Nem működik a gomb?</strong> Másold be ezt a linket a böngésződbe:
               </p>
               <div class="link-box">
-                ${magnet.downloadLink}
+                ${magnet.downloadLink}?utm_source=email&utm_medium=textlink&utm_campaign=${magnetType}&utm_content=${encodeURIComponent(to)}
               </div>
               
               <div class="divider"></div>
@@ -226,12 +226,7 @@ export async function sendLeadMagnetEmail(
                   <li>
                     <strong>Csatlakozz a Discord közösségünkhöz</strong><br>
                     1000+ lelkes marketinges vár rád!<br>
-                    <a href="https://discord.gg/qrdENUbW">→ Belépek a Discord-ra</a>
-                  </li>
-                  <li>
-                    <strong>Lépj be a WhatsApp VIP csoportba</strong><br>
-                    Csak ${magnet.title === 'Köszönjük a regisztrációt!' ? '150' : 'korlátozott'} hely van!<br>
-                    <a href="https://chat.whatsapp.com/KvMY8eiJ3iZIs1EgfskUQb">→ WhatsApp VIP jelentkezés</a>
+                    <a href="https://discord.gg/mcUyZXGERT">→ Belépek a Discord-ra</a>
                   </li>
                   <li>
                     <strong>Kövesd a LinkedIn oldalunkat</strong><br>
@@ -248,8 +243,7 @@ export async function sendLeadMagnetEmail(
             
             <div class="footer">
               <div class="social-links">
-                <a href="https://discord.gg/qrdENUbW">Discord</a>
-                <a href="https://chat.whatsapp.com/KvMY8eiJ3iZIs1EgfskUQb">WhatsApp</a>
+                <a href="https://discord.gg/mcUyZXGERT">Discord</a>
                 <a href="https://linkedin.com/company/elira">LinkedIn</a>
               </div>
               <p><strong>© 2025 Elira - Minden jog fenntartva</strong></p>

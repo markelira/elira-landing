@@ -16,6 +16,7 @@
     "deploy-rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
+    "@firebasegen/example-connector": "file:dataconnect-generated/js/example-connector",
     "@hookform/resolvers": "^5.2.1",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@next/third-parties": "^15.5.0",

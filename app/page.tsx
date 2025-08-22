@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import FloatingNavbar from '@/components/FloatingNavbar';
 import HeroSection from '@/components/sections/HeroSection';
+import TransitionSection from '@/components/sections/TransitionSection';
 import LeadMagnetsGrid from '@/components/sections/LeadMagnetsGrid';
 import CommunityHub from '@/components/sections/CommunityHub';
-import WhatsAppVIP from '@/components/sections/WhatsAppVIP';
+import CommunityProof from '@/components/sections/CommunityProof';
 import DiscordAcademy from '@/components/sections/DiscordAcademy';
 import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
@@ -15,7 +16,6 @@ import useExitIntent from '@/hooks/useExitIntent';
 import { 
   ExitIntentPopup,
   CookieBanner,
-  SocialProof,
   ValueProposition,
   FinalCTA,
   OptimizedSection,
@@ -42,11 +42,11 @@ export default function Home() {
       <FloatingNavbar />
       <main>
         <HeroSection />
+        <TransitionSection />
         <LeadMagnetsGrid />
         
         {/* Community Sections - Hormozi-style value stack */}
         <CommunityHub />
-        <WhatsAppVIP />
         <DiscordAcademy />
         
         {/* Lazy load below-fold sections */}
@@ -55,7 +55,7 @@ export default function Home() {
         </OptimizedSection>
         
         <OptimizedSection>
-          <SocialProof />
+          <CommunityProof />
         </OptimizedSection>
         
         <OptimizedSection>

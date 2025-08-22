@@ -2,14 +2,16 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, Download } from 'lucide-react';
 import { content } from '@/lib/content/hu';
 import QuickAccessCard from '@/components/ui/QuickAccessCard';
 import EmailCaptureModal from '@/components/modals/EmailCaptureModal';
 import useAnalytics from '@/hooks/useAnalytics';
+import { useSocialProof } from '@/hooks/useFirestore';
 
 const HeroSection: React.FC = () => {
   const { trackButton, track } = useAnalytics();
+  const { totalDownloads } = useSocialProof();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMagnet, setSelectedMagnet] = useState<any>(null);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
@@ -17,7 +19,7 @@ const HeroSection: React.FC = () => {
 
   const scrollToMagnets = () => {
     trackButton('View All Materials', 'hero-view-all');
-    const element = document.getElementById('lead-magnets');
+    const element = document.getElementById('transition');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -59,6 +61,9 @@ const HeroSection: React.FC = () => {
       {/* Background Layer - Gradient Mesh */}
       <div className="absolute inset-0 bg-gradient-mesh" />
       
+      {/* Subtle fade-out at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/60 to-transparent pointer-events-none" />
+      
       {/* Additional decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating dots pattern */}
@@ -93,10 +98,10 @@ const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 text-sm font-medium text-teal-600 bg-teal-50 px-4 py-2 rounded-full"
+              className="inline-flex items-center gap-2 text-sm font-medium text-teal-700 bg-teal-50 px-4 py-2 rounded-full"
             >
-              <span className="animate-pulse w-2 h-2 bg-teal-600 rounded-full"></span>
-              <span>Egyetemi Minőség • 100% Ingyenes</span>
+              <span className="animate-pulse w-2 h-2 bg-teal-700 rounded-full"></span>
+              <span>Elira.hu</span>
             </motion.div>
             
             {/* Main Headline */}
@@ -107,13 +112,13 @@ const HeroSection: React.FC = () => {
               className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight"
             >
               Tanulj{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">
-                Ingyen
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-cyan-600">
+                ingyen,
               </span>
               <br />
-              Alkalmazd{" "}
+              alkalmazd{" "}
               <span className="relative">
-                Holnap
+                holnap
                 <svg 
                   className="absolute -bottom-2 left-0 w-full"
                   viewBox="0 0 300 12"
@@ -146,9 +151,8 @@ const HeroSection: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-xl text-gray-600 leading-relaxed"
             >
-              Gyakorlati tudás egyetemi oktatóktól.
               <span className="font-semibold text-gray-900"> 5 prémium anyag</span> vár rád
-              <span className="text-teal-600 font-semibold"> teljesen ingyen.</span>
+              <span className="text-teal-700 font-semibold"> teljesen ingyen.</span>
             </motion.p>
             
             {/* Value Props List */}
@@ -160,19 +164,19 @@ const HeroSection: React.FC = () => {
             >
               <li className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-3 h-3 text-teal-600" />
+                  <Check className="w-3 h-3 text-teal-700" />
                 </div>
                 <span className="text-gray-700">Azonnal alkalmazható tudás</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-3 h-3 text-teal-600" />
+                  <Check className="w-3 h-3 text-teal-700" />
                 </div>
-                <span className="text-gray-700">Email-ben küldve 60 másodpercen belül</span>
+                <span className="text-gray-700">Email-ben küldve 1 percen belül</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-3 h-3 text-teal-600" />
+                  <Check className="w-3 h-3 text-teal-700" />
                 </div>
                 <span className="text-gray-700">Nincs rejtett költség vagy upsell</span>
               </li>
@@ -187,11 +191,11 @@ const HeroSection: React.FC = () => {
             >
               <button 
                 onClick={scrollToMagnets}
-                className="relative overflow-hidden group px-8 py-4 bg-teal-600 text-white font-semibold rounded-full 
-                           hover:bg-teal-700 transform hover:scale-105 transition-all 
+                className="relative overflow-hidden group px-8 py-4 bg-teal-700 text-white font-semibold rounded-full 
+                           hover:bg-teal-800 transform hover:scale-105 transition-all 
                            shadow-lg hover:shadow-xl"
               >
-                <span className="relative z-10">Összes Anyag Megtekintése</span>
+                <span className="relative z-10">Összes megtekintése </span>
                 {/* Ripple on hover */}
                 <div className="absolute inset-0 bg-white/20 scale-0 
                                 group-hover:scale-100 transition-transform 
@@ -202,14 +206,14 @@ const HeroSection: React.FC = () => {
               </button>
               <button 
                 onClick={scrollToCommunity}
-                className="relative border-2 border-teal-600 px-8 py-4 font-semibold rounded-full 
+                className="relative border-2 border-teal-700 px-8 py-4 font-semibold rounded-full 
                            before:absolute before:inset-0 
-                           before:bg-teal-600 before:scale-x-0 
+                           before:bg-teal-700 before:scale-x-0 
                            hover:before:scale-x-100 
                            before:transition-transform before:origin-left
                            before:rounded-full overflow-hidden"
               >
-                <span className="relative z-10 mix-blend-difference text-teal-600">
+                <span className="relative z-10 mix-blend-difference text-teal-700">
                   Csatlakozz a Közösséghez
                 </span>
               </button>
@@ -223,16 +227,18 @@ const HeroSection: React.FC = () => {
               className="flex items-center gap-6 pt-4 text-sm text-gray-600"
             >
               <div className="flex items-center gap-2">
-                <span className="text-2xl">🎓</span>
-                <span>Egyetemi oktatók</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <span className="text-2xl">📚</span>
                 <span>5 letölthető anyag</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-2xl">⚡</span>
                 <span>Azonnali hozzáférés</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Download className="w-4 h-4 text-teal-700" />
+                <span className="font-semibold text-teal-800">
+                  {totalDownloads || 0} letöltés összesen
+                </span>
               </div>
             </motion.div>
           </motion.div>
@@ -260,9 +266,8 @@ const HeroSection: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.7 }}
                   className="text-center mb-4"
                 >
-                  <span className="inline-block px-4 py-2 bg-purple-100 text-purple-700 
-                                   rounded-full text-sm font-semibold">
-                    🎁 Válassz és Töltsd Le Azonnal!
+                  <span className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold text-left">
+                    🎁 Válassz és töltsd le ingyen!
                   </span>
                 </motion.div>
                 
@@ -276,18 +281,10 @@ const HeroSection: React.FC = () => {
                     transition={{ duration: 0.5, delay: 0.8 }}
                     className="relative"
                   >
-                    {/* Add "Popular" badge to most clicked card */}
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                      <span className="bg-gradient-to-r from-orange-500 to-red-500 
-                                       text-white text-xs px-3 py-1 rounded-full 
-                                       font-semibold shadow-lg">
-                        Legnépszerűbb
-                      </span>
-                    </div>
                     <QuickAccessCard
                       icon="🤖"
-                      title="ChatGPT Prompt"
-                      subtitle="100+ template"
+                      title="ChatGPT prompt sablonok"
+                      subtitle="100+ sablon"
                       gradient="from-purple-500 to-pink-500"
                       onClick={() => openModal('chatgpt-prompts')}
                       isSelected={selectedCards.includes('chatgpt-prompts')}
@@ -302,7 +299,7 @@ const HeroSection: React.FC = () => {
                   >
                     <QuickAccessCard
                       icon="📈"
-                      title="LinkedIn Naptár"
+                      title="LinkedIn növekedési naptár"
                       subtitle="30 napos terv"
                       gradient="from-blue-500 to-cyan-500"
                       onClick={() => openModal('linkedin-calendar')}
@@ -317,8 +314,8 @@ const HeroSection: React.FC = () => {
                   >
                     <QuickAccessCard
                       icon="📧"
-                      title="Email Sablonok"
-                      subtitle="20 template"
+                      title="Email marketing sablonok"
+                      subtitle="Gyakorlati stratégiák"
                       gradient="from-green-500 to-emerald-500"
                       onClick={() => openModal('email-templates')}
                     />
@@ -332,8 +329,8 @@ const HeroSection: React.FC = () => {
                   >
                     <QuickAccessCard
                       icon="🎬"
-                      title="TikTok Guide"
-                      subtitle="Magyar piac"
+                      title="TikTok algoritmus útmutató"
+                      subtitle="Magyar piacra"
                       gradient="from-pink-500 to-rose-500"
                       onClick={() => openModal('tiktok-guide')}
                     />
@@ -348,8 +345,8 @@ const HeroSection: React.FC = () => {
                 >
                   <QuickAccessCard
                     icon="⚡"
-                    title="Marketing Automatizáció"
-                    subtitle="Workflow sablonok"
+                    title="Marketing automatizáció"
+                    subtitle="Munkafolyamat sablonok"
                     gradient="from-orange-500 to-red-500"
                     onClick={() => openModal('automation-workflows')}
                     fullWidth
@@ -363,9 +360,6 @@ const HeroSection: React.FC = () => {
                   transition={{ duration: 0.6, delay: 1.3 }}
                   className="text-center mt-4"
                 >
-                  <p className="text-sm text-gray-600">
-                    Kattints bármelyikre • Add meg az emailed • Küldünk mindent
-                  </p>
                 </motion.div>
               </div>
             </div>
@@ -385,7 +379,7 @@ const HeroSection: React.FC = () => {
           repeatDelay: 2
         }}
         onClick={scrollToNext}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 hover:text-teal-600 transition-colors cursor-pointer"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 hover:text-teal-700 transition-colors cursor-pointer"
       >
         <ChevronDown size={32} />
       </motion.button>

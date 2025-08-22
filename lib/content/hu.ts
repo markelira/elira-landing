@@ -1,7 +1,7 @@
 export const content = {
   hero: {
-    title: "Tanulj Ingyen.",
-    titleHighlight: "Alkalmazd Holnap.",
+    title: "Tanulj ingyen.",
+    titleHighlight: "alkalmazd holnap.",
     subtitle: "Gyakorlati tudás egyetemi oktatóktól. 5 prémium anyag vár rád teljesen ingyen.",
     cta: "Kezdjük El →"
   },
@@ -9,9 +9,8 @@ export const content = {
   navbar: {
     items: [
       { label: "Kezdőlap", href: "#hero" },
-      { label: "Ingyenes Anyagok", href: "#lead-magnets" },
-      { label: "Miért Mi?", href: "#value" },
-      { label: "Csatlakozz", href: "#cta" }
+      { label: "Ingyenes anyagok", href: "#lead-magnets" },
+      { label: "Közösség", href: "#community" }
     ]
   },
   
@@ -24,19 +23,18 @@ export const content = {
         title: 'ChatGPT Prompt Sablon Gyűjtemény',
         subtitle: 'Marketingeseknek',
         description: '100+ bevált prompt template kategóriákban rendszerezve',
-        longDescription: 'Szakértők által összeállított prompt gyűjtemény, amely tartalmazza a leghatékonyabb ChatGPT utasításokat marketing célokra. Minden template kipróbált és bevált a gyakorlatban.',
+        longDescription: 'Fedezd fel, hogyan alakítja át a ChatGPT a marketingedet: gyorsabb tartalomgyártás, ütősebb kampányok, pontosabb célzás. Ez a sablongyűjtemény azonnal bevethető, gyakorlati példákkal. Az MI végre kézzel fogható előnyként dolgozik neked.',
         benefits: [
-          'Azonnali használatra kész promptok',
-          'Kategóriákban rendszerezve (tartalomkészítés, hirdetések, elemzés)',
+          'Azonnal használható prompt sablonok',
+          'Tartalom, hirdetés, e-mail és SEO kategóriákban',
           'Példákkal és magyarázatokkal illusztrálva',
-          'Időt spórolsz a prompt-írásban'
         ],
         preview: {
           thumbnail: '/Chagpt-prompt-pdf-preview.png',
           pages: 21,
           fileSize: '302 KB',
           screenshots: ['/Chagpt-prompt-pdf-preview.png'],
-          sampleContent: 'Minta prompt: "Írj egy meggyőző Facebook hirdetést [termék] számára, amely kiemeli [előny] és célozza [célcsoport]."'
+          sampleContent: '„Sok marketinges tisztában van a ChatGPT létezésével, de nehezen tudja elérni a valóban értékes kimeneteket. Az útmutató áthidalja ezt a szakadékot. A strukturált promptok biztosításával lehetővé teszi még a kevésbé tapasztalt marketingesek számára is, hogy magas színvonalú eredményeket érjenek el.”'
         },
         metadata: {
           lastUpdated: '2024.08'
@@ -51,19 +49,18 @@ export const content = {
         title: '30 Napos LinkedIn Növekedési Naptár',
         subtitle: 'Napi feladatokkal',
         description: '0-ról 1000 követőig egy hónap alatt strukturált tervvel',
-        longDescription: 'Naponta 15 perces feladatokkal segít felfejleszteni LinkedIn profilod és növelni a követők számát. Minden napra konkrét teendők, template-ek és mérési módszerek.',
+        longDescription: 'Egy hónap alatt teljesen új szintre emelheted LinkedIn jelenlétedet. Kész tartalomötletek, napi feladatok és bevált stratégiák, amikkel nemcsak követőket, hanem üzleti lehetőségeket is szerzel. Nincs több kifogás, csak növekedés.',
         benefits: [
-          'Napi 15 perces feladatok',
-          'Poszt template-ek és hashtag stratégia',
-          'Networking technikák és üzenetminták',
-          'Mérési módszerek a növekedés követésére'
+          '30 napos, lépésről lépésre felépített növekedési terv',
+          'Kipróbált poszt- és aktivitási ötletek LinkedIn-re',
+          'Több elérés, több kapcsolat, több üzlet',
         ],
         preview: {
           thumbnail: '/linkedin.png',
           pages: 21,
           fileSize: '310 KB',
           screenshots: ['/linkedin.png'],
-          sampleContent: '1. Nap: Profil optimalizálás - "Írj be 3 kulcsszót a headline-ba ami szerint találni akarnak"'
+          sampleContent: '"A LinkedIn algoritmusa és a felhasználói viselkedés folyamatosan fejlődik, de bizonyos tartalomformátumok kiemelkedően jól teljesítenek:.."'
         },
         metadata: {
           lastUpdated: '2024.08'
@@ -76,21 +73,20 @@ export const content = {
       {
         id: 'email-templates',
         title: 'Email Marketing Sablon Könyvtár',
-        subtitle: '20 high-converting template',
+        subtitle: 'Stratégiai tippek a konverzió növelésére',
         description: 'Bevált email sablonok minden helyzethez',
-        longDescription: '20 tesztelten magas konverziós arányú email template különböző célokhoz: üdvözlő sorozat, értékesítés, visszaszerző kampányok. Mind magyar nyelvre optimalizálva.',
+        longDescription: 'Az e-mail marketing akkor működik, ha nem kell mindig nulláról indulnod. Ebben a sablonkönyvtárban minden helyzetre találsz bevált szövegeket: hírlevelektől az értékesítő e-mailekig. Gyors indítás, profi megjelenés, mérhető eredmények.',
         benefits: [
-          'Tárgy sor variációkkal minden template-hez',
           'A/B tesztelt verziókat is tartalmaz',
           'Magyar piacra optimalizált hangnem',
-          'Conversion rate benchmarkok mellékletben'
+          '50+ azonnal használható e-mail sablon'
         ],
         preview: {
           thumbnail: '/email-marketing.png',
           pages: 31,
           fileSize: '439 KB',
           screenshots: ['/email-marketing.png'],
-          sampleContent: 'Welcome Email: "Üdvözöljük a [Vállalat] családjában! Itt a következő lépés..." (CVR: 24%)'
+          sampleContent: '"A 20 legmagasabb konverziót eredményező e-mail kampánytípus összefoglalója: az alábbi kampánytípusok mindegyike specifikus célt szolgál az ügyfélút különböző szakaszaiban.."'
         },
         metadata: {
           lastUpdated: '2024.07'
@@ -105,19 +101,18 @@ export const content = {
         title: 'TikTok Algoritmus Hack Guide',
         subtitle: 'Magyaroknak',
         description: 'Hogyan menjél virálisra a magyar TikTok-on',
-        longDescription: 'A magyar TikTok algoritmus működésére épülő stratégia, amely megmutatja, hogyan érj el 100K+ megtekintést. Tartalmaz trending hashtag listát és időzítési tippeket.',
+        longDescription: 'A TikTok algoritmus nem titok többé: megtanulhatod, hogyan turbózd fel az eléréseid. Az útmutató gyakorlati taktikákat ad, hogy tartalmaid gyorsabban szárnyaljanak. Így nem csak nézőid, hanem követőid és ügyfeleid is lesznek.',
         benefits: [
-          'Magyar trendi hashtag-ek heti frissítéssel',
-          'Optimális postálási időpontok Magyarországon',
+          'Magyar piacra szabott TikTok stratégiák',
+          'Algoritmus-barát tippek a maximális eléréshez',
           'Virális tartalomformátumok példákkal',
-          'Engagement hack-ek a koment szekcióhoz'
         ],
         preview: {
           thumbnail: '/tiktok.png',
           pages: 11,
           fileSize: '183 KB',
           screenshots: ['/tiktok.png'],
-          sampleContent: 'Magyar Trending: #fyp #magyar #viralvideo - Közzététel: Hétfő 19:00-21:00 (legjobb reach)'
+          sampleContent: '"Az algoritmus három fő tényezőt vesz figyelembe a videók rangsorolásakor: 1. Felhasználói interakciók: Ide tartoznak a..."'
         },
         metadata: {
           lastUpdated: '2024.08'
@@ -132,19 +127,18 @@ export const content = {
         title: 'Marketing Automatizáció Tervezők',
         subtitle: 'Munkafolyamat sablonok',
         description: 'Kész workflow-k ami 10+ órát spórolnak hetente',
-        longDescription: 'Automatizációs workflow sablonok a legnépszerűbb eszközökhöz (Zapier, Make, HubSpot). Email, social media és lead generation folyamatok automatizálásához.',
+        longDescription: 'Az automatizáció nem luxus, hanem alapfeltétel. Ezekkel a vizuális tervezőkkel átláthatóvá és egyszerűvé válik a marketing folyamataid építése. Több ügyfél, kevesebb manuális munka – automatizáltan.',
         benefits: [
-          'Kész Zapier és Make.com workflow-k',
-          'Email drip campaign automatizálás',
-          'Social media scheduling rendszerek',
-          'Lead scoring és nurturing folyamatok'
+          'Könnyen testreszabható workflow sablonok',
+          'Automatizált ügyfélkezelés, lead nurturing és utánkövetés',
+          'Idő- és költségmegtakarítás, skálázható növekedés',
         ],
         preview: {
           thumbnail: '/marketing-auto.png',
           pages: 19,
           fileSize: '259 KB',
           screenshots: ['/marketing-auto.png'],
-          sampleContent: 'Workflow példa: Új lead → CRM-be mentés → Welcome email → Slack értesítés → Follow-up feladat'
+          sampleContent: 'Alkalmazások és Eszközök: ● Marketing automatizálási platformok: az ...'
         },
         metadata: {
           lastUpdated: '2024.08'
@@ -163,18 +157,18 @@ export const content = {
     points: [
       {
         icon: "sparkles",
-        title: "Hiszünk a tudás demokratizálásában",
-        description: "Mindenki megérdemli a minőségi oktatást, függetlenül a pénztárcájától."
+        title: "A Te Véleményed Alakítja",
+        description: "Minden letöltés után kérjük a visszajelzésed. Így tudjuk, mi működik igazán - és mit kell még jobbá tennünk."
       },
       {
         icon: "award",
-        title: "Egyetemi minőség garantálva",
-        description: "A Miskolci Egyetem oktatói által készített, valódi értéket képviselő anyagok."
+        title: "Őszinteség a Hypeolás Helyett",
+        description: "Nem tökéletes anyagokat ígérünk - hanem olyanokat, amik a közösség segítségével folyamatosan javulnak."
       },
       {
         icon: "rocket",
-        title: "Azonnal alkalmazható tudás",
-        description: "Nem elméleti szárazanyag - gyakorlati tippek, amiket holnap használhatsz."
+        title: "Élő Tartalmak, Élő Eredmények",
+        description: "A visszajelzések alapján hetente frissítjük az anyagokat. Így mindig a legaktuálisabb tudást kapod."
       }
     ]
   },
@@ -208,9 +202,9 @@ export const content = {
   footer: {
     copyright: "© 2024 Elira. Minden jog fenntartva.",
     links: [
-      { label: "Adatkezelési Tájékoztató", href: "/privacy" },
-      { label: "Felhasználási Feltételek", href: "/terms" },
-      { label: "Kapcsolat", href: "/contact" }
+      { label: "Adatvédelmi Tájékoztató", href: "/privacy" },
+      { label: "Általános Szerződési Feltételek", href: "/terms" },
+      { label: "Kapcsolat", href: "mailto:info@elira.hu" }
     ]
   },
   

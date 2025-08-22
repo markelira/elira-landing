@@ -39,7 +39,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ targetCount, isVisibl
           delay: 0.3
         }
       } : {}}
-      className="text-6xl md:text-7xl font-bold text-teal-600 mb-2"
+      className="text-6xl md:text-7xl font-bold text-teal-700 mb-2"
     >
       {count.toLocaleString('hu-HU')}
     </motion.div>
@@ -159,7 +159,7 @@ const SocialProof: React.FC = () => {
                 <Shield className="w-5 h-5 mr-2" />
                 <span className="text-sm font-medium">100% Biztonságos</span>
               </div>
-              <div className="flex items-center text-teal-600">
+              <div className="flex items-center text-teal-700">
                 <TrendingUp className="w-5 h-5 mr-2" />
                 <span className="text-sm font-medium">Folyamatosan bővülő</span>
               </div>
@@ -212,7 +212,7 @@ const SocialProof: React.FC = () => {
                       <span className="text-gray-600">{activity.action}</span>
                     </div>
                     {activity.magnet && (
-                      <div className="text-sm text-teal-600 font-medium mb-1">
+                      <div className="text-sm text-teal-700 font-medium mb-1">
                         {activity.magnet}
                       </div>
                     )}

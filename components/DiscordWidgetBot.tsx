@@ -49,7 +49,7 @@ const DiscordWidgetBot = ({
         </div>
         
         <a 
-          href="https://discord.gg/qrdENUbW"
+          href="https://discord.gg/mcUyZXGERT"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-purple-700 transition-colors inline-block"
