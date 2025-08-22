@@ -1,4 +1,4 @@
-# Firebase Project Migration Guide
+  # Firebase Project Migration Guide
 
 ## Current Issue
 Billing account `01F45D-892D51-5EEBE6` has issues preventing Compute Engine API activation, which is required for Firebase Functions v2.
