@@ -56,7 +56,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
 }) => {
   const [submissionState, setSubmissionState] = useState<SubmissionState>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Removed isExpanded state - form always shows all fields
   const [dragOffset, setDragOffset] = useState(0);
   const { trackEmail, openModal, closeModal, startForm, submitForm } = useAnalytics();
   
@@ -71,9 +71,10 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
     reset,
     trigger,
     getValues
-  } = useForm<any>({
-    resolver: zodResolver(isExpanded ? fullFormSchema : emailOnlySchema),
-    mode: 'onChange'
+  } = useForm<FormData>({
+    resolver: zodResolver(fullFormSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange'
   });
 
   // Scroll lock and iOS optimizations when modal is open
@@ -90,7 +91,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
     } else {
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
-      setIsExpanded(false);
+      // No longer using isExpanded state
       
       // Restore normal viewport behavior
       const viewport = document.querySelector('meta[name="viewport"]');
@@ -162,8 +163,8 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
     setErrorMessage('');
 
     try {
-      // Try API first
-      const response = await fetch('/api/subscribe', {
+      // Call Firebase Functions directly
+      const response = await fetch('https://europe-west1-elira-landing-ce927.cloudfunctions.net/api/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,28 +179,9 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
 
       // Check if response is OK first
       if (!response.ok) {
-        // If API fails (404, 500, etc.), use client-side Firestore
-        logger.warn(`API error ${response.status}, using client-side submission`);
-        
-        const { submitFormDirectly } = await import('@/lib/client-submit');
-        await submitFormDirectly({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          occupation: data.job,
-          education: data.education,
-          selectedMagnets: [magnet.id]
-        });
-        
-        // Success via client-side fallback
-        setSubmissionState('success');
-        trackEmail(data.email, `magnet_${magnet.id}`);
-        submitForm('email_capture', true);
-
-        setTimeout(() => {
-          handleClose();
-        }, 3000);
-        return;
+        const errorText = await response.text();
+        logger.error(`Firebase Functions error (${response.status}):`, errorText);
+        throw new Error('Hiba történt az email küldése során. Kérjük próbáld újra később.');
       }
 
       // Parse JSON response
@@ -263,7 +245,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                          rounded-t-3xl shadow-2xl overflow-hidden
                          touch-manipulation"
               style={{
-                maxHeight: isExpanded ? '85vh' : '60vh',
+                maxHeight: '85vh', // Always show full height since we're not using progressive disclosure
                 paddingBottom: 'env(safe-area-inset-bottom)'
               }}
               onClick={(e) => e.stopPropagation()}
@@ -352,16 +334,8 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                           )}
                         </div>
 
-                        {/* Expanded Fields - Progressive Disclosure */}
-                        <AnimatePresence>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="space-y-4 overflow-hidden"
-                            >
+                        {/* Name Fields - Always Visible */}
+                        <div className="space-y-4">
                               {/* Name Fields */}
                               <div className="grid grid-cols-2 gap-3">
                                 <div>
@@ -431,9 +405,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                                   ))}
                                 </select>
                               </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                        </div>
 
                         {/* Error message */}
                         {submissionState === 'error' && (
@@ -471,31 +443,11 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                             ) : (
                               <>
                                 <Mail className="w-5 h-5 mr-2" />
-                                {isExpanded ? 'Küldés és Letöltés' : 'Küldöm az emailt!'}
+                                Küldés és Letöltés
                               </>
                             )}
                           </button>
 
-                          {/* Secondary - Expand Details */}
-                          {!isExpanded && submissionState === 'idle' && (
-                            <button
-                              type="button"
-                              onClick={async () => {
-                                // Validate email first before expanding
-                                const emailValid = await trigger('email');
-                                if (emailValid) {
-                                  setIsExpanded(true);
-                                }
-                              }}
-                              className="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-2xl
-                                       font-medium hover:bg-gray-200 transition-colors
-                                       flex items-center justify-center space-x-2
-                                       min-h-[48px] touch-manipulation"
-                            >
-                              <ChevronDown className="w-4 h-4" />
-                              <span>Részletek (opcionális)</span>
-                            </button>
-                          )}
 
                           {/* Maybe Later */}
                           <button
