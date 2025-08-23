@@ -10,11 +10,9 @@ import CommunityProof from '@/components/sections/CommunityProof';
 import DiscordAcademy from '@/components/sections/DiscordAcademy';
 import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
-import useExitIntent from '@/hooks/useExitIntent';
 
 // Dynamic imports for performance
 import { 
-  ExitIntentPopup,
   CookieBanner,
   ValueProposition,
   FinalCTA,
@@ -23,13 +21,6 @@ import {
 } from '@/components/PerformanceOptimizations';
 
 export default function Home() {
-  const [showExitIntent, setShowExitIntent] = useState(false);
-
-  useExitIntent({
-    onExitIntent: () => setShowExitIntent(true),
-    threshold: 50,
-    sensitivity: 100
-  });
 
   useEffect(() => {
     // Preload critical resources for better performance
@@ -40,7 +31,7 @@ export default function Home() {
     <>
       <ScrollProgressIndicator />
       <FloatingNavbar />
-      <main>
+      <main className="pt-16 md:pt-0">
         <HeroSection />
         <TransitionSection />
         <LeadMagnetsGrid />
@@ -65,11 +56,6 @@ export default function Home() {
       <Footer />
       
       {/* Load modals only when needed */}
-      <ExitIntentPopup 
-        isOpen={showExitIntent}
-        onClose={() => setShowExitIntent(false)}
-      />
-      
       <CookieBanner />
     </>
   );

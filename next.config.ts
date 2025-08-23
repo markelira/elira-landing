@@ -1,13 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // Static export for Firebase Hosting
+  // Removed static export to support API routes
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: false,
     domains: [],
     formats: ['image/webp', 'image/avif'],
   },
-  trailingSlash: true, // Better for static hosting
+  trailingSlash: false,
   
   // Performance optimizations
   poweredByHeader: false, // Remove X-Powered-By header

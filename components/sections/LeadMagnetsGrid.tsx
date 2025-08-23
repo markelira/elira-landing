@@ -38,7 +38,7 @@ interface EnhancedMagnet {
 const LeadMagnetsGrid: React.FC = () => {
   const [selectedMagnet, setSelectedMagnet] = useState<EnhancedMagnet | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [viewedMagnets, setViewedMagnets] = useState(new Set<string>());
   const { track } = useAnalytics();
 

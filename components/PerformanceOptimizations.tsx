@@ -4,13 +4,6 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
 // Dynamic imports for heavy components
-export const ExitIntentPopup = dynamic(
-  () => import('./modals/ExitIntentPopup'),
-  { 
-    ssr: false,
-    loading: () => null
-  }
-);
 
 export const CookieBanner = dynamic(
   () => import('./CookieBanner'),
@@ -87,7 +80,6 @@ export const preloadCriticalResources = () => {
 };
 
 export default {
-  ExitIntentPopup,
   CookieBanner,
   SocialProof,
   ValueProposition,

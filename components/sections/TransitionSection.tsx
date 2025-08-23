@@ -6,7 +6,7 @@ import { Sparkles, TrendingUp, Zap, Clock, Users, Target, ArrowRight, CheckCircl
 import useAnalytics from '@/hooks/useAnalytics';
 
 const TransitionSection: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [hoveredScenario, setHoveredScenario] = useState<number | null>(null);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [countAnimated, setCountAnimated] = useState(false);
