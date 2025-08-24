@@ -1,13 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Removed static export to support API routes
+  output: 'export',
   images: {
-    unoptimized: false,
+    unoptimized: true,
     domains: [],
     formats: ['image/webp', 'image/avif'],
   },
-  trailingSlash: false,
+  trailingSlash: true,
   
   // Performance optimizations
   poweredByHeader: false, // Remove X-Powered-By header

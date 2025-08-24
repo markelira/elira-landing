@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Check, ChevronDown, Download } from 'lucide-react';
 import { content } from '@/lib/content/hu';
 import QuickAccessCard from '@/components/ui/QuickAccessCard';
-import EmailCaptureModal from '@/components/modals/EmailCaptureModal';
+import EmailCaptureModal from '@/components/modals/EmailCaptureModalV2';
 import useAnalytics from '@/hooks/useAnalytics';
 import { useSocialProof } from '@/hooks/useFirestore';
 
@@ -87,28 +86,15 @@ const HeroSection: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
           
           {/* LEFT COLUMN - Copy & Primary CTA */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="hero-copy-column space-y-6 lg:pr-8"
-          >
+          <div className="hero-copy-column space-y-6 lg:pr-8">
             {/* Eyebrow Text */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 text-sm font-medium text-teal-700 bg-teal-50 px-4 py-2 rounded-full"
-            >
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-teal-700 bg-teal-50 px-4 py-2 rounded-full">
               <span className="animate-pulse w-2 h-2 bg-teal-700 rounded-full"></span>
               <span>Elira.hu</span>
-            </motion.div>
+            </div>
             
             {/* Main Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            <h1
               className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight"
             >
               Tanulj{" "}
@@ -125,14 +111,11 @@ const HeroSection: React.FC = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <motion.path
+                  <path
                     d="M2 8C50 3 100 3 150 8C200 13 250 3 298 8"
                     stroke="url(#gradient)"
                     strokeWidth="3"
                     strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
                   />
                   <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -142,24 +125,18 @@ const HeroSection: React.FC = () => {
                   </defs>
                 </svg>
               </span>
-            </motion.h1>
+            </h1>
             
             {/* Subheadline */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+            <p
               className="text-xl text-gray-600 leading-relaxed"
             >
               <span className="font-semibold text-gray-900"> 5 prémium anyag</span> vár rád
               <span className="text-teal-700 font-semibold"> teljesen ingyen.</span>
-            </motion.p>
+            </p>
             
             {/* Value Props List */}
-            <motion.ul
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+            <ul
               className="space-y-3"
             >
               <li className="flex items-center gap-3">
@@ -180,13 +157,10 @@ const HeroSection: React.FC = () => {
                 </div>
                 <span className="text-gray-700">Nincs rejtett költség vagy upsell</span>
               </li>
-            </motion.ul>
+            </ul>
             
             {/* Primary CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+            <div
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
               <button 
@@ -217,13 +191,10 @@ const HeroSection: React.FC = () => {
                   Csatlakozz a Közösséghez
                 </span>
               </button>
-            </motion.div>
+            </div>
             
             {/* Trust Indicator */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+            <div
               className="flex items-center gap-6 pt-4 text-sm text-gray-600"
             >
               <div className="flex items-center gap-2">
@@ -240,14 +211,11 @@ const HeroSection: React.FC = () => {
                   {totalDownloads || 0} letöltés összesen
                 </span>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* RIGHT COLUMN - Quick Access PDF Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          <div
             className="hero-cards-column relative"
           >
             {/* Container for cards */}
@@ -260,25 +228,19 @@ const HeroSection: React.FC = () => {
               <div className="relative grid gap-4">
                 
                 {/* Quick Access Header */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
+                <div
                   className="text-center mb-4"
                 >
                   <span className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold text-left">
                     🎁 Válassz és töltsd le ingyen!
                   </span>
-                </motion.div>
+                </div>
                 
                 {/* PDF Cards - 2x2 Grid with 5th centered */}
                 <div className="grid grid-cols-2 gap-3">
                   
                   {/* Card 1: ChatGPT */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
+                  <div
                     className="relative"
                   >
                     <QuickAccessCard
@@ -289,13 +251,10 @@ const HeroSection: React.FC = () => {
                       onClick={() => openModal('chatgpt-prompts')}
                       isSelected={selectedCards.includes('chatgpt-prompts')}
                     />
-                  </motion.div>
+                  </div>
                   
                   {/* Card 2: LinkedIn */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.9 }}
+                  <div
                   >
                     <QuickAccessCard
                       icon="📈"
@@ -304,13 +263,10 @@ const HeroSection: React.FC = () => {
                       gradient="from-blue-500 to-cyan-500"
                       onClick={() => openModal('linkedin-calendar')}
                     />
-                  </motion.div>
+                  </div>
                   
                   {/* Card 3: Email */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.0 }}
+                  <div
                   >
                     <QuickAccessCard
                       icon="📧"
@@ -319,13 +275,10 @@ const HeroSection: React.FC = () => {
                       gradient="from-green-500 to-emerald-500"
                       onClick={() => openModal('email-templates')}
                     />
-                  </motion.div>
+                  </div>
                   
                   {/* Card 4: TikTok */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.1 }}
+                  <div
                   >
                     <QuickAccessCard
                       icon="🎬"
@@ -334,14 +287,11 @@ const HeroSection: React.FC = () => {
                       gradient="from-pink-500 to-rose-500"
                       onClick={() => openModal('tiktok-guide')}
                     />
-                  </motion.div>
+                  </div>
                 </div>
                 
                 {/* Card 5: Automation - Full Width */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 1.2 }}
+                <div
                 >
                   <QuickAccessCard
                     icon="⚡"
@@ -351,38 +301,26 @@ const HeroSection: React.FC = () => {
                     onClick={() => openModal('automation-workflows')}
                     fullWidth
                   />
-                </motion.div>
+                </div>
                 
                 {/* Bottom CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.3 }}
+                <div
                   className="text-center mt-4"
                 >
-                </motion.div>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.button
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 1, 
-          delay: 1.5,
-          repeat: Infinity,
-          repeatType: "reverse",
-          repeatDelay: 2
-        }}
+      <button
         onClick={scrollToNext}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 hover:text-teal-700 transition-colors cursor-pointer"
       >
         <ChevronDown size={32} />
-      </motion.button>
+      </button>
 
       {/* Email Capture Modal */}
       <EmailCaptureModal 

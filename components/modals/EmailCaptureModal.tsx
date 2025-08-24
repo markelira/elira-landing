@@ -314,7 +314,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                         </p>
                       </div>
 
-                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
                         {/* Email Field - Always Visible */}
                         <div>
                           <input

@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Eye, TrendingUp } from 'lucide-react';
 import { content } from '@/lib/content/hu';
 import MagnetShowcase from '@/components/ui/MagnetShowcase';
-import EmailCaptureModal from '@/components/modals/EmailCaptureModal';
+import EmailCaptureModal from '@/components/modals/EmailCaptureModalV2';
 import useAnalytics from '@/hooks/useAnalytics';
 
 interface Preview {
@@ -132,13 +131,7 @@ const LeadMagnetsGrid: React.FC = () => {
       <section id="lead-magnets" className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-6">
           {/* Enhanced Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }}
+          <div
             className="text-center mb-20"
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 
@@ -171,7 +164,7 @@ const LeadMagnetsGrid: React.FC = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Enhanced Magnets Showcase */}
           <div className="max-w-7xl mx-auto space-y-24">
@@ -192,14 +185,7 @@ const LeadMagnetsGrid: React.FC = () => {
           </div>
 
           {/* Enhanced Bottom Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.8,
-              delay: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }}
+          <div
             className="text-center mt-24"
           >
             {/* Statistics Summary */}
@@ -242,18 +228,16 @@ const LeadMagnetsGrid: React.FC = () => {
 
             {/* View Completion Tracker */}
             {viewedMagnets.size === enhancedMagnets.length && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+              <div
                 className="inline-flex items-center gap-2 px-6 py-3 
                          bg-gradient-to-r from-teal-500 to-cyan-500 
                          text-white rounded-full font-semibold shadow-lg"
               >
                 <TrendingUp className="w-5 h-5" />
                 Mind az 5 anyagot megnézted! 🎉
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
         </div>
       </section>
 

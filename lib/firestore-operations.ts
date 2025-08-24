@@ -131,7 +131,7 @@ export const updateStats = async (updates: StatsUpdate): Promise<boolean> => {
   try {
     if (!db) throw new Error('Firestore not initialized');
     
-    const statsRef = doc(db, 'stats', 'global');
+    const statsRef = doc(db, 'stats', 'downloads');
     await updateDoc(statsRef, {
       ...updates,
       lastUpdated: serverTimestamp()
@@ -168,7 +168,7 @@ export const getRealtimeStats = (callback: (stats: Stats | null) => void): (() =
     return () => {};
   }
 
-  const statsRef = doc(db, 'stats', 'global');
+  const statsRef = doc(db, 'stats', 'downloads');
   
   return onSnapshot(statsRef, (doc) => {
     if (doc.exists()) {

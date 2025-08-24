@@ -7,13 +7,13 @@ import { sendDiscordNotification } from '../services/discord';
 // Get Firestore instance
 const db = admin.firestore();
 
-// Validation schema
+// Validation schema - updated to handle removed fields
 const subscribeSchema = z.object({
   email: z.string().email('Invalid email address'),
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(1, 'Last name must be at least 1 character'),
-  job: z.enum(['Marketing', 'IT/Fejlesztő', 'HR', 'Pénzügy', 'Értékesítés', 'Vezetői pozíció', 'Diák', 'Egyéb']).optional(),
-  education: z.enum(['Középiskola', 'Főiskola', 'Egyetem (BSc)', 'Mesterszint (MSc)', 'PhD']).optional(),
+  job: z.string().optional(), // Changed from enum to string to accept empty values
+  education: z.string().optional(), // Changed from enum to string to accept empty values
   magnetId: z.string().optional(),
   magnetTitle: z.string().optional(),
   magnetSelected: z.string().optional(),
@@ -55,6 +55,35 @@ async function addLead(leadData: LeadData): Promise<string> {
   });
   
   return docRef.id;
+}
+
+// Helper function to create censored name for public display
+function createCensoredName(firstName: string, lastName?: string): string {
+  if (!firstName) return 'Anonymous';
+  
+  const firstInitial = firstName.charAt(0).toUpperCase();
+  const censoredFirst = firstInitial + '***';
+  
+  if (lastName) {
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    return `${censoredFirst} ${lastInitial}.`;
+  }
+  
+  return censoredFirst;
+}
+
+// Helper function to get magnet title by ID
+function getMagnetTitle(magnetId: string): string {
+  const magnetTitles: { [key: string]: string } = {
+    'chatgpt-prompts': 'ChatGPT prompt sablonok',
+    'linkedin-calendar': 'LinkedIn növekedési naptár',
+    'email-templates': 'Email marketing sablonok',
+    'tiktok-guide': 'TikTok algoritmus útmutató',
+    'automation-workflows': 'Marketing automatizáció',
+    'none': 'ingyenes anyagokat'
+  };
+  
+  return magnetTitles[magnetId] || 'marketing anyagokat';
 }
 
 export async function subscribeHandler(req: Request, res: Response) {
@@ -144,7 +173,34 @@ export async function subscribeHandler(req: Request, res: Response) {
       // Don't throw - this is optional functionality
     }
     
-    // 4. Always return success if Firebase worked
+    // 4. Update download statistics and activity feed
+    try {
+      // Update global stats
+      const statsRef = db.doc('stats/downloads');
+      await statsRef.update({
+        totalDownloads: admin.firestore.FieldValue.increment(1),
+        totalLeads: admin.firestore.FieldValue.increment(1),
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp()
+      });
+      
+      // Create activity feed entry for social proof
+      const censoredName = createCensoredName(firstName, lastName);
+      await db.collection('activities').add({
+        user: censoredName,
+        action: `letöltötte: ${getMagnetTitle(magnetSelected || magnetId || 'none')}`,
+        platform: 'discord',
+        type: 'success',
+        channel: 'downloads',
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+      
+      console.log('Statistics and activity feed updated successfully');
+    } catch (statsError) {
+      console.error('Failed to update stats/activity (non-critical):', statsError);
+      // Don't fail the request - lead was saved successfully
+    }
+    
+    // 5. Always return success if Firebase worked
     const message = emailSent 
       ? '✅ Sikeres regisztráció! Nézd meg az email fiókodat (spam mappát is)!'
       : 'Köszönjük a regisztrációt! Adataidat elmentettük.';

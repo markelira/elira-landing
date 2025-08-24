@@ -35,6 +35,12 @@ const leadMagnetConfig: Record<string, { subject: string; title: string; downloa
     title: 'Marketing Automatizáció Munkafolyamat Tervezők',
     downloadLink: 'https://docs.google.com/document/d/1Eu51JxcLmg5AArut64al8vNlcEveS7au5n8Li_n2mSg/edit?usp=sharing'
   },
+  // Course access confirmation
+  'course-access': {
+    subject: '🎉 Kurzus hozzáférés aktiválva - Kezdjük el!',
+    title: 'AI-alapú piac-kutatásos copywriting kurzus',
+    downloadLink: 'https://elira.hu/dashboard/course'
+  },
   // Default/fallback
   'none': {
     subject: '🎯 Üdvözlünk az Elira közösségben!',

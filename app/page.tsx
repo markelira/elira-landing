@@ -10,6 +10,7 @@ import CommunityProof from '@/components/sections/CommunityProof';
 import DiscordAcademy from '@/components/sections/DiscordAcademy';
 import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
+import { PerformanceProvider } from '@/components/PerformanceProvider';
 
 // Dynamic imports for performance
 import { 
@@ -28,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <PerformanceProvider>
       <ScrollProgressIndicator />
       <FloatingNavbar />
       <main className="pt-16 md:pt-0">
@@ -57,6 +58,6 @@ export default function Home() {
       
       {/* Load modals only when needed */}
       <CookieBanner />
-    </>
+    </PerformanceProvider>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Check, ArrowRight, Eye } from 'lucide-react';
 import Image from 'next/image';
 import PlaceholderImage from './PlaceholderImage';
@@ -63,15 +62,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
 
 
   return (
-    <motion.div
-      initial={{ opacity: 1, y: 0 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }}
+    <div
       className="relative mb-16 last:mb-0"
     >
 
@@ -111,18 +102,15 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
             <h4 className="font-semibold text-gray-900">Mit tartalmaz:</h4>
             <ul className="space-y-2">
               {magnet.benefits.map((benefit, idx) => (
-                <motion.li
+                <li
                   key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
                   className="flex items-start gap-3"
                 >
                   <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Check className="w-3 h-3 text-teal-700" />
                   </div>
                   <span className="text-gray-700">{benefit}</span>
-                </motion.li>
+                </li>
               ))}
             </ul>
           </div>
@@ -140,10 +128,8 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
           </div>
 
           {/* CTA Button */}
-          <motion.button
+          <button
             onClick={handleDownloadClick}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-teal-700 to-cyan-600 
                        text-white font-semibold rounded-full shadow-lg 
                        hover:shadow-xl transition-all duration-300"
@@ -156,16 +142,14 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
             <div className="absolute inset-0 bg-white/20 scale-0 
                           group-hover:scale-100 transition-transform 
                           duration-500 rounded-full" />
-          </motion.button>
+          </button>
         </div>
 
         {/* Preview Column */}
         <div className={`order-1 lg:order-none ${isReversed ? 'lg:col-start-1' : ''}`}>
-          <motion.div
+          <div
             className="relative group cursor-pointer"
             onClick={handlePreviewClick}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
           >
             {/* Main Preview Image */}
             <div className="relative aspect-[1440/920] rounded-2xl overflow-hidden shadow-2xl">
@@ -227,7 +211,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
             {/* Floating Elements */}
             <div className="absolute -top-3 -right-3 w-6 h-6 bg-teal-500 rounded-full animate-pulse" />
             <div className="absolute -bottom-3 -left-3 w-4 h-4 bg-cyan-500 rounded-full animate-pulse delay-700" />
-          </motion.div>
+          </div>
 
           {/* File Metadata */}
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-600">
@@ -247,7 +231,7 @@ const MagnetShowcase: React.FC<MagnetShowcaseProps> = ({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

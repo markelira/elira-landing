@@ -21,6 +21,7 @@
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@next/third-parties": "^15.5.0",
     "@sendgrid/mail": "^8.1.5",
+    "clsx": "^2.1.1",
     "firebase": "^12.1.0",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.540.0",
@@ -28,6 +29,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "tailwind-merge": "^3.3.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {

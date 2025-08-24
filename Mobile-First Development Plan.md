@@ -215,7 +215,6 @@ Prompt for Claude Code:
 **Task 4.2 - Advanced Mobile Features**
 Prompt for Claude Code:
 "Add premium mobile features:
-1. Implement dark mode with system preference detection
 2. Add landscape-specific layouts for tablets
 3. Create bottom tab navigation for main sections
 4. Implement iOS safe area handling for notched devices
@@ -267,7 +266,6 @@ Prompt for Claude Code:
 - [ ] Offline support
 - [ ] Share functionality
 - [ ] Gesture navigation
-- [ ] Dark mode support
 
 ### Testing Coverage ✓
 - [ ] iPhone SE (375px)

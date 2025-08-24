@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, TrendingUp, Zap, Clock, Users, Target, ArrowRight, CheckCircle, Star } from 'lucide-react';
 import useAnalytics from '@/hooks/useAnalytics';
 
@@ -85,28 +84,18 @@ const TransitionSection: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           
           {/* Main Hook */}
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          <h2
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12"
           >
             <span className="text-gray-900">Mi lenne, ha</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-cyan-600">...</span>
-          </motion.h2>
+          </h2>
 
           {/* Interactive Dream Scenarios */}
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             {scenarios.map((scenario, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: scenario.delay,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
                 className="group cursor-pointer"
                 onMouseEnter={() => {
                   setHoveredScenario(index);
@@ -118,45 +107,36 @@ const TransitionSection: React.FC = () => {
                   trackButton(`Expand Scenario ${index + 1}`, 'transition-interaction');
                 }}
               >
-                <motion.div
+                <div
                   className={`
                     relative p-6 rounded-3xl border border-gray-200 
                     bg-gradient-to-br ${scenario.bgGradient} to-white
                     shadow-lg group-hover:shadow-2xl transition-all duration-500
                     overflow-hidden
                   `}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   {/* Background Pattern */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent opacity-60" />
                   
                   {/* Floating Icon */}
-                  <motion.div
+                  <div
                     className={`
                       relative mb-4 w-16 h-16 rounded-2xl bg-gradient-to-r ${scenario.gradient} 
                       shadow-lg flex items-center justify-center
                       group-hover:shadow-xl
                     `}
-                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
                   >
                     <scenario.icon className="w-8 h-8 text-white" />
                     
                     {/* Pulsing glow effect */}
-                    <motion.div
+                    <div
                       className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${scenario.gradient} opacity-30`}
-                      animate={hoveredScenario === index ? { scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] } : {}}
-                      transition={{ duration: 2, repeat: Infinity }}
                     />
-                  </motion.div>
+                  </div>
 
                   {/* Stats Display */}
-                  <motion.div
+                  <div
                     className="mb-3"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: scenario.delay + 0.3 }}
                   >
                     <div className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${scenario.gradient} mb-1`}>
                       {scenario.stats}
@@ -164,7 +144,7 @@ const TransitionSection: React.FC = () => {
                     <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
                       {scenario.shortText}
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Main Question */}
                   <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight">
@@ -184,50 +164,37 @@ const TransitionSection: React.FC = () => {
                   </div>
 
                   {/* Expansion Area */}
-                  <AnimatePresence>
-                    {expandedCard === index && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="border-t border-gray-200 pt-4 mt-4"
-                      >
-                        <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                          {scenario.expandedText}
-                        </p>
-                        <div className="flex items-center gap-2 text-sm font-medium">
-                          <Star className={`w-4 h-4 text-gradient-to-r ${scenario.gradient}`} />
-                          <span className={`text-transparent bg-clip-text bg-gradient-to-r ${scenario.gradient}`}>
-                            Kezdd el most →
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {expandedCard === index && (
+                    <div
+                      className="border-t border-gray-200 pt-4 mt-4"
+                    >
+                      <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                        {scenario.expandedText}
+                      </p>
+                      <div className="flex items-center gap-2 text-sm font-medium">
+                        <Star className={`w-4 h-4 text-gradient-to-r ${scenario.gradient}`} />
+                        <span className={`text-transparent bg-clip-text bg-gradient-to-r ${scenario.gradient}`}>
+                          Kezdd el most →
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Hover Indicator */}
-                  <motion.div
+                  <div
                     className="absolute bottom-4 right-4"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={hoveredScenario === index ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-                    transition={{ duration: 0.2 }}
                   >
                     <ArrowRight className={`w-5 h-5 text-gradient-to-r ${scenario.gradient}`} />
-                  </motion.div>
-                </motion.div>
-              </motion.div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
 
 
           {/* Enhanced Statistics with Progressive Disclosure */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1.0 }}
+          <div
             className="relative"
-            onViewportEnter={() => setCountAnimated(true)}
           >
             {/* Background Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-teal-100 via-purple-100 to-cyan-100 rounded-3xl blur-3xl opacity-30 scale-110" />
@@ -236,89 +203,68 @@ const TransitionSection: React.FC = () => {
               {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-8 mb-8">
                 {/* Packages */}
-                <motion.div 
+                <div 
                   className="text-center group cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
                   onClick={() => trackButton('Stats Packages', 'transition-stats')}
                 >
-                  <motion.div
+                  <div
                     className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-cyan-600 mb-2"
-                    animate={countAnimated ? { scale: [1, 1.2, 1] } : {}}
-                    transition={{ duration: 0.6, delay: 1.2 }}
                   >
                     5
-                  </motion.div>
+                  </div>
                   <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">
                     Csomag
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 1.4 }}
+                  <div
                     className="text-xs text-teal-700 font-medium"
                   >
                     Azonnal elérhető
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
                 
                 {/* Pages */}
-                <motion.div 
+                <div 
                   className="text-center group cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
                   onClick={() => trackButton('Stats Pages', 'transition-stats')}
                 >
-                  <motion.div
+                  <div
                     className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-2"
-                    animate={countAnimated ? { scale: [1, 1.2, 1] } : {}}
-                    transition={{ duration: 0.6, delay: 1.3 }}
                   >
                     103
-                  </motion.div>
+                  </div>
                   <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">
                     Oldal
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 1.5 }}
+                  <div
                     className="text-xs text-purple-600 font-medium"
                   >
                     Prémium tartalom
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
                 
                 {/* Value */}
-                <motion.div 
+                <div 
                   className="text-center group cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
                   onClick={() => trackButton('Stats Value', 'transition-stats')}
                 >
-                  <motion.div
+                  <div
                     className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 mb-2"
-                    animate={countAnimated ? { scale: [1, 1.2, 1] } : {}}
-                    transition={{ duration: 0.6, delay: 1.4 }}
                   >
                     0Ft
-                  </motion.div>
+                  </div>
                   <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">
                     Ár
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 1.6 }}
+                  <div
                     className="text-xs text-orange-600 font-medium"
                   >
                     100% ingyen
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
               </div>
               
               {/* Main Value Proposition */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 1.2 }}
+              <div
                 className="text-center"
               >
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
@@ -326,10 +272,7 @@ const TransitionSection: React.FC = () => {
                 </h3>
                 
                 {/* Social Proof Indicators */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={isVisible ? { opacity: 1 } : {}}
-                  transition={{ delay: 1.6 }}
+                <div
                   className="flex items-center justify-center gap-6 text-sm text-gray-600"
                 >
                   <div className="flex items-center gap-2">
@@ -340,20 +283,17 @@ const TransitionSection: React.FC = () => {
                     <Target className="w-4 h-4 text-blue-500" />
                     <span>Bevált módszerek</span>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Simple CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1.4 }}
+          <div
             className="mt-16 text-center"
           >
             {/* Main CTA Button */}
-            <motion.button
+            <button
               onClick={() => {
                 trackButton('View PDF Details Enhanced', 'transition-cta-enhanced');
                 const element = document.getElementById('lead-magnets');
@@ -362,62 +302,32 @@ const TransitionSection: React.FC = () => {
                 }
               }}
               className="group relative overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
             >
               {/* Button Base */}
               <div className="relative px-12 py-5 bg-gradient-to-r from-teal-700 via-cyan-600 to-blue-600 text-white font-bold rounded-2xl shadow-2xl">
                 {/* Animated Background Glow */}
-                <motion.div
+                <div
                   className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-2xl"
-                  animate={{ x: [-100, 200] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 />
                 
-                {/* Floating Particles Effect */}
-                <div className="absolute inset-0 overflow-hidden rounded-2xl">
-                  {[...Array(6)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 bg-white/60 rounded-full"
-                      style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                      }}
-                      animate={{
-                        y: [-20, -60, -20],
-                        opacity: [0, 1, 0],
-                        scale: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        delay: i * 0.5,
-                      }}
-                    />
-                  ))}
-                </div>
                 
                 {/* Button Content */}
                 <span className="relative z-10 flex items-center gap-3 text-lg">
                   <span>Részletes előnézet minden PDF-hez</span>
-                  <motion.div
+                  <div
                     className="flex items-center"
-                    animate={{ x: [0, 6, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   >
                     <ArrowRight className="w-6 h-6" />
-                  </motion.div>
+                  </div>
                 </span>
               </div>
               
               {/* Hover Glow Effect */}
-              <motion.div
+              <div
                 className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-2xl -z-10 blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
-                style={{ transform: 'scale(1.1)' }}
               />
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
 
         </div>
       </div>

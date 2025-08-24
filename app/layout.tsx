@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google';
 import StructuredData from '@/components/StructuredData';
 import CookieBanner from '@/components/CookieBanner';
+import ClientProviders from '@/components/ClientProviders';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -81,7 +82,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
-        {children}
+        <ClientProviders>
+          {children}
+        </ClientProviders>
         <CookieBanner />
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
