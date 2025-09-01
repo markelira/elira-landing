@@ -69,6 +69,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     try {
       // Get Firebase auth token
       console.log('[PurchaseButton] Getting auth token for user:', user?.uid);
+    console.log('[PurchaseButton] Firebase Project ID being used:', process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
       const token = await auth.currentUser?.getIdToken();
       console.log('[PurchaseButton] Token obtained:', token ? 'Yes' : 'No');
       if (!token) {

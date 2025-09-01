@@ -15,6 +15,16 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
+// CRITICAL DEBUG: Log the actual Firebase config being used
+console.log('🔥 Firebase Client Config:', {
+  projectId: firebaseConfig.projectId,
+  authDomain: firebaseConfig.authDomain,
+  storageBucket: firebaseConfig.storageBucket,
+  hasApiKey: !!firebaseConfig.apiKey,
+  environment: process.env.NODE_ENV,
+  buildTime: new Date().toISOString()
+});
+
 // Initialize Firebase only if it hasn't been initialized already
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
