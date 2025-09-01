@@ -1,0 +1,71 @@
+name: Deploy to Firebase Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Type checking
+        run: npm run typecheck
+        
+      - name: Linting
+        run: npm run lint
+        
+      - name: Security audit
+        run: npm audit --audit-level high
+        
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+          
+      - name: Copy static assets for Firebase hosting
+        run: |
+          cp -r .next/static public/_next/ || echo "No static directory"
+          cp -r .next/server/app/* public/ || echo "No server app directory"
+          
+      - name: Deploy Functions
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELIRA_LANDING_CE927 }}'
+          projectId: elira-landing-ce927
+          target: functions
+          
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELIRA_LANDING_CE927 }}'
+          projectId: elira-landing-ce927
+          
+      - name: Health check
+        run: |
+          sleep 30
+          curl -f https://elira-landing-ce927.web.app/api/health || exit 1
+          
+      - name: Notify deployment success
+        if: success()
+        run: echo "🚀 Deployment successful to https://elira.hu"

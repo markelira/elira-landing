@@ -1,47 +1,40 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  reactStrictMode: true,
   images: {
     unoptimized: true,
-    domains: [],
+    domains: ['images.unsplash.com', 'source.unsplash.com', 'localhost', 'storage.googleapis.com', '127.0.0.1'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'source.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'storage.googleapis.com', pathname: '/**' },
+      { protocol: 'http', hostname: '127.0.0.1', port: '9188', pathname: '/**' },
+    ],
     formats: ['image/webp', 'image/avif'],
   },
-  trailingSlash: true,
-  
-  // Performance optimizations
-  poweredByHeader: false, // Remove X-Powered-By header
-  
-  // Compression
-  compress: true,
-  
-  // Experimental optimizations (disabled for build stability)
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
   experimental: {
     optimizePackageImports: [
       'framer-motion',
       'lucide-react',
       '@hookform/resolvers',
-      'react-hook-form'
+      'react-hook-form',
+      '@mux/mux-player-react',
+      '@tanstack/react-query'
     ],
   },
-  
-  // Bundle analyzer (conditional)
-  ...(process.env.ANALYZE === 'true' && {
-    webpack: (config: any, { isServer }: { isServer: boolean }) => {
-      if (!isServer) {
-        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-        config.plugins.push(
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            openAnalyzer: false,
-          })
-        );
-      }
-      return config;
-    },
-  }),
-  
-  // Headers not supported with static export
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = { fs: false };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

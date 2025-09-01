@@ -50,7 +50,11 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
       }
 
       // Redirect to Stripe Checkout
-      await paymentApi.redirectToCheckout(sessionData.sessionId);
+      if (sessionData.sessionId) {
+        await paymentApi.redirectToCheckout(sessionData.sessionId);
+      } else {
+        throw new Error('No session ID returned');
+      }
 
       // This won't execute due to redirect, but just in case
       onPurchaseSuccess?.();

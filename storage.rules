@@ -1,0 +1,221 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for Course Platform
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions for validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isValidImageType() {
+      return request.resource.contentType.matches('image/(jpeg|jpg|png|gif|webp)');
+    }
+    
+    function isValidPDFType() {
+      return request.resource.contentType == 'application/pdf';
+    }
+    
+    function isValidDocumentType() {
+      return request.resource.contentType.matches(
+        '(application/pdf|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|text/plain)'
+      );
+    }
+    
+    function isValidVideoType() {
+      return request.resource.contentType.matches('video/(mp4|webm|quicktime)');
+    }
+    
+    function isValidAudioType() {
+      return request.resource.contentType.matches('audio/(mpeg|wav|webm)');
+    }
+    
+    function isValidImageSize() {
+      return request.resource.size <= 100 * 1024 * 1024; // 100MB
+    }
+    
+    function isValidPDFSize() {
+      return request.resource.size <= 50 * 1024 * 1024; // 50MB
+    }
+    
+    function isValidDocumentSize() {
+      return request.resource.size <= 25 * 1024 * 1024; // 25MB
+    }
+    
+    function isValidVideoSize() {
+      return request.resource.size <= 5 * 1024 * 1024 * 1024; // 5GB
+    }
+    
+    function isValidAudioSize() {
+      return request.resource.size <= 100 * 1024 * 1024; // 100MB
+    }
+
+    // User avatar uploads
+    match /users/{userId}/avatar/{fileName} {
+      allow read: if true; // Avatars are publicly readable
+      allow write: if isAuthenticated() 
+                   && isOwner(userId)
+                   && isValidImageType() 
+                   && isValidImageSize();
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Course-related files
+    match /courses/{courseId}/{allPaths=**} {
+      // Course images and thumbnails
+      match /images/{fileName} {
+        allow read: if true; // Course images are publicly readable for discovery
+        allow write: if isAuthenticated()
+                     && isValidImageType()
+                     && isValidImageSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+      
+      match /thumbnails/{fileName} {
+        allow read: if true; // Thumbnails are publicly readable
+        allow write: if isAuthenticated()
+                     && isValidImageType()
+                     && isValidImageSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+
+      // Lesson PDF content
+      match /lessons/{lessonId}/pdfs/{fileName} {
+        allow read: if isAuthenticated(); // Only authenticated users can read lesson PDFs
+        // TODO: Add enrollment check for specific course access
+        allow write: if isAuthenticated()
+                     && isValidPDFType()
+                     && isValidPDFSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+      
+      // Lesson images (for rich text editor)
+      match /lessons/{lessonId}/images/{fileName} {
+        allow read: if isAuthenticated(); // Lesson images require authentication
+        allow write: if isAuthenticated()
+                     && isValidImageType()
+                     && isValidImageSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+      
+      // Lesson documents
+      match /lessons/{lessonId}/documents/{fileName} {
+        allow read: if isAuthenticated(); // Documents require authentication
+        allow write: if isAuthenticated()
+                     && isValidDocumentType()
+                     && isValidDocumentSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+      
+      // Lesson audio files
+      match /lessons/{lessonId}/audio/{fileName} {
+        allow read: if isAuthenticated(); // Audio requires authentication
+        allow write: if isAuthenticated()
+                     && isValidAudioType()
+                     && isValidAudioSize();
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+
+      // Course promotional materials
+      match /promotional/{fileName} {
+        allow read: if true; // Promotional materials are public
+        allow write: if isAuthenticated()
+                     && (isValidImageType() || isValidVideoType())
+                     && (isValidImageSize() || isValidVideoSize());
+        allow delete: if isAuthenticated(); // TODO: Add instructor check
+      }
+    }
+
+    // Temporary uploads (for processing)
+    match /temp/{userId}/{fileName} {
+      allow read, write, delete: if isAuthenticated() && isOwner(userId);
+      // Temporary files should be cleaned up by Cloud Functions
+      // Add size limits based on file type
+      allow write: if request.resource.size <= 500 * 1024 * 1024; // 500MB max for temp
+    }
+    
+    // Course creation temporary files (before course exists)
+    match /courses/temp/{userId}/{allPaths=**} {
+      // Allow public read for temp course files (for display in UI)
+      allow read: if true;
+      allow write, delete: if isAuthenticated() && isOwner(userId);
+      // Allow various file types for course creation
+      allow write: if isAuthenticated() 
+                   && isOwner(userId)
+                   && ((isValidImageType() && isValidImageSize()) ||
+                       (isValidVideoType() && isValidVideoSize()) ||
+                       (isValidPDFType() && isValidPDFSize()) ||
+                       (isValidDocumentType() && isValidDocumentSize()) ||
+                       (isValidAudioType() && isValidAudioSize()));
+    }
+    
+    // Lesson creation temporary files (before lesson exists)
+    match /lessons/temp/{userId}/{allPaths=**} {
+      // Allow public read for temp lesson files (for display in UI)
+      allow read: if true;
+      allow write, delete: if isAuthenticated() && isOwner(userId);
+      allow write: if isAuthenticated() 
+                   && isOwner(userId)
+                   && ((isValidImageType() && isValidImageSize()) ||
+                       (isValidVideoType() && isValidVideoSize()) ||
+                       (isValidDocumentType() && isValidDocumentSize()) ||
+                       (isValidAudioType() && isValidAudioSize()));
+    }
+
+    // System uploads (managed by admin/system)
+    match /system/{allPaths=**} {
+      allow read: if true; // System files can be publicly readable
+      allow write, delete: if false; // Only Cloud Functions can write/delete system files
+    }
+
+    // User-generated content uploads
+    match /user-content/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated(); // User content requires authentication
+      allow write: if isAuthenticated() 
+                   && isOwner(userId)
+                   && ((isValidImageType() && isValidImageSize()) ||
+                       (isValidDocumentType() && isValidDocumentSize()) ||
+                       (isValidAudioType() && isValidAudioSize()));
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Quiz and assignment uploads
+    match /assignments/{courseId}/{studentId}/{fileName} {
+      allow read: if isAuthenticated(); // TODO: Add instructor or student access check
+      allow write: if isAuthenticated()
+                   && isOwner(studentId)
+                   && ((isValidDocumentType() && isValidDocumentSize()) ||
+                       (isValidImageType() && isValidImageSize()));
+      allow delete: if isAuthenticated() && isOwner(studentId);
+    }
+
+    // Certificate storage (generated by system)
+    match /certificates/{userId}/{certificateId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      allow write, delete: if false; // Only Cloud Functions can manage certificates
+    }
+
+    // Backup and archive storage
+    match /backups/{allPaths=**} {
+      allow read, write, delete: if false; // Only Cloud Functions can access backups
+    }
+
+    // Block all other paths by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// Additional security considerations:
+// 1. TODO: Implement course enrollment checks for lesson content access
+// 2. TODO: Add instructor/admin role checks for course management
+// 3. TODO: Implement file quota limits per user
+// 4. TODO: Add virus scanning integration
+// 5. TODO: Implement automatic file cleanup for expired temporary files
+// 6. TODO: Add watermarking for protected content
+// 7. TODO: Implement rate limiting for uploads

@@ -48,12 +48,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     setError(null);
 
     try {
-      await registerUser({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password
-      });
+      await registerUser(data.email, data.password, data.firstName, data.lastName);
       
       // Note: We could get linked downloads from the response, but for now just indicate success
       onSuccess?.();

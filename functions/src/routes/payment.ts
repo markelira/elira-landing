@@ -8,14 +8,17 @@ import {
   COURSE_CONFIG 
 } from '../services/stripe';
 import { sendLeadMagnetEmail } from '../services/sendgrid';
-import { CreateSessionRequest, CreateSessionResponse, PaymentStatusResponse } from '../../../src/types/payment';
+import { CreateSessionRequest, CreateSessionResponse, PaymentStatusResponse } from '../../../types/payment';
 
 const db = admin.firestore();
 
 // Create checkout session
 export const createSessionHandler = async (req: Request, res: Response): Promise<void> => {
   try {
+    console.log('[Payment] Creating session with body:', req.body);
+    
     if (!stripe) {
+      console.error('[Payment] Stripe not configured');
       res.status(503).json({
         success: false,
         error: 'Payment processing is currently unavailable'
@@ -23,7 +26,8 @@ export const createSessionHandler = async (req: Request, res: Response): Promise
       return;
     }
 
-    const { uid, email, successUrl, cancelUrl }: CreateSessionRequest = req.body;
+    const { uid, email, successUrl, cancelUrl, courseId, stripePriceId }: CreateSessionRequest = req.body;
+    console.log('[Payment] Session params:', { uid, email, courseId, stripePriceId });
 
     if (!uid || !email || !successUrl || !cancelUrl) {
       res.status(400).json({
@@ -73,13 +77,35 @@ export const createSessionHandler = async (req: Request, res: Response): Promise
       return;
     }
 
+    // Get course data if courseId is provided
+    let courseData = null;
+    if (courseId && courseId !== 'default-course') {
+      try {
+        const courseDoc = await db.collection('courses').doc(courseId).get();
+        if (courseDoc.exists) {
+          const course = courseDoc.data();
+          courseData = {
+            title: course?.title || COURSE_CONFIG.title,
+            price: course?.price || COURSE_CONFIG.price,
+            currency: course?.currency || COURSE_CONFIG.currency,
+            description: course?.shortDescription || course?.description || COURSE_CONFIG.description
+          };
+        }
+      } catch (error) {
+        console.warn('Failed to fetch course data, using defaults:', error);
+      }
+    }
+
     // Create checkout session
     const session = await createCheckoutSession(
       customerId,
       uid,
       email,
       successUrl,
-      cancelUrl
+      cancelUrl,
+      courseId,
+      stripePriceId,
+      courseData || undefined
     );
 
     if (!session) {
@@ -93,10 +119,11 @@ export const createSessionHandler = async (req: Request, res: Response): Promise
     // Store payment record in Firestore
     const paymentData = {
       userId: uid,
+      courseId: courseId || 'default-course',
       stripeSessionId: session.id,
       stripeCustomerId: customerId,
-      amount: COURSE_CONFIG.price,
-      currency: COURSE_CONFIG.currency,
+      amount: courseData?.price || COURSE_CONFIG.price,
+      currency: (courseData?.currency || COURSE_CONFIG.currency).toUpperCase(),
       status: 'pending' as const,
       courseAccess: false,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -179,13 +206,14 @@ async function handleCheckoutCompleted(session: any): Promise<void> {
   try {
     const sessionId = session.id;
     const userId = session.metadata?.userId;
+    const courseId = session.metadata?.courseId || 'default-course';
 
     if (!userId) {
       console.error('No userId in session metadata');
       return;
     }
 
-    console.log(`Processing completed checkout for user ${userId}, session ${sessionId}`);
+    console.log(`Processing completed checkout for user ${userId}, session ${sessionId}, course ${courseId}`);
 
     // Update payment record
     await db.collection('payments').doc(sessionId).update({
@@ -194,11 +222,80 @@ async function handleCheckoutCompleted(session: any): Promise<void> {
     });
 
     // Grant course access to user
-    await db.collection('users').doc(userId).update({
-      courseAccess: true,
-      courseAccessGrantedAt: admin.firestore.FieldValue.serverTimestamp(),
-      lastUpdated: admin.firestore.FieldValue.serverTimestamp()
+    const userUpdateData: any = {
+      lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+      enrolledCourses: admin.firestore.FieldValue.arrayUnion(courseId)
+    };
+
+    // For backward compatibility, still set courseAccess for default course
+    if (courseId === 'default-course' || courseId === 'ai-copywriting-course') {
+      userUpdateData.courseAccess = true;
+      userUpdateData.courseAccessGrantedAt = admin.firestore.FieldValue.serverTimestamp();
+    }
+
+    await db.collection('users').doc(userId).update(userUpdateData);
+
+    // Initialize course progress for the user
+    const timestamp = admin.firestore.FieldValue.serverTimestamp();
+    
+    // Create user progress document
+    await db.collection('user-progress').doc(userId).set({
+      userId,
+      totalCoursesEnrolled: 1,
+      totalLessonsCompleted: 0,
+      totalWatchTime: 0,
+      coursesInProgress: 1,
+      coursesCompleted: 0,
+      lastActivityAt: timestamp
+    }, { merge: true });
+
+    // Create enrollment record
+    await db.collection('enrollments').add({
+      userId,
+      courseId,
+      enrolledAt: timestamp,
+      status: 'ACTIVE',
+      paymentSessionId: sessionId,
+      progress: 0,
+      completedLessons: [],
+      lastAccessedAt: timestamp,
+      createdAt: timestamp,
+      updatedAt: timestamp
     });
+
+    // Get course data to determine lesson count
+    let totalLessons = 12; // Default fallback
+    try {
+      const courseDoc = await db.collection('courses').doc(courseId).get();
+      if (courseDoc.exists) {
+        const courseData = courseDoc.data();
+        totalLessons = courseData?.totalLessons || 12;
+        
+        // Update course enrollment count
+        await db.collection('courses').doc(courseId).update({
+          enrollmentCount: admin.firestore.FieldValue.increment(1),
+          updatedAt: timestamp
+        });
+      }
+    } catch (error) {
+      console.warn('Failed to fetch course data for lesson count:', error);
+    }
+
+    // Create course-specific progress
+    await db
+      .collection('user-progress')
+      .doc(userId)
+      .collection('courses')
+      .doc(courseId)
+      .set({
+        courseId,
+        userId,
+        overallProgress: 0,
+        completedLessons: [],
+        totalLessons,
+        enrolledAt: timestamp,
+        lastAccessedAt: timestamp
+      }, { merge: true });
 
     // Get user data for email
     const userDoc = await db.collection('users').doc(userId).get();
@@ -344,6 +441,255 @@ export const getPaymentStatusHandler = async (req: Request, res: Response): Prom
     res.status(500).json({
       success: false,
       error: 'Failed to get payment status'
+    });
+  }
+};
+
+// Get session details with checkout URL
+export const getSessionDetailsHandler = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionId) {
+      res.status(400).json({
+        success: false,
+        error: 'Missing session ID'
+      });
+      return;
+    }
+
+    if (!stripe) {
+      res.status(503).json({
+        success: false,
+        error: 'Payment processing is currently unavailable'
+      });
+      return;
+    }
+
+    // Get session from Stripe
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (!session) {
+      res.status(404).json({
+        success: false,
+        error: 'Session not found'
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      sessionId: session.id,
+      checkoutUrl: session.url,
+      status: session.status
+    });
+  } catch (error) {
+    console.error('Get session details error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get session details'
+    });
+  }
+};
+
+// ==============================
+// ADMIN PAYMENT MANAGEMENT
+// ==============================
+
+// Get all payments with filtering for admin dashboard
+export const getAdminPaymentsHandler = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { status, search, dateRange, limit = 50, offset = 0 } = req.query;
+
+    let query: any = db.collection('payments');
+
+    // Apply status filter
+    if (status && status !== 'all') {
+      query = query.where('status', '==', status);
+    }
+
+    // Apply date range filter
+    if (dateRange && dateRange !== 'all') {
+      const now = new Date();
+      let startDate: Date;
+
+      switch (dateRange) {
+        case 'today':
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          break;
+        case 'week':
+          startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+        case 'month':
+          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          break;
+        case 'quarter':
+          const currentQuarter = Math.floor(now.getMonth() / 3);
+          startDate = new Date(now.getFullYear(), currentQuarter * 3, 1);
+          break;
+        default:
+          startDate = new Date(0);
+      }
+
+      query = query.where('createdAt', '>=', admin.firestore.Timestamp.fromDate(startDate));
+    }
+
+    // Order by creation date (most recent first)
+    query = query.orderBy('createdAt', 'desc');
+
+    // Apply pagination
+    if (offset) {
+      query = query.offset(Number(offset));
+    }
+    if (limit) {
+      query = query.limit(Number(limit));
+    }
+
+    const paymentsSnapshot = await query.get();
+    const payments = [];
+
+    for (const doc of paymentsSnapshot.docs) {
+      const paymentData = doc.data();
+      
+      // Get user details for customer information
+      let customerName = 'Unknown Customer';
+      let customerEmail = paymentData.email || 'Unknown Email';
+      let courseName = 'AI Copywriting Course';
+
+      if (paymentData.userId) {
+        try {
+          const userDoc = await db.collection('users').doc(paymentData.userId).get();
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            customerName = `${userData?.firstName || ''} ${userData?.lastName || ''}`.trim();
+            customerEmail = userData?.email || customerEmail;
+          }
+        } catch (error) {
+          console.warn('Failed to fetch user data for payment:', paymentData.userId);
+        }
+      }
+
+      // Get Stripe payment details if available
+      let paymentMethod = 'Card';
+      let transactionId = paymentData.stripeSessionId || doc.id;
+
+      if (stripe && paymentData.stripeSessionId) {
+        try {
+          const session = await stripe.checkout.sessions.retrieve(paymentData.stripeSessionId);
+          if (session.payment_intent) {
+            const paymentIntent: any = await stripe.paymentIntents.retrieve(session.payment_intent as string);
+            if (paymentIntent.charges && paymentIntent.charges.data?.length > 0) {
+              const charge = paymentIntent.charges.data[0];
+              paymentMethod = charge.payment_method_details?.card?.brand?.toUpperCase() || 'Card';
+              transactionId = charge.id;
+            }
+          }
+        } catch (stripeError) {
+          console.warn('Failed to fetch Stripe details for payment:', paymentData.stripeSessionId);
+        }
+      }
+
+      const payment = {
+        id: doc.id,
+        orderId: doc.id.slice(0, 8).toUpperCase(),
+        transactionId,
+        customerName: customerName || 'Unknown Customer',
+        customerEmail,
+        courseName,
+        amount: paymentData.amount || 0,
+        currency: paymentData.currency || 'usd',
+        status: paymentData.status || 'pending',
+        paymentMethod,
+        createdAt: paymentData.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+        completedAt: paymentData.completedAt?.toDate?.()?.toISOString(),
+        failedAt: paymentData.failedAt?.toDate?.()?.toISOString(),
+        stripeSessionId: paymentData.stripeSessionId,
+        userId: paymentData.userId
+      };
+
+      // Apply search filter if provided
+      if (search) {
+        const searchTerm = search.toString().toLowerCase();
+        const searchableText = `${payment.customerName} ${payment.customerEmail} ${payment.orderId} ${payment.courseName}`.toLowerCase();
+        if (searchableText.includes(searchTerm)) {
+          payments.push(payment);
+        }
+      } else {
+        payments.push(payment);
+      }
+    }
+
+    res.json(payments);
+  } catch (error) {
+    console.error('Get admin payments error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get payments'
+    });
+  }
+};
+
+// Get payment statistics for admin dashboard
+export const getAdminPaymentStatsHandler = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    // const startOfYear = new Date(now.getFullYear(), 0, 1);
+
+    // Get all payments
+    const allPaymentsSnapshot = await db.collection('payments').get();
+    const completedPaymentsSnapshot = await db.collection('payments')
+      .where('status', '==', 'completed').get();
+    const pendingPaymentsSnapshot = await db.collection('payments')
+      .where('status', '==', 'pending').get();
+    const failedPaymentsSnapshot = await db.collection('payments')
+      .where('status', '==', 'failed').get();
+
+    // Calculate total revenue
+    let totalRevenue = 0;
+    let monthlyRevenue = 0;
+    let pendingAmount = 0;
+
+    completedPaymentsSnapshot.docs.forEach(doc => {
+      const payment = doc.data();
+      const amount = payment.amount || 0;
+      totalRevenue += amount;
+
+      // Calculate monthly revenue
+      const paymentDate = payment.completedAt?.toDate() || payment.createdAt?.toDate();
+      if (paymentDate && paymentDate >= startOfMonth) {
+        monthlyRevenue += amount;
+      }
+    });
+
+    // Calculate pending amount
+    pendingPaymentsSnapshot.docs.forEach(doc => {
+      const payment = doc.data();
+      pendingAmount += payment.amount || 0;
+    });
+
+    // Calculate average order value
+    const totalTransactions = allPaymentsSnapshot.docs.length;
+    const successfulTransactions = completedPaymentsSnapshot.docs.length;
+    const failedTransactions = failedPaymentsSnapshot.docs.length;
+    const averageOrderValue = successfulTransactions > 0 ? totalRevenue / successfulTransactions : 0;
+
+    const stats = {
+      totalRevenue: Math.round(totalRevenue * 100) / 100, // Round to 2 decimal places
+      monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
+      pendingAmount: Math.round(pendingAmount * 100) / 100,
+      totalTransactions,
+      successfulTransactions,
+      failedTransactions,
+      averageOrderValue: Math.round(averageOrderValue * 100) / 100
+    };
+
+    res.json(stats);
+  } catch (error) {
+    console.error('Get admin payment stats error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get payment statistics'
     });
   }
 };

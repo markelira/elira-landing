@@ -4,7 +4,11 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import StructuredData from '@/components/StructuredData';
 import CookieBanner from '@/components/CookieBanner';
 import ClientProviders from '@/components/ClientProviders';
+import { initializeConfig } from '@/lib/config';
 import "./globals.css";
+
+// Initialize configuration validation
+initializeConfig();
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +81,7 @@ export default function RootLayout({
   return (
     <html lang="hu">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <StructuredData />
       </head>
       <body

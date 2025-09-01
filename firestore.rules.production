@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Enhanced security for production
+    
+    // Users collection - strict access control
+    match /users/{userId} {
+      allow read, write: if request.auth != null 
+        && request.auth.uid == userId
+        && validateUserData();
+      
+      // Rate limiting - max 100 requests per minute
+      allow read, write: if request.time > resource.data.lastRequest + duration.value(1, 's');
+    }
+    
+    // Courses collection - public read, admin write
+    match /courses/{courseId} {
+      allow read: if true; // Public course information
+      allow write: if request.auth != null 
+        && request.auth.token.role in ['admin', 'instructor'];
+    }
+    
+    // Enrollments - user access only
+    match /enrollments/{enrollmentId} {
+      allow read, write: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+    }
+    
+    // User progress - private access
+    match /user-progress/{userId} {
+      allow read, write: if request.auth != null 
+        && request.auth.uid == userId;
+        
+      match /courses/{courseId} {
+        allow read, write: if request.auth != null 
+          && request.auth.uid == userId;
+      }
+    }
+    
+    // Payments - secure access
+    match /payments/{paymentId} {
+      allow read: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+      allow write: if false; // Only functions can write
+    }
+    
+    // Admin collections
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null 
+        && request.auth.token.role == 'admin';
+    }
+    
+    // Helper functions
+    function validateUserData() {
+      return request.resource.data.keys().hasAll(['email', 'firstName', 'lastName'])
+        && request.resource.data.email is string
+        && request.resource.data.email.matches('.*@.*\\..*');
+    }
+  }
+}

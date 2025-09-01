@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserDocument } from '@/types/auth';
+import { User } from '@/src/stores/authStore';
 import LoginForm from '@/components/auth/LoginForm';
 import RegisterForm from '@/components/auth/RegisterForm';
 
@@ -11,7 +11,7 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultTab?: 'login' | 'register';
-  onAuthSuccess?: (user: UserDocument) => void;
+  onAuthSuccess?: (user: User) => void;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({

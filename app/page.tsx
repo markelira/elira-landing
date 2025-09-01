@@ -2,62 +2,54 @@
 
 import { useState, useEffect } from 'react';
 import FloatingNavbar from '@/components/FloatingNavbar';
-import HeroSection from '@/components/sections/HeroSection';
-import TransitionSection from '@/components/sections/TransitionSection';
-import LeadMagnetsGrid from '@/components/sections/LeadMagnetsGrid';
-import CommunityHub from '@/components/sections/CommunityHub';
-import CommunityProof from '@/components/sections/CommunityProof';
-import DiscordAcademy from '@/components/sections/DiscordAcademy';
 import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
 import { PerformanceProvider } from '@/components/PerformanceProvider';
-
-// Dynamic imports for performance
-import { 
-  CookieBanner,
-  ValueProposition,
-  FinalCTA,
-  OptimizedSection,
-  preloadCriticalResources
-} from '@/components/PerformanceOptimizations';
+import SalesHero from '@/components/sales/SalesHero';
+import ZoliIntroduction from '@/components/sales/ZoliIntroduction';
+import ProblemSection from '@/components/sales/ProblemSection';
+import SolutionSection from '@/components/sales/SolutionSection';
+import TripwireOffer from '@/components/sales/TripwireOffer';
+import PricingSection from '@/components/sales/PricingSection';
+import TestimonialsSection from '@/components/sales/TestimonialsSection';
+import FinalCTA from '@/components/sales/FinalCTA';
+import CourseDetailsSection from '@/components/course-detail/CourseDetailsSection';
+import GameChanger from '@/components/sales/GameChanger';
+import FOMOSection from '@/components/sales/FOMOSection';
+import CourseOfferSection from '@/components/sales/CourseOfferSection';
 
 export default function Home() {
-
-  useEffect(() => {
-    // Preload critical resources for better performance
-    preloadCriticalResources();
-  }, []);
-
   return (
     <PerformanceProvider>
       <ScrollProgressIndicator />
       <FloatingNavbar />
       <main className="pt-16 md:pt-0">
-        <HeroSection />
-        <TransitionSection />
-        <LeadMagnetsGrid />
-        
-        {/* Community Sections - Hormozi-style value stack */}
-        <CommunityHub />
-        <DiscordAcademy />
-        
-        {/* Lazy load below-fold sections */}
-        <OptimizedSection>
-          <ValueProposition />
-        </OptimizedSection>
-        
-        <OptimizedSection>
-          <CommunityProof />
-        </OptimizedSection>
-        
-        <OptimizedSection>
-          <FinalCTA />
-        </OptimizedSection>
+        <SalesHero />
+        <CourseDetailsSection />
+        <CourseOfferSection />
+        <GameChanger />
+        <FOMOSection />
+        <ProblemSection />
+        {/* TODO: Add 3 one-line testimonials here */}
+        <div id="quick-testimonial-bar">
+          {/* TODO: Add 3 one-line testimonials here */}
+        </div>
+        <SolutionSection />
+        <TestimonialsSection />
+        <ZoliIntroduction />
+        {/* TODO: Add value stack with total value calculation */}
+        <div id="value-stack-section">
+          {/* TODO: Add value stack with total value calculation */}
+        </div>
+        <PricingSection />
+        <TripwireOffer />
+        {/* TODO: Add FAQ accordion with 5-8 questions */}
+        <div id="faq-section">
+          {/* TODO: Add FAQ accordion with 5-8 questions */}
+        </div>
+        <FinalCTA />
       </main>
       <Footer />
-      
-      {/* Load modals only when needed */}
-      <CookieBanner />
     </PerformanceProvider>
   );
 }

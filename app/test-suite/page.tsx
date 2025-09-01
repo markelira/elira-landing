@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import AuthModal from '../../components/modals/AuthModal';
 import PurchaseButton from '../../components/course/PurchaseButton';
-import { formatPrice } from '../../../lib/payment';
-import { COURSE_CONFIG } from '../../types/payment';
+import { formatPrice } from '@/lib/payment';
+import { COURSE_CONFIG } from '@/types/payment';
 
 interface TestResult {
   name: string;
@@ -38,7 +38,7 @@ export default function TestSuitePage() {
   const testFirebaseConfig = async (): Promise<TestResult> => {
     try {
       // Check if Firebase is properly initialized
-      const { auth, db } = await import('../../../lib/firebase');
+      const { auth, db } = await import('@/lib/firebase');
       
       if (!auth || !db) {
         throw new Error('Firebase services not initialized');
@@ -318,7 +318,7 @@ export default function TestSuitePage() {
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>UID:</strong> {user.uid.substring(0, 20)}...</p>
                     <p><strong>Course Access:</strong> {user.courseAccess ? '✅ Yes' : '❌ No'}</p>
-                    <p><strong>Linked Downloads:</strong> {user.linkedDownloads.length} items</p>
+                    <p><strong>Role:</strong> {user.role}</p>
                   </div>
                 </div>
               ) : (

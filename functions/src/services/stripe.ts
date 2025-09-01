@@ -14,10 +14,13 @@ export const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
 
 // Course configuration
 export const COURSE_CONFIG = {
-  price: 7990, // HUF
-  currency: 'huf',
+  price: 9990, // HUF
+  currency: 'HUF',
   title: 'AI-alapú piac-kutatásos copywriting',
-  description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal'
+  description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal',
+  // Stripe product and price IDs for the course
+  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1S0MvyHhqyKpFIBMQdiSPodM',
+  stripeProductId: 'prod_SwFQ50r0KCrxss'
 };
 
 // Helper function to create Stripe customer
@@ -57,33 +60,51 @@ export async function createCheckoutSession(
   userId: string,
   email: string,
   successUrl: string,
-  cancelUrl: string
+  cancelUrl: string,
+  courseId?: string,
+  stripePriceId?: string,
+  courseData?: { title: string; price: number; currency: string; description?: string }
 ): Promise<Stripe.Checkout.Session | null> {
   if (!stripe) return null;
 
   try {
+    // Use course-specific price ID if available, otherwise fallback to default
+    const priceId = stripePriceId || COURSE_CONFIG.stripePriceId;
+    const courseInfo = courseData || {
+      title: COURSE_CONFIG.title,
+      price: COURSE_CONFIG.price,
+      currency: COURSE_CONFIG.currency,
+      description: COURSE_CONFIG.description
+    };
+    
+    const lineItems = priceId 
+      ? [{
+          price: priceId,
+          quantity: 1,
+        }]
+      : [{
+          price_data: {
+            currency: courseInfo.currency.toLowerCase(),
+            product_data: {
+              name: courseInfo.title,
+              description: courseInfo.description || 'Online kurzus',
+              images: ['https://elira.hu/course-preview.jpg'], // We'll add this later
+            },
+            unit_amount: courseInfo.price * 100, // Stripe expects amount in smallest currency unit
+          },
+          quantity: 1,
+        }];
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ['card'],
       mode: 'payment',
-      line_items: [
-        {
-          price_data: {
-            currency: COURSE_CONFIG.currency,
-            product_data: {
-              name: COURSE_CONFIG.title,
-              description: COURSE_CONFIG.description,
-              images: ['https://elira.hu/course-preview.jpg'], // We'll add this later
-            },
-            unit_amount: COURSE_CONFIG.price * 100, // Stripe expects amount in smallest currency unit
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: {
         userId: userId,
+        courseId: courseId || 'default-course',
         courseAccess: 'true',
         source: 'elira-course-platform'
       },
@@ -92,6 +113,7 @@ export async function createCheckoutSession(
       payment_intent_data: {
         metadata: {
           userId: userId,
+          courseId: courseId || 'default-course',
           courseAccess: 'true'
         }
       },

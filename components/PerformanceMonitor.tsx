@@ -25,8 +25,16 @@ export const PerformanceMonitor: React.FC = () => {
     };
 
     // Report metrics to analytics or console
+    let hasReported = false;
     const reportMetrics = () => {
-      console.log('Performance Metrics:', metrics);
+      // Only report once to prevent spam
+      if (hasReported) return;
+      hasReported = true;
+      
+      // Only log in development mode
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Performance Metrics:', metrics);
+      }
       
       // Send to analytics if needed
       if (typeof gtag !== 'undefined') {
@@ -125,18 +133,20 @@ export const PerformanceMonitor: React.FC = () => {
 // Hook for measuring component render performance
 export const useRenderPerformance = (componentName: string) => {
   useEffect(() => {
+    // Disabled by default to prevent performance issues
+    // Enable only when actively debugging specific components
+    const ENABLE_RENDER_TRACKING = false;
+    
+    if (!ENABLE_RENDER_TRACKING) return;
+    
     const startTime = performance.now();
     
     return () => {
       const endTime = performance.now();
       const renderTime = endTime - startTime;
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`${componentName} render time: ${renderTime.toFixed(2)}ms`);
-      }
-      
-      // Track slow renders
-      if (renderTime > 16.67) { // Slower than 60fps
+      // Only track slow renders to reduce console spam
+      if (renderTime > 50) { // Only log if slower than 50ms
         console.warn(`Slow render detected in ${componentName}: ${renderTime.toFixed(2)}ms`);
       }
     };

@@ -1,59 +1,135 @@
-'use client';
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
-import React, { forwardRef } from 'react';
-import { motion, MotionProps } from 'framer-motion';
-import { bounceTransition } from '@/lib/animations';
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-[0.98]",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 hover:shadow-md active:scale-[0.98]",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:shadow-md active:scale-[0.98]",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 hover:shadow-md active:scale-[0.98]",
+        ghost: "hover:bg-accent hover:text-accent-foreground active:scale-[0.98]",
+        link: "text-primary underline-offset-4 hover:underline",
+        // Apple-inspired variants
+        apple: "bg-white text-gray-900 shadow-lg hover:shadow-xl active:scale-[0.98] border border-gray-200/50",
+        gradient: "bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:shadow-xl active:scale-[0.98]",
+        premium: "bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 text-white shadow-lg hover:shadow-xl active:scale-[0.98]",
+        glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg hover:bg-white/20 hover:shadow-xl active:scale-[0.98]",
+        success: "bg-green-500 text-white shadow-sm hover:bg-green-600 hover:shadow-md active:scale-[0.98]",
+        warning: "bg-yellow-500 text-white shadow-sm hover:bg-yellow-600 hover:shadow-md active:scale-[0.98]",
+        primary: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-[0.98]",
+        glow: "bg-gradient-to-r from-primary via-secondary to-primary text-white shadow-lg hover:shadow-xl active:scale-[0.98] animate-pulse",
+      },
+      size: {
+        default: "h-10 px-4 py-2 rounded-lg",
+        sm: "h-8 px-3 text-xs rounded-md",
+        md: "h-11 px-6 text-base rounded-lg",
+        lg: "h-12 px-8 text-base rounded-xl",
+        xl: "h-14 px-10 text-lg rounded-xl",
+        icon: "h-10 w-10 rounded-lg",
+        iconSm: "h-8 w-8 rounded-md",
+        iconLg: "h-12 w-12 rounded-xl",
+      },
+      loading: {
+        true: "cursor-wait",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+      loading: false,
+    },
+  }
+)
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'ghost' | 'glow';
-  size?: 'sm' | 'md' | 'lg';
-  loading?: boolean;
-  children: React.ReactNode;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  as?: string
+  href?: string
+  target?: string
+  loading?: boolean
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
-type MotionButtonProps = ButtonProps & MotionProps;
-
-const Button = forwardRef<HTMLButtonElement, MotionButtonProps>(
-  ({ variant = 'primary', size = 'md', loading = false, children, className = '', ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-
-    const variants = {
-      primary: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500',
-      ghost: 'bg-transparent hover:bg-gray-100 text-gray-900 border border-gray-300 focus:ring-gray-500',
-      glow: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white focus:ring-purple-500 shadow-lg hover:shadow-xl',
-    };
-
-    const sizes = {
-      sm: 'px-3 py-2 text-sm',
-      md: 'px-4 py-2.5 text-base',
-      lg: 'px-6 py-3 text-lg',
-    };
-
-    const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
-
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    className, 
+    variant, 
+    size, 
+    loading = false,
+    leftIcon,
+    rightIcon,
+    children,
+    disabled,
+    asChild = false,
+    as,
+    href,
+    target,
+    ...props 
+  }, ref) => {
+    const Comp = asChild ? Slot : as || "button"
+    const isButton = Comp === "button" || (!as && !asChild)
+    const isLink = href && !asChild
+    
     return (
-      <motion.button
+      <Comp
+        className={cn(buttonVariants({ variant, size, loading, className }))}
         ref={ref}
-        className={combinedClassName}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        transition={bounceTransition}
-        disabled={loading}
+        {...(isButton && { disabled: disabled || loading })}
+        {...(isLink && { href, target })}
         {...props}
       >
-        {loading ? (
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            <span>Loading...</span>
-          </div>
-        ) : (
-          children
+        {loading && (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         )}
-      </motion.button>
-    );
+        {!loading && leftIcon && (
+          <span className="mr-2">{leftIcon}</span>
+        )}
+        {children}
+        {!loading && rightIcon && (
+          <span className="ml-2">{rightIcon}</span>
+        )}
+      </Comp>
+    )
   }
-);
+)
+Button.displayName = "Button"
 
-Button.displayName = 'Button';
+// Specialized button components for common use cases
+export const IconButton = React.forwardRef<HTMLButtonElement, Omit<ButtonProps, 'size' | 'leftIcon' | 'rightIcon'> & { icon: React.ReactNode; size?: 'sm' | 'default' | 'lg' }>(
+  ({ icon, size = 'default', ...props }, ref) => {
+    const iconSize = size === 'sm' ? 'iconSm' : size === 'lg' ? 'iconLg' : 'icon'
+    return (
+      <Button
+        ref={ref}
+        size={iconSize}
+        {...props}
+      >
+        {icon}
+      </Button>
+    )
+  }
+)
+IconButton.displayName = "IconButton"
 
-export default Button;
+export const LoadingButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    return <Button ref={ref} loading {...props} />
+  }
+)
+LoadingButton.displayName = "LoadingButton"
+
+export { Button, buttonVariants } 

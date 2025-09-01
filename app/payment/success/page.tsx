@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../contexts/AuthContext';
-import { paymentApi } from '../../../../lib/payment';
+import { paymentApi } from '@/lib/payment';
 import AuthWrapper from '../../../components/auth/AuthWrapper';
 
 export default function PaymentSuccessPage() {
@@ -91,7 +91,7 @@ export default function PaymentSuccessPage() {
               </div>
               
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                🎉 Sikeres vásárlás!
+                Sikeres vásárlás!
               </h1>
               
               <p className="text-gray-600 mb-6">

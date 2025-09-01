@@ -8,9 +8,8 @@ export const content = {
   
   navbar: {
     items: [
-      { label: "Kezdőlap", href: "#hero" },
-      { label: "Ingyenes anyagok", href: "#lead-magnets" },
-      { label: "Közösség", href: "#community" }
+      { label: "Ingyenes kurzus anyag", href: "#tripwire" },
+      { label: "Vélemények", href: "#testimonials" }
     ]
   },
   
@@ -195,7 +194,7 @@ export const content = {
     subtitle: "Csatlakozz {count} magyarhoz, akik már elkezdték fejleszteni magukat",
     subtitleNoMembers: "Légy az első 100 tag között!",
     placeholder: "email@példa.hu",
-    button: "Csatlakozom",
+    button: "Vásárlás és azonnali kezdés",
     privacy: "🔒 100% biztonságos • Nem küldünk spam-et • Bármikor leiratkozhatsz"
   },
   

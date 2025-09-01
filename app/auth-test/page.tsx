@@ -36,8 +36,8 @@ export default function AuthTestPage() {
                 <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Course Access:</strong> {user.courseAccess ? '✅ Yes' : '❌ No'}</p>
-                <p><strong>Linked Downloads:</strong> {user.linkedDownloads.length} items</p>
-                <p><strong>Created:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+                <p><strong>User ID:</strong> {user.uid}</p>
+                <p><strong>Role:</strong> {user.role}</p>
               </div>
               <button
                 onClick={handleLogout}

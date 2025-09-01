@@ -1,0 +1,115 @@
+/* Rich Text Editor Styles */
+
+.editor-container {
+  @apply border rounded-lg overflow-hidden;
+}
+
+.editor-container .ql-editor {
+  @apply min-h-[300px] p-4;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.editor-container .ql-toolbar {
+  @apply border-b;
+}
+
+.editor-container .ql-editor.ql-blank::before {
+  @apply italic text-muted-foreground;
+  left: 15px;
+}
+
+.editor-container .ql-editor p {
+  @apply mb-3;
+}
+
+.editor-container .ql-editor h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+.editor-container .ql-editor h2 {
+  @apply text-xl font-semibold mb-3;
+}
+
+.editor-container .ql-editor h3 {
+  @apply text-lg font-medium mb-2;
+}
+
+.editor-container .ql-editor ul,
+.editor-container .ql-editor ol {
+  @apply ml-6 mb-3;
+}
+
+.editor-container .ql-editor li {
+  @apply mb-1;
+}
+
+.editor-container .ql-editor blockquote {
+  @apply border-l-4 border-gray-300 pl-4 ml-0 italic bg-gray-50 py-2;
+}
+
+.editor-container .ql-editor pre {
+  @apply bg-gray-100 p-3 rounded text-sm overflow-x-auto;
+}
+
+.editor-container .ql-editor code {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+}
+
+.editor-container .ql-editor a {
+  @apply text-blue-600 underline;
+}
+
+.editor-container .ql-editor img {
+  @apply max-w-full h-auto rounded;
+}
+
+.editor-container .ql-editor table {
+  @apply border-collapse border border-gray-300 w-full mb-3;
+}
+
+.editor-container .ql-editor table td,
+.editor-container .ql-editor table th {
+  @apply border border-gray-300 p-2;
+}
+
+.editor-container .ql-editor table th {
+  @apply bg-gray-50 font-semibold;
+}
+
+/* Slash commands menu styles */
+.slash-menu {
+  @apply bg-white border border-gray-200 rounded-lg shadow-lg max-w-xs w-64 z-50;
+}
+
+.slash-menu-item {
+  @apply w-full text-left p-2 rounded hover:bg-gray-50 flex items-start gap-3 cursor-pointer;
+}
+
+.slash-menu-icon {
+  @apply p-1 bg-gray-100 rounded flex-shrink-0;
+}
+
+.slash-menu-content {
+  @apply min-w-0;
+}
+
+.slash-menu-title {
+  @apply font-medium text-sm;
+}
+
+.slash-menu-description {
+  @apply text-xs text-gray-500;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

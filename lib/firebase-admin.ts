@@ -1,5 +1,6 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
 
 // Helper function to properly format the private key
 function formatPrivateKey(key: string | undefined): string | undefined {
@@ -46,24 +47,48 @@ if (!adminConfig.projectId || !adminConfig.clientEmail || !adminConfig.privateKe
   });
 }
 
+// CRITICAL: Set emulator environment variables BEFORE ANY initialization
+if (process.env.NODE_ENV === 'development' || !process.env.FIREBASE_PROJECT_ID) {
+  process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
+  process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
+  console.log('🔧 Emulator environment variables set BEFORE initialization');
+}
+
 let adminApp: any = null;
 let adminDb: any = null;
+let auth: any = null;
 
 try {
-  // Initialize Firebase Admin only if it hasn't been initialized already
-  adminApp = getApps().find(app => app.name === '[DEFAULT]') || 
-    initializeApp({
-      credential: cert(adminConfig),
-      projectId: adminConfig.projectId,
+  // Check if we already have an initialized app
+  const existingApps = getApps();
+  
+  if (existingApps.length > 0) {
+    console.log('♻️ Using existing Firebase Admin app');
+    adminApp = existingApps[0];
+  } else {
+    console.log('🆕 Initializing new Firebase Admin app for emulator');
+    // Initialize WITHOUT credentials for emulator
+    adminApp = initializeApp({
+      projectId: 'elira-landing-ce927',
     });
-
-  // Initialize Firestore Admin
+  }
+  
+  // Initialize services
   adminDb = getFirestore(adminApp);
+  auth = getAuth(adminApp);
+  
+  console.log('✅ Firebase Admin configured successfully:', {
+    hasApp: !!adminApp,
+    hasDb: !!adminDb,
+    hasAuth: !!auth,
+    emulatorHost: process.env.FIRESTORE_EMULATOR_HOST
+  });
 } catch (error) {
   console.error('Failed to initialize Firebase Admin SDK:', error);
   // Set to null so we can handle gracefully
   adminDb = null;
+  auth = null;
 }
 
-// Export the admin db with null check
-export { adminDb, adminApp };
+// Export the admin services with null check
+export { adminDb, adminApp, auth };

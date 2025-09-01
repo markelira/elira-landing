@@ -14,30 +14,37 @@ declare global {
 }
 
 export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
-  const eventData: AnalyticsEvent = {
-    event_name: eventName,
-    timestamp: new Date().toISOString(),
-    ...parameters,
-  };
+  try {
+    const eventData: AnalyticsEvent = {
+      event_name: eventName,
+      timestamp: new Date().toISOString(),
+      ...parameters,
+    };
 
-  // Track with Google Tag Manager
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', eventName, {
-      event_category: parameters?.category || 'engagement',
-      event_label: parameters?.label,
-      value: parameters?.value,
-      custom_parameters: parameters,
-    });
-  }
+    // Track with Google Tag Manager
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', eventName, {
+        event_category: parameters?.category || 'engagement',
+        event_label: parameters?.label,
+        value: parameters?.value,
+        custom_parameters: parameters,
+      });
+    }
 
-  // Track with Firebase Analytics
-  if (analytics) {
-    logEvent(analytics, eventName, parameters);
-  }
+    // Track with Firebase Analytics
+    if (analytics) {
+      logEvent(analytics, eventName, parameters);
+    }
 
-  // Development logging
-  if (process.env.NODE_ENV === 'development') {
-    logger.log('Analytics Event:', eventData);
+    // Development logging - reduced to prevent console spam
+    if (process.env.NODE_ENV === 'development' && eventName !== 'page_view') {
+      logger.log('Analytics Event:', eventData);
+    }
+  } catch (error) {
+    // Silently catch analytics errors to prevent app crashes
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Analytics error:', error);
+    }
   }
 };
 

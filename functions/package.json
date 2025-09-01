@@ -1,7 +1,7 @@
 {
   "name": "functions",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "lib/functions/src/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -16,13 +16,24 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@mux/mux-node": "^12.6.1",
+    "@mux/mux-player-react": "^3.5.3",
+    "@radix-ui/react-separator": "^1.1.7",
     "@sendgrid/mail": "^8.1.5",
     "@stripe/stripe-js": "^7.8.0",
+    "@types/sharp": "^0.31.1",
+    "@types/uuid": "^10.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "firebase-admin": "^13.4.0",
     "firebase-functions": "^6.4.0",
+    "pdfjs-dist": "^5.4.54",
+    "quill-resize-image": "^1.0.11",
+    "react-pdf": "^10.1.0",
+    "react-quill": "^2.0.0",
+    "sharp": "^0.34.3",
     "stripe": "^18.4.0",
+    "uuid": "^11.1.0",
     "zod": "^4.0.17"
   },
   "devDependencies": {

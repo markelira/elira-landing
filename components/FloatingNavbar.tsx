@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download } from 'lucide-react';
+import { Menu, X, Download, User, BookOpen } from 'lucide-react';
 import { content } from '@/lib/content/hu';
+import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 
 const FloatingNavbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,11 +44,7 @@ const FloatingNavbar: React.FC = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/80 backdrop-blur-md shadow-lg' 
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-lg"
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -63,26 +62,74 @@ const FloatingNavbar: React.FC = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
-              {content.navbar.items.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
-                >
-                  {item.label}
-                </button>
-              ))}
-              
-              {/* Quick PDF Access */}
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handlePDFClick('chatgpt-prompts')}
-                  className="bg-teal-700 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors flex items-center space-x-1"
-                >
-                  <Download size={16} />
-                  <span>ChatGPT PDF</span>
-                </button>
-              </div>
+              {user && !loading ? (
+                // Authenticated user navigation
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="text-gray-700 hover:text-teal-700 transition-colors font-medium flex items-center space-x-1"
+                  >
+                    <BookOpen size={16} />
+                    <span>Dashboard</span>
+                  </Link>
+                  <Link
+                    href="/courses"
+                    className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
+                  >
+                    Courses
+                  </Link>
+                  <Link
+                    href="/dashboard/my-learning"
+                    className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
+                  >
+                    My Learning
+                  </Link>
+                  <Link
+                    href="/dashboard/profile"
+                    className="bg-teal-700 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors flex items-center space-x-1"
+                  >
+                    <User size={16} />
+                    <span>{user.firstName}</span>
+                  </Link>
+                </>
+              ) : (
+                // Public navigation
+                <>
+                  {content.navbar.items.map((item) => {
+                    if (item.href.startsWith('/')) {
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
+                        >
+                          {item.label}
+                        </Link>
+                      );
+                    }
+                    return (
+                      <button
+                        key={item.href}
+                        onClick={() => scrollToSection(item.href)}
+                        className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                  
+                  {/* Auth Button */}
+                  <div className="flex items-center space-x-2">
+                    <Link
+                      href="/auth"
+                      className="bg-teal-700 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors flex items-center space-x-1"
+                    >
+                      <User size={16} />
+                      <span>Bejelentkezés</span>
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -105,24 +152,59 @@ const FloatingNavbar: React.FC = () => {
               className="md:hidden bg-white border-t border-gray-200"
             >
               <div className="container mx-auto px-6 py-4 space-y-4">
-                {content.navbar.items.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-2"
-                  >
-                    {item.label}
-                  </button>
-                ))}
+                {content.navbar.items.map((item) => {
+                  if (item.href.startsWith('/')) {
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-2"
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  }
+                  return (
+                    <button
+                      key={item.href}
+                      onClick={() => scrollToSection(item.href)}
+                      className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-2"
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
                 
-                <div className="pt-4 border-t border-gray-200">
-                  <button
-                    onClick={() => handlePDFClick('chatgpt-prompts')}
-                    className="w-full bg-teal-700 text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors flex items-center justify-center space-x-1"
-                  >
-                    <Download size={16} />
-                    <span>ChatGPT PDF Letöltés</span>
-                  </button>
+                <div className="pt-4 border-t border-gray-200 space-y-3">
+                  {user && !loading ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block w-full bg-teal-700 text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors text-center"
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/dashboard/profile"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors text-center"
+                      >
+                        {user.firstName} profil
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block w-full bg-teal-700 text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors text-center"
+                      >
+                        Bejelentkezés
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </motion.div>

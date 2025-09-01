@@ -1,71 +1,117 @@
-import { loadStripe } from '@stripe/stripe-js';
-import { CreateSessionRequest, CreateSessionResponse, PaymentStatusResponse } from '../src/types/payment';
+// Payment utilities for course platform MVP
 
-// Initialize Stripe
-const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+import { CreateSessionRequest, CreateSessionResponse, PaymentStatusResponse } from '@/types/payment';
 
-export const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
+export const COURSE_CONFIG = {
+  title: 'AI-alapú piac-kutatásos copywriting',
+  price: 7990,
+  currency: 'huf' as const,
+  description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal'
+};
 
-// Payment API functions
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat('hu-HU', {
+    style: 'currency',
+    currency: 'HUF',
+    maximumFractionDigits: 0,
+  }).format(price);
+}
+
 export const paymentApi = {
-  // Create checkout session
+  /**
+   * Get payment status from backend
+   */
+  async getPaymentStatus(sessionId: string): Promise<PaymentStatusResponse> {
+    try {
+      const response = await fetch(`/api/payment/status/${sessionId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return {
+          success: false,
+          status: 'failed',
+          error: errorData.error || `HTTP ${response.status}: ${response.statusText}`
+        };
+      }
+
+      const data: PaymentStatusResponse = await response.json();
+      return data;
+    } catch (error: any) {
+      console.error('Payment status error:', error);
+      return {
+        success: false,
+        status: 'failed',
+        error: error.message || 'Failed to check payment status'
+      };
+    }
+  },
+
+  /**
+   * Create a Stripe checkout session
+   */
   async createCheckoutSession(data: CreateSessionRequest): Promise<CreateSessionResponse> {
     try {
       const response = await fetch('/api/payment/create-session', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        const errorData = await response.json().catch(() => ({}));
+        return {
+          success: false,
+          error: errorData.error || `HTTP ${response.status}: ${response.statusText}`
+        };
       }
 
-      return await response.json();
+      const result: CreateSessionResponse = await response.json();
+      return result;
     } catch (error: any) {
-      console.error('Create checkout session error:', error);
-      throw new Error(error.message || 'Failed to create checkout session');
+      console.error('Create session error:', error);
+      return {
+        success: false,
+        error: error.message || 'Failed to create checkout session'
+      };
     }
   },
 
-  // Get payment status
-  async getPaymentStatus(sessionId: string): Promise<PaymentStatusResponse> {
-    try {
-      const response = await fetch(`/api/payment/status/${sessionId}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to get payment status');
-      }
-
-      return await response.json();
-    } catch (error: any) {
-      console.error('Get payment status error:', error);
-      throw new Error(error.message || 'Failed to get payment status');
-    }
-  },
-
-  // Redirect to checkout
+  /**
+   * Redirect to Stripe Checkout
+   */
   async redirectToCheckout(sessionId: string): Promise<void> {
-    const stripe = await stripePromise;
-    
-    if (!stripe) {
-      throw new Error('Stripe not available');
-    }
+    try {
+      // For a better user experience, we can use the sessionId directly to redirect
+      // First try to get checkout URL from our session details endpoint
+      const response = await fetch(`/api/payment/session/${sessionId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const { error } = await stripe.redirectToCheckout({ sessionId });
-    
-    if (error) {
-      console.error('Stripe redirect error:', error);
-      throw new Error(error.message || 'Failed to redirect to checkout');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.checkoutUrl) {
+          // Redirect to Stripe Checkout
+          window.location.href = data.checkoutUrl;
+          return;
+        }
+      }
+
+      // Fallback: If we can't get the URL from our API, we can still redirect
+      // This shouldn't happen in normal flow but provides a fallback
+      throw new Error('Unable to get checkout URL');
+    } catch (error: any) {
+      console.error('Redirect to checkout error:', error);
+      throw error;
     }
   }
 };
-
-// Helper function to format currency
-export function formatPrice(amount: number, currency: string = 'HUF'): string {
-  return new Intl.NumberFormat('hu-HU', {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: 0
-  }).format(amount);
-}

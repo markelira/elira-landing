@@ -111,7 +111,7 @@ const LeadMagnetsGrid: React.FC = () => {
           if (entry.isIntersecting) {
             const magnetId = entry.target.getAttribute('data-magnet-id');
             if (magnetId && !viewedMagnets.has(magnetId)) {
-              setViewedMagnets(prev => new Set([...prev, magnetId]));
+              setViewedMagnets(prev => new Set(Array.from(prev).concat(magnetId)));
               track('magnet_view', { magnet: magnetId });
             }
           }
