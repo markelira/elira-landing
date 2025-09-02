@@ -280,11 +280,19 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
           {/* Enhanced Sidebar */}
           <aside className={`${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } fixed inset-y-0 left-0 z-40 w-80 md:w-96 bg-gradient-to-b from-white to-gray-50/50 border-r border-gray-200/50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 mt-[73px] md:mt-0 shadow-xl md:shadow-none`}>
+          } fixed inset-0 md:inset-y-0 md:left-0 z-40 w-full md:w-96 bg-gradient-to-b from-white to-gray-50/50 md:border-r border-gray-200/50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 mt-0 md:mt-0 shadow-xl md:shadow-none`}>
             
             <div className="h-full flex flex-col">
               {/* Enhanced Sidebar Header */}
               <div className="p-4 md:p-6 bg-gradient-to-br from-teal-600 via-teal-700 to-cyan-700 text-white relative overflow-hidden">
+                {/* Mobile Close Button */}
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="md:hidden absolute top-4 right-4 z-20 p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+                
                 {/* Background decorative elements */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
