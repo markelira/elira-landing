@@ -116,8 +116,8 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardRoleRedirect />
-      <div className="px-6 py-8">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <div className="px-4 md:px-6 py-6 md:py-8">
+        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
           
           {/* Welcome Header */}
           <div>
@@ -129,44 +129,44 @@ export default function DashboardPage() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Beiratkozott kurzusok</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-gray-600">Beiratkozott kurzusok</p>
+                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
                     {progressData?.totalCourses || 0}
                   </p>
                 </div>
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <BookOpen className="w-6 h-6 text-blue-600" />
+                <div className="bg-blue-100 p-2 md:p-3 rounded-full">
+                  <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Befejezett kurzusok</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-gray-600">Befejezett kurzusok</p>
+                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
                     {progressData?.completedCourses || 0}
                   </p>
                 </div>
-                <div className="bg-green-100 p-3 rounded-full">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
+                <div className="bg-green-100 p-2 md:p-3 rounded-full">
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-600" />
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Tanulási idő</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-gray-600">Tanulási idő</p>
+                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
                     {formatTime(progressData?.totalLearningTime || 0)}
                   </p>
                 </div>
-                <div className="bg-purple-100 p-3 rounded-full">
-                  <Clock className="w-6 h-6 text-purple-600" />
+                <div className="bg-purple-100 p-2 md:p-3 rounded-full">
+                  <Clock className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
                 </div>
               </div>
             </Card>
@@ -174,9 +174,9 @@ export default function DashboardPage() {
 
           {/* Available Courses Section */}
           {availableCourses.length > 0 && (
-            <Card className="p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <h2 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-500" />
                   Elérhető kurzusok
                 </h2>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
                 </Button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {availableCourses.map((course) => (
                   <UniversalCourseCard
                     key={course.id}
@@ -207,9 +207,9 @@ export default function DashboardPage() {
 
           {/* Continue Learning Section */}
           {progressData?.enrolledCourses && progressData.enrolledCourses.length > 0 ? (
-            <Card className="p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Folyamatban lévő kurzusaim</h2>
+                <h2 className="text-lg md:text-xl font-semibold text-gray-900">Folyamatban lévő kurzusai</h2>
                 <Button
                   onClick={() => router.push('/dashboard/learning')}
                   variant="outline"
@@ -221,7 +221,7 @@ export default function DashboardPage() {
                 </Button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {progressData.enrolledCourses
                   .filter(course => !course.isCompleted)
                   .slice(0, 2)

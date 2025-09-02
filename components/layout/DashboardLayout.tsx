@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Menu, X } from 'lucide-react'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -23,6 +23,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Authentication redirect logic
   useEffect(() => {
@@ -45,13 +46,50 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="h-screen flex bg-gray-50 dark:bg-gray-900">
-      {/* Left Sidebar Navigation */}
-      <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0">
+      {/* Mobile Header with Hamburger */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              {sidebarOpen ? (
+                <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              ) : (
+                <Menu className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              )}
+            </button>
+            <h1 className="font-semibold text-gray-900 dark:text-white">Elira</h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Backdrop */}
+      {sidebarOpen && (
+        <div 
+          className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-50" 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Desktop Sidebar - Hidden on mobile */}
+      <aside className="hidden md:flex w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0">
         <DashboardSidebar />
       </aside>
 
+      {/* Mobile Sidebar - Drawer */}
+      <aside className={`md:hidden fixed left-0 top-0 bottom-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <DashboardSidebar onNavigate={() => setSidebarOpen(false)} />
+      </aside>
+
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 md:ml-0">
+        {/* Mobile header spacer */}
+        <div className="md:hidden h-16"></div>
+        
         {/* Content Container */}
         <div className="flex-1 overflow-auto">
           <div className="h-full">

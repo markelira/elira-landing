@@ -100,14 +100,20 @@ interface NavigationItemProps {
     icon: React.ComponentType<{ className?: string }>
   }
   isActive: boolean
+  onNavigate?: () => void
 }
 
-function NavigationItem({ item, isActive }: NavigationItemProps) {
+interface DashboardSidebarProps {
+  onNavigate?: () => void
+}
+
+function NavigationItem({ item, isActive, onNavigate }: NavigationItemProps) {
   const Icon = item.icon
 
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       className={cn(
         'flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-colors group',
         isActive 
@@ -130,7 +136,7 @@ function NavigationItem({ item, isActive }: NavigationItemProps) {
   )
 }
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ onNavigate }: DashboardSidebarProps = {}) {
   const pathname = usePathname()
   const { user, loading, logout } = useAuth()
   const router = useRouter()
@@ -198,6 +204,7 @@ export function DashboardSidebar() {
                     key={item.href}
                     item={item}
                     isActive={pathname === item.href}
+                    onNavigate={onNavigate}
                   />
                 ))}
               </div>
@@ -226,6 +233,7 @@ export function DashboardSidebar() {
         <div className="space-y-1">
           <Link
             href="/dashboard/profile"
+            onClick={onNavigate}
             className="flex items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors"
           >
             <Settings className="w-4 h-4 mr-3" />
