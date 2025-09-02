@@ -4,8 +4,16 @@ import Stripe from 'stripe';
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+console.log('[Stripe Service] Initializing Stripe:', {
+  hasSecretKey: !!stripeSecretKey,
+  hasWebhookSecret: !!stripeWebhookSecret,
+  secretKeyPrefix: stripeSecretKey?.substring(0, 8),
+  environment: process.env.NODE_ENV
+});
+
 if (!stripeSecretKey) {
-  console.warn('Stripe not configured - payment processing disabled');
+  console.error('[Stripe Service] CRITICAL: Stripe secret key not configured');
+  console.error('[Stripe Service] Available env vars:', Object.keys(process.env).filter(key => key.includes('STRIPE')));
 }
 
 export const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
@@ -19,7 +27,7 @@ export const COURSE_CONFIG = {
   title: 'AI-alapú piac-kutatásos copywriting',
   description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal',
   // Stripe product and price IDs for the course
-  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1S0MvyHhqyKpFIBMQdiSPodM',
+  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1S2g4HHhqyKpFIBMp3uCFZta',
   stripeProductId: 'prod_SwFQ50r0KCrxss'
 };
 
@@ -95,8 +103,7 @@ export async function createCheckoutSession(
           quantity: 1,
         }];
 
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
+    const sessionConfig: any = {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
@@ -107,25 +114,46 @@ export async function createCheckoutSession(
         courseId: courseId || 'default-course',
         courseAccess: 'true',
         source: 'elira-course-platform'
-      },
-      customer_email: email,
-      billing_address_collection: 'required',
-      payment_intent_data: {
-        metadata: {
-          userId: userId,
-          courseId: courseId || 'default-course',
-          courseAccess: 'true'
-        }
-      },
-      allow_promotion_codes: true, // Allow discount codes
-      automatic_tax: {
-        enabled: true // Enable automatic tax calculation
       }
-    });
+    };
+
+    // Use customer ID if available, otherwise use customer_email
+    if (customerId) {
+      sessionConfig.customer = customerId;
+    } else {
+      sessionConfig.customer_email = email;
+    }
+
+    // Add additional session configuration
+    sessionConfig.billing_address_collection = 'required';
+    sessionConfig.payment_intent_data = {
+      metadata: {
+        userId: userId,
+        courseId: courseId || 'default-course',
+        courseAccess: 'true'
+      }
+    };
+    sessionConfig.allow_promotion_codes = true;
+    sessionConfig.automatic_tax = {
+      enabled: true
+    };
+    sessionConfig.customer_update = {
+      address: 'auto'
+    };
+
+    console.log('[Stripe] Creating session with config:', JSON.stringify(sessionConfig, null, 2));
+    const session = await stripe.checkout.sessions.create(sessionConfig);
+    console.log('[Stripe] Session created successfully:', session.id);
 
     return session;
-  } catch (error) {
-    console.error('Error creating checkout session:', error);
+  } catch (error: any) {
+    console.error('[Stripe] Error creating checkout session:', error);
+    console.error('[Stripe] Error details:', {
+      message: error?.message,
+      type: error?.type,
+      code: error?.code,
+      statusCode: error?.statusCode
+    });
     return null;
   }
 }

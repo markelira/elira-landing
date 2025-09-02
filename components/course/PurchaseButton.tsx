@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/payment';
 import { COURSE_CONFIG } from '@/types/payment';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
+import { useEnrollmentStatus } from '@/hooks/useEnrollmentStatus';
 
 interface PurchaseButtonProps {
   courseId?: string;
@@ -36,6 +37,8 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
   const { user } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const currentCourseId = course?.id || courseId;
+  const { data: enrollmentData, isLoading: enrollmentLoading } = useEnrollmentStatus(currentCourseId);
 
   const handlePurchase = async () => {
     const currentCourseId = course?.id || courseId;
@@ -49,8 +52,8 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     
     if (isLoading || disabled) return;
 
-    if (user.courseAccess) {
-      onPurchaseError?.('Már van hozzáférésed a kurzushoz');
+    if (enrollmentData?.enrolled) {
+      onPurchaseError?.('Már beiratkoztál erre a kurzusra');
       return;
     }
 
@@ -61,7 +64,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     }
 
     // Use default Stripe Price ID if course doesn't have one
-    const stripePriceId = course?.stripePriceId || COURSE_CONFIG.stripePriceId || 'price_1S0MvyHhqyKpFIBMQdiSPodM';
+    const stripePriceId = course?.stripePriceId || COURSE_CONFIG.stripePriceId || 'price_1S2g4HHhqyKpFIBMp3uCFZta';
 
     setIsLoading(true);
     onPurchaseStart?.();
@@ -122,16 +125,19 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     }
   };
 
-  // Don't show button if user already has access
-  if (user?.courseAccess) {
+  // Show "Continue Learning" button if user is enrolled
+  if (enrollmentData?.enrolled) {
     return (
       <div className={`text-center ${className}`}>
-        <div className="inline-flex items-center px-6 py-3 border border-green-200 rounded-lg bg-green-50 text-green-700">
-          <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        <button
+          onClick={() => router.push(`/courses/${currentCourseId}/learn`)}
+          className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-9-9h10a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V7a2 2 0 012-2z" />
           </svg>
-          Kurzushoz való hozzáférésed aktív
-        </div>
+          Tanulás folytatása
+        </button>
       </div>
     );
   }

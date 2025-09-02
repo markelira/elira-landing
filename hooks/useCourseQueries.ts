@@ -6,7 +6,7 @@ import { auth } from '@/lib/firebase';
 // For MVP development, use localhost. In production, use deployed functions URL
 const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development' 
   ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
-  : 'https://api-7wtrvbj3mq-ew.a.run.app';
+  : (process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app');
 
 export const useCourses = () => {
   return useQuery({

@@ -232,10 +232,10 @@ export default function MyLearningClient() {
                       <div className="mb-4">
                         <div className="flex justify-between text-sm mb-1">
                           <span className="text-gray-600">Haladás</span>
-                          <span className="font-medium">{Math.round(course.progressPercentage)}%</span>
+                          <span className="font-medium">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
                         </div>
                         <ProgressBar 
-                          value={course.progressPercentage}
+                          value={isNaN(course.progressPercentage) ? 0 : course.progressPercentage}
                           color="blue"
                           height="sm"
                           animated
@@ -266,7 +266,7 @@ export default function MyLearningClient() {
                         className="w-full gap-2"
                       >
                         <Play className="w-4 h-4" />
-                        Folytatás
+                        Tanulás folytatása
                       </Button>
                     </div>
                   </Card>

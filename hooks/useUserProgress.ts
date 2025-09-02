@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/contexts/AuthContext'
+import { auth } from '@/lib/firebase'
 
 export interface CourseProgress {
   courseId: string
@@ -23,50 +24,52 @@ export interface UserProgressData {
   certificates: any[]
 }
 
-// Mock function to get user progress data
+// Function to get user progress data from Firebase Functions
 const getUserProgress = async (userId: string, token?: string): Promise<UserProgressData> => {
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 500))
-
-  // For MVP, return mock data
-  // In production, this would fetch from Firestore
-  const mockProgress: UserProgressData = {
-    enrolledCourses: [
-      {
-        courseId: 'ai-copywriting-mastery',
-        courseTitle: 'AI Copywriting Mastery Kurzus',
-        totalLessons: 4,
-        completedLessons: 2,
-        progressPercentage: 50,
-        lastActivityAt: new Date(),
-        isCompleted: false,
-        nextLessonId: 'lesson-3',
-        nextLessonTitle: 'Az első AI szöveg'
-      }
-    ],
-    totalCourses: 1,
-    completedCourses: 0,
-    inProgressCourses: 1,
-    overallProgress: 50,
-    totalLearningTime: 3600, // 1 hour in seconds
-    certificates: []
+  if (!token) {
+    throw new Error('Authentication token required');
   }
 
-  // Try to fetch real data from API
   try {
     const response = await fetch(`/api/users/${userId}/progress`, {
-      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-    })
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
     if (response.ok) {
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      
+      // Ensure progress percentages are valid numbers
+      if (data.enrolledCourses) {
+        data.enrolledCourses = data.enrolledCourses.map((course: any) => ({
+          ...course,
+          progressPercentage: isNaN(course.progressPercentage) ? 0 : course.progressPercentage,
+          completedLessons: course.completedLessons || 0,
+          totalLessons: course.totalLessons || 0,
+          lastActivityAt: course.lastActivityAt ? new Date(course.lastActivityAt) : null
+        }));
+      }
+      
+      return {
+        ...data,
+        overallProgress: isNaN(data.overallProgress) ? 0 : data.overallProgress
+      };
     }
+    
+    throw new Error(`API request failed with status ${response.status}`);
   } catch (error) {
-    console.log('Using mock progress data')
+    console.error('Failed to fetch user progress:', error);
+    
+    // Return empty progress data instead of mock data
+    return {
+      enrolledCourses: [],
+      totalCourses: 0,
+      completedCourses: 0,
+      inProgressCourses: 0,
+      overallProgress: 0,
+      totalLearningTime: 0,
+      certificates: []
+    };
   }
-
-  return mockProgress
 }
 
 export const useUserProgress = () => {
@@ -77,8 +80,11 @@ export const useUserProgress = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not authenticated')
       
-      // Skip token for now since User type doesn't have getIdToken  
-      const progress = await getUserProgress(user.id, undefined)
+      // Get Firebase auth token
+      const token = await auth.currentUser?.getIdToken()
+      if (!token) throw new Error('Failed to get authentication token')
+      
+      const progress = await getUserProgress(user.id, token)
       
       console.log('📊 User progress loaded:', {
         courses: progress.totalCourses,

@@ -81,9 +81,16 @@ async function fetchCoursesCatalog(filters: CourseCatalogFilters = {}): Promise<
     // Use the existing Cloud Function to fetch courses
     const functionsUrl = process.env.NODE_ENV === 'development' 
       ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
-      : 'https://europe-west1-elira-landing-ce927.cloudfunctions.net/api';
+      : (process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app');
     
-    const response = await fetch(`${functionsUrl}/courses`, {
+    const fullUrl = `${functionsUrl}/api/courses`;
+    console.log('🌐 [useCoursesCatalog] Full API URL:', fullUrl);
+    console.log('🔧 [useCoursesCatalog] Env check:', { 
+      NODE_ENV: process.env.NODE_ENV,
+      FUNCTIONS_URL_SET: !!process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL 
+    });
+    
+    const response = await fetch(fullUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -96,8 +103,10 @@ async function fetchCoursesCatalog(filters: CourseCatalogFilters = {}): Promise<
 
     const data = await response.json();
     
-    if (!data.success || !data.courses) {
-      throw new Error('Invalid API response format');
+    console.log('📊 [useCoursesCatalog] Raw API response:', data);
+    
+    if (!data.courses) {
+      throw new Error('Invalid API response format - missing courses array');
     }
 
     // Transform the API response to catalog format

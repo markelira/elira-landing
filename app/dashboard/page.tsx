@@ -36,23 +36,7 @@ export default function DashboardPage() {
     }
   }, [user, authLoading, router])
 
-  if (authLoading || isLoading || coursesLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="px-6 py-8">
-          <div className="max-w-4xl mx-auto animate-pulse space-y-6">
-            <div className="h-8 bg-gray-300 rounded w-1/3"></div>
-            <div className="h-32 bg-gray-300 rounded"></div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="h-24 bg-gray-300 rounded"></div>
-              <div className="h-24 bg-gray-300 rounded"></div>
-              <div className="h-24 bg-gray-300 rounded"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const isPageLoading = authLoading || isLoading || coursesLoading
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600)
@@ -106,6 +90,27 @@ export default function DashboardPage() {
       }
     }
     return { isEnrolled: false }
+  }
+
+  if (isPageLoading) {
+    return (
+      <>
+        <DashboardRoleRedirect />
+        <div className="min-h-screen bg-gray-50">
+          <div className="px-6 py-8">
+            <div className="max-w-4xl mx-auto animate-pulse space-y-6">
+              <div className="h-8 bg-gray-300 rounded w-1/3"></div>
+              <div className="h-32 bg-gray-300 rounded"></div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="h-24 bg-gray-300 rounded"></div>
+                <div className="h-24 bg-gray-300 rounded"></div>
+                <div className="h-24 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -231,10 +236,10 @@ export default function DashboardPage() {
                           <div className="mb-3">
                             <div className="flex justify-between text-sm mb-1">
                               <span className="text-gray-600">Haladás</span>
-                              <span className="font-medium">{Math.round(course.progressPercentage)}%</span>
+                              <span className="font-medium">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
                             </div>
                             <ProgressBar 
-                              value={course.progressPercentage}
+                              value={isNaN(course.progressPercentage) ? 0 : course.progressPercentage}
                               color="blue"
                               height="sm"
                             />
@@ -244,14 +249,14 @@ export default function DashboardPage() {
                               if (course.nextLessonId) {
                                 router.push(`/courses/${course.courseId}/lessons/${course.nextLessonId}`)
                               } else {
-                                router.push(`/courses/${course.courseId}`)
+                                router.push(`/courses/${course.courseId}/learn`)
                               }
                             }}
                             size="sm"
                             className="gap-2"
                           >
                             <Play className="w-4 h-4" />
-                            Folytatás
+                            Tanulás folytatása
                           </Button>
                         </div>
                       </div>
@@ -260,25 +265,61 @@ export default function DashboardPage() {
               </div>
             </Card>
           ) : (
-            /* New User Welcome */
-            <Card className="p-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-              <div className="text-center">
-                <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4">
-                  <Target className="w-8 h-8 text-blue-600" />
+            /* Featured Course Card when not enrolled */
+            <Card className="overflow-hidden bg-white">
+              <div className="bg-gradient-to-br from-teal-500 to-cyan-600 p-6 text-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="inline-block px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur rounded-full">
+                    NÉPSZERŰ KURZUS
+                  </span>
+                  <span className="text-2xl font-bold">9 990 Ft</span>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  Kezdje el tanulási útját!
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Fedezze fel széles kurzuskínálatunkat és fejlessze szakmai tudását
+                <h2 className="text-2xl font-bold mb-2">AI Copywriting Mastery Kurzus</h2>
+                <p className="text-white/90 mb-4">
+                  Tanulj meg hatékony szövegeket írni AI eszközökkel
                 </p>
+              </div>
+              
+              <div className="p-6">
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <Clock className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                    <div className="text-sm font-medium text-gray-900">8 óra</div>
+                    <div className="text-xs text-gray-500">Videó tartalom</div>
+                  </div>
+                  <div className="text-center">
+                    <BookOpen className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                    <div className="text-sm font-medium text-gray-900">12 lecke</div>
+                    <div className="text-xs text-gray-500">Gyakorlatokkal</div>
+                  </div>
+                  <div className="text-center">
+                    <Award className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                    <div className="text-sm font-medium text-gray-900">Tanúsítvány</div>
+                    <div className="text-xs text-gray-500">Befejezéskor</div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">Gyakorlati példák valós projektekből</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">AI promptok és sablonok</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">Életfogytig tartó hozzáférés</span>
+                  </div>
+                </div>
+                
                 <Button
-                  onClick={() => router.push('/courses')}
+                  onClick={() => router.push('/courses/ai-copywriting-course')}
                   size="lg"
-                  className="gap-2"
+                  className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white"
                 >
-                  <BookOpen className="w-5 h-5" />
-                  Kurzusok böngészése
+                  Részletek és vásárlás
                 </Button>
               </div>
             </Card>

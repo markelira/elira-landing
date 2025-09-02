@@ -938,6 +938,89 @@ export const getUserPaymentsHandler = async (req: Request, res: Response): Promi
   }
 };
 
+// Get user progress data for dashboard
+export const getUserProgressHandler = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      res.status(400).json({
+        success: false,
+        error: 'User ID is required'
+      });
+      return;
+    }
+
+    // Get user's enrollments
+    const enrollmentsSnapshot = await db.collection('enrollments')
+      .where('userId', '==', userId)
+      .where('status', '==', 'active')
+      .get();
+
+    const enrolledCourses = [];
+    let totalCourses = 0;
+    let completedCourses = 0;
+    let inProgressCourses = 0;
+    let totalLearningTime = 0;
+
+    for (const enrollmentDoc of enrollmentsSnapshot.docs) {
+      const enrollment = enrollmentDoc.data();
+      totalCourses++;
+
+      // Get course details
+      const courseDoc = await db.collection('courses').doc(enrollment.courseId).get();
+      const courseData = courseDoc.exists ? courseDoc.data() : null;
+
+      // Calculate progress percentage
+      const totalLessons = enrollment.totalLessons || courseData?.totalLessons || 0;
+      const completedLessonsCount = enrollment.completedLessons?.length || 0;
+      const progressPercentage = totalLessons > 0 ? Math.round((completedLessonsCount / totalLessons) * 100) : 0;
+
+      if (progressPercentage >= 100) {
+        completedCourses++;
+      } else if (progressPercentage > 0) {
+        inProgressCourses++;
+      }
+
+      // Add to total learning time (mock calculation)
+      totalLearningTime += (completedLessonsCount * 15 * 60); // 15 minutes per lesson
+
+      enrolledCourses.push({
+        courseId: enrollment.courseId,
+        courseTitle: enrollment.courseTitle || courseData?.title || 'Unknown Course',
+        totalLessons,
+        completedLessons: completedLessonsCount,
+        progressPercentage,
+        lastActivityAt: enrollment.lastAccessedAt?.toDate?.()?.toISOString() || null,
+        isCompleted: progressPercentage >= 100,
+        nextLessonId: null, // TODO: Implement next lesson logic
+        nextLessonTitle: null
+      });
+    }
+
+    const overallProgress = totalCourses > 0 ? 
+      Math.round(enrolledCourses.reduce((sum, course) => sum + course.progressPercentage, 0) / totalCourses) : 0;
+
+    const progressData = {
+      enrolledCourses,
+      totalCourses,
+      completedCourses,
+      inProgressCourses,
+      overallProgress,
+      totalLearningTime,
+      certificates: [] // TODO: Implement certificates
+    };
+
+    res.json(progressData);
+  } catch (error) {
+    console.error('Get user progress error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get user progress'
+    });
+  }
+};
+
 // Get dashboard stats for main admin dashboard
 export const getDashboardStatsHandler = async (req: Request, res: Response): Promise<void> => {
   try {

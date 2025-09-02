@@ -863,7 +863,7 @@ export const purchaseCourseHandler = async (req: Request, res: Response): Promis
     }
     
     const courseData = courseDoc.data()!;
-    const stripePriceId = courseData.stripePriceId || process.env.NEXT_PUBLIC_STRIPE_DEFAULT_PRICE_ID || 'price_1S0MvyHhqyKpFIBMQdiSPodM';
+    const stripePriceId = courseData.stripePriceId || process.env.NEXT_PUBLIC_STRIPE_DEFAULT_PRICE_ID || 'price_1S2g4HHhqyKpFIBMp3uCFZta';
     
     console.log('[Purchase] Course found:', { courseId, stripePriceId, price: courseData.price });
     

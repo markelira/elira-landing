@@ -48,7 +48,8 @@ import {
   deleteUserHandler,
   toggleUserStatusHandler,
   getUserStatsHandler,
-  getDashboardStatsHandler
+  getDashboardStatsHandler,
+  getUserProgressHandler as getUserProgressFromUser
 } from './routes/user';
 import { 
   createSessionHandler, 
@@ -114,7 +115,6 @@ import {
 import { 
   markLessonCompleteHandler, 
   updateLessonProgressHandler, 
-  getUserProgressHandler, 
   getCourseProgressHandler,
   getLastWatchedHandler 
 } from './routes/progress';
@@ -213,7 +213,7 @@ app.delete('/api/admin/categories/:categoryId', authenticateUser, deleteAdminCat
 // Progress routes (protected by course access)
 app.post('/api/lessons/:lessonId/complete', authenticateUser, verifyCourseAccess, markLessonCompleteHandler);
 app.post('/api/lessons/:lessonId/progress', authenticateUser, verifyCourseAccess, updateLessonProgressHandler);
-app.get('/api/users/:userId/progress', authenticateUser, getUserProgressHandler);
+app.get('/api/users/:userId/progress', authenticateUser, getUserProgressFromUser);
 app.get('/api/courses/:courseId/user-progress', authenticateUser, verifyCourseAccess, getCourseProgressHandler);
 app.get('/api/users/:userId/last-watched', authenticateUser, getLastWatchedHandler);
 
@@ -302,11 +302,17 @@ import {
   generateCourseCertificate
 } from './courseActions';
 
-// Export Cloud Functions
+// Export Cloud Functions with environment variables
 export const api = onRequest(
   {
     region: 'europe-west1',
-    cors: true
+    cors: true,
+    secrets: [
+      'STRIPE_SECRET_KEY',
+      'STRIPE_WEBHOOK_SECRET',
+      'SENDGRID_API_KEY',
+      'MUX_TOKEN_SECRET'
+    ]
   },
   app
 );
