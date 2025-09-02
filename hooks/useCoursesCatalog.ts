@@ -134,9 +134,9 @@ async function fetchCoursesCatalog(filters: CourseCatalogFilters = {}): Promise<
       isEnrolled: false, // Will be checked separately
       isTrending: course.isFeatured || true,
       isRecommended: course.isFeatured || true,
-      enrollmentCount: course.enrollmentCount || 312,
-      averageRating: course.averageRating || 4.9,
-      reviewCount: course.totalReviews || 89,
+      enrollmentCount: 0, // Remove student count display
+      averageRating: 0, // Remove rating display  
+      reviewCount: 0, // Remove review count display
       popularityScore: course.enrollmentCount ? Math.min(100, (course.enrollmentCount / 10)) : 95,
       recommendationScore: course.averageRating ? (course.averageRating * 20) : 92
     }));
@@ -183,9 +183,9 @@ async function fetchCoursesCatalog(filters: CourseCatalogFilters = {}): Promise<
           isEnrolled: false,
           isTrending: true,
           isRecommended: true,
-          enrollmentCount: 312,
-          averageRating: 4.9,
-          reviewCount: 89,
+          enrollmentCount: 0, // Remove student count
+          averageRating: 0, // Remove rating display
+          reviewCount: 0, // Remove review count
           popularityScore: 95,
           recommendationScore: 92
         }

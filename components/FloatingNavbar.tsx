@@ -70,19 +70,19 @@ const FloatingNavbar: React.FC = () => {
                     className="text-gray-700 hover:text-teal-700 transition-colors font-medium flex items-center space-x-1"
                   >
                     <BookOpen size={16} />
-                    <span>Dashboard</span>
+                    <span>Irányítópult</span>
                   </Link>
                   <Link
                     href="/courses"
                     className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
                   >
-                    Courses
+                    Kurzusok
                   </Link>
                   <Link
-                    href="/dashboard/my-learning"
+                    href="/dashboard/learning"
                     className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
                   >
-                    My Learning
+                    Tanulás
                   </Link>
                   <Link
                     href="/dashboard/profile"
@@ -184,7 +184,7 @@ const FloatingNavbar: React.FC = () => {
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="block w-full bg-teal-700 text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-teal-800 transition-colors text-center"
                       >
-                        Dashboard
+                        Irányítópult
                       </Link>
                       <Link
                         href="/dashboard/profile"

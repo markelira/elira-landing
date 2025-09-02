@@ -92,13 +92,11 @@ export const CourseCard: React.FC<Props> = ({
       title: course.instructor.title,
       imageUrl: course.instructor.profilePictureUrl
     } : undefined,
-    rating: course.averageRating,
-    ratingCount: course.reviewCount,
-    enrollmentCount: course.enrollmentCount,
+    rating: 0, // Remove rating display
+    ratingCount: 0, // Remove review count display  
+    enrollmentCount: 0, // Remove student count display
     duration: 8, // MVP: Default duration in hours
-    difficulty: course.difficulty === 'BEGINNER' ? 'Kezdő' :
-                course.difficulty === 'INTERMEDIATE' ? 'Középhaladó' :
-                course.difficulty === 'ADVANCED' ? 'Haladó' : 'Szakértő',
+    difficulty: '', // Remove difficulty level display
     category: course.category?.name,
     price: 7990, // MVP: Use fixed price from config
     originalPrice: undefined,
