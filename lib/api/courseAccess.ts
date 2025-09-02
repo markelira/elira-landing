@@ -7,18 +7,34 @@ interface CourseAccessResponse {
   grantedAt?: string;
 }
 
+// Use same Firebase Functions URL as course data
+const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development'
+  ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
+  : 'https://api-5k33v562ya-ew.a.run.app/api';
+
 export const checkCourseAccess = async (
   courseId: string, 
   userId: string
 ): Promise<CourseAccessResponse> => {
   try {
+    // Get Firebase auth token
+    const { auth } = await import('@/lib/firebase');
+    const token = await auth.currentUser?.getIdToken();
+    
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Add auth header if token available
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(
-      `/api/courses/${courseId}/is-enrolled?userId=${userId}`,
+      `${FUNCTIONS_BASE_URL}/enrollments/check/${courseId}?userId=${userId}`,
       {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       }
     );
 
@@ -31,9 +47,9 @@ export const checkCourseAccess = async (
     // Transform the response to match our expected format
     return {
       success: true,
-      hasAccess: data.enrolled || data.hasCourseAccess || false,
+      hasAccess: data.isEnrolled || data.enrolled || data.hasCourseAccess || false,
       courseId: data.courseId,
-      reason: data.enrolled ? 'Enrolled' : 'No course access',
+      reason: data.isEnrolled ? 'Enrolled' : 'No course access',
       grantedAt: data.enrollmentDetails?.enrolledAt
     };
   } catch (error) {

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> }
@@ -16,13 +18,23 @@ export async function GET(
       );
     }
 
-    // Forward to Firebase Functions
-    const functionsUrl = 'https://europe-west1-elira-landing-ce927.cloudfunctions.net';
+    // Get auth token from headers
+    const authHeader = request.headers.get('authorization');
+    
+    // Forward to Firebase Functions  
+    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app';
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    
+    // Forward auth header if present
+    if (authHeader) {
+      headers['Authorization'] = authHeader;
+    }
+    
     const response = await fetch(
       `${functionsUrl}/api/enrollments/check/${courseId}?userId=${userId}`,
       {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
       }
     );
 

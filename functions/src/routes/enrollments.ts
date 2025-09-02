@@ -230,3 +230,147 @@ export const checkEnrollmentHandler = async (req: Request, res: Response): Promi
     });
   }
 };
+
+/**
+ * Migrate single user enrollment document
+ * POST /api/admin/migrate-user-enrollment
+ */
+export const migrateUserEnrollment = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId, courseId } = req.body;
+
+    if (!userId || !courseId) {
+      res.status(400).json({
+        success: false,
+        error: 'userId and courseId are required'
+      });
+      return;
+    }
+
+    console.log(`🔄 Migrating enrollment for user ${userId}, course ${courseId}`);
+
+    // Find existing enrollment document
+    const enrollmentsSnapshot = await db.collection('enrollments')
+      .where('userId', '==', userId)
+      .where('courseId', '==', courseId)
+      .get();
+
+    if (enrollmentsSnapshot.empty) {
+      res.status(404).json({
+        success: false,
+        error: 'No enrollment found for this user and course'
+      });
+      return;
+    }
+
+    const expectedId = `${userId}_${courseId}`;
+    const existingDoc = enrollmentsSnapshot.docs[0];
+
+    if (existingDoc.id === expectedId) {
+      res.json({
+        success: true,
+        message: 'Enrollment already has correct ID format',
+        documentId: expectedId
+      });
+      return;
+    }
+
+    // Create new document with correct ID
+    const data = existingDoc.data();
+    await db.collection('enrollments').doc(expectedId).set({
+      ...data,
+      migratedAt: admin.firestore.FieldValue.serverTimestamp(),
+      originalDocId: existingDoc.id
+    });
+
+    // Delete old document
+    await existingDoc.ref.delete();
+
+    console.log(`✅ Successfully migrated: ${existingDoc.id} → ${expectedId}`);
+
+    res.json({
+      success: true,
+      message: 'Enrollment migrated successfully',
+      oldId: existingDoc.id,
+      newId: expectedId
+    });
+
+  } catch (error) {
+    console.error('❌ Single user migration failed:', error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Migration failed'
+    });
+  }
+};
+
+/**
+ * Remove duplicate enrollments for a user
+ * POST /api/admin/remove-duplicate-enrollments
+ */
+export const removeDuplicateEnrollments = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId, courseId } = req.body;
+
+    if (!userId || !courseId) {
+      res.status(400).json({
+        success: false,
+        error: 'userId and courseId are required'
+      });
+      return;
+    }
+
+    console.log(`🔄 Removing duplicate enrollments for user ${userId}, course ${courseId}`);
+
+    // Find all enrollment documents for this user/course
+    const enrollmentsSnapshot = await db.collection('enrollments')
+      .where('userId', '==', userId)
+      .where('courseId', '==', courseId)
+      .get();
+
+    if (enrollmentsSnapshot.empty) {
+      res.json({
+        success: true,
+        message: 'No enrollments found',
+        removed: 0
+      });
+      return;
+    }
+
+    const expectedId = `${userId}_${courseId}`;
+    const docsToDelete = [];
+
+    // Find the document with correct ID or keep the first one
+    for (const doc of enrollmentsSnapshot.docs) {
+      if (doc.id !== expectedId) {
+        docsToDelete.push(doc);
+      }
+    }
+
+    // Delete duplicate documents
+    const batch = db.batch();
+    for (const doc of docsToDelete) {
+      batch.delete(doc.ref);
+    }
+
+    if (docsToDelete.length > 0) {
+      await batch.commit();
+    }
+
+    console.log(`✅ Removed ${docsToDelete.length} duplicate enrollments, kept document: ${expectedId}`);
+
+    res.json({
+      success: true,
+      message: `Removed ${docsToDelete.length} duplicate enrollments`,
+      removed: docsToDelete.length,
+      keptDocumentId: expectedId
+    });
+
+  } catch (error) {
+    console.error('❌ Remove duplicates failed:', error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to remove duplicates'
+    });
+  }
+};

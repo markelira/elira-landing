@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminApp } from '@/lib/firebase-admin';
 import { z } from 'zod';
 
-// Required for static export with API routes
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 

@@ -256,11 +256,7 @@ export default function MyLearningClient() {
 
                       <Button
                         onClick={() => {
-                          if (course.nextLessonId) {
-                            router.push(`/courses/${course.courseId}/lessons/${course.nextLessonId}`)
-                          } else {
-                            router.push(`/courses/${course.courseId}`)
-                          }
+                          router.push(`/courses/${course.courseId}/learn`)
                         }}
                         variant="primary"
                         className="w-full gap-2"

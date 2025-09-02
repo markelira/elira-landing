@@ -26,7 +26,6 @@ export function CourseDetailWithTabs({
     { id: 'overview' as TabType, label: 'Áttekintés', icon: Info },
     { id: 'curriculum' as TabType, label: 'Tananyag', icon: BookOpen },
     { id: 'instructor' as TabType, label: 'Oktató', icon: Users },
-    { id: 'reviews' as TabType, label: 'Értékelések', icon: MessageSquare },
   ]
   
   return (
@@ -79,7 +78,6 @@ export function CourseDetailWithTabs({
             {activeTab === 'overview' && <OverviewTab course={courseData} />}
             {activeTab === 'curriculum' && <CurriculumTab course={courseData} />}
             {activeTab === 'instructor' && <InstructorTab course={courseData} />}
-            {activeTab === 'reviews' && <ReviewsTab course={courseData} />}
           </div>
           
           {/* Right Column - Sticky Purchase Card */}
@@ -145,20 +143,6 @@ function OverviewTab({ course }: { course: any }) {
         </section>
       )}
       
-      {/* Prerequisites */}
-      {course.prerequisites && course.prerequisites.length > 0 && (
-        <section className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Előfeltételek</h2>
-          <ul className="space-y-2">
-            {course.prerequisites.map((prerequisite: string, index: number) => (
-              <li key={index} className="flex items-start gap-3">
-                <span className="text-teal-600 mt-1">•</span>
-                <span className="text-gray-700">{prerequisite}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
       
     </div>
   )
@@ -420,25 +404,11 @@ function PurchaseCard({ course }: any) {
               </svg>
               <span>Letölthető anyagok</span>
             </div>
-            {course.certificateEnabled && (
-              <div className="flex items-center gap-3">
-                <svg className="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span>Tanúsítvány</span>
-              </div>
-            )}
             <div className="flex items-center gap-3">
               <svg className="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <span>Élethosszig tartó hozzáférés</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span>Mobil és TV hozzáférés</span>
             </div>
           </div>
         </div>

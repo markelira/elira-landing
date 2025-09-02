@@ -156,22 +156,68 @@ export const createSessionHandler = async (req: Request, res: Response): Promise
 
 // Stripe webhook handler
 export const stripeWebhookHandler = async (req: Request, res: Response): Promise<void> => {
+  console.log('🔥 STRIPE WEBHOOK HANDLER CALLED!');
   try {
+    console.log('🪝 WEBHOOK RECEIVED:', {
+      method: req.method,
+      url: req.url,
+      originalUrl: req.originalUrl,
+      path: req.path,
+      headers: Object.keys(req.headers),
+      hasBody: !!req.body,
+      bodyType: typeof req.body,
+      bodyIsBuffer: req.body instanceof Buffer,
+      bodyLength: req.body instanceof Buffer ? req.body.length : (req.body ? JSON.stringify(req.body).length : 0),
+      contentType: req.headers['content-type'],
+      userAgent: req.headers['user-agent'],
+      forwardedFor: req.headers['x-forwarded-for']
+    });
+    
     const signature = req.headers['stripe-signature'] as string;
     
+    console.log('🔑 SIGNATURE DETAILS:', {
+      hasSignature: !!signature,
+      signatureLength: signature?.length,
+      signaturePreview: signature?.substring(0, 50) + '...'
+    });
+    
     if (!signature) {
+      console.error('🚨 Missing stripe-signature header');
       res.status(400).json({ error: 'Missing stripe-signature header' });
       return;
     }
 
+    // Get raw body for signature verification
+    let rawBody: string;
+    if (req.body instanceof Buffer) {
+      rawBody = req.body.toString('utf8');
+      console.log('📦 Using Buffer body (expected for webhooks)');
+    } else if (req.body && typeof req.body === 'string') {
+      rawBody = req.body;
+      console.log('📦 Using string body');
+    } else {
+      rawBody = JSON.stringify(req.body);
+      console.log('📦 Using stringified JSON body (fallback - signature will fail)');
+    }
+    
+    console.log('📦 BODY PROCESSING:', {
+      originalBodyType: typeof req.body,
+      isBuffer: req.body instanceof Buffer,
+      rawBodyLength: rawBody.length,
+      rawBodyPreview: rawBody.substring(0, 100) + '...',
+      secretConfigured: !!process.env.STRIPE_WEBHOOK_SECRET,
+      secretSource: process.env.STRIPE_WEBHOOK_SECRET ? 'env' : 'missing'
+    });
+    
     // Verify webhook signature
-    const event = verifyWebhookSignature(req.body, signature);
+    const event = verifyWebhookSignature(rawBody, signature);
     if (!event) {
+      console.error('🚨 Invalid webhook signature');
       res.status(400).json({ error: 'Invalid signature' });
       return;
     }
 
-    console.log('Processing Stripe webhook:', event.type);
+    console.log('🎯 Processing Stripe webhook:', event.type);
 
     switch (event.type) {
       case 'checkout.session.completed':
@@ -208,12 +254,21 @@ async function handleCheckoutCompleted(session: any): Promise<void> {
     const userId = session.metadata?.userId;
     const courseId = session.metadata?.courseId || 'default-course';
 
+    console.log('💳 CHECKOUT COMPLETED:', {
+      sessionId,
+      userId,
+      courseId,
+      customerEmail: session.customer_details?.email,
+      amount: session.amount_total,
+      metadata: session.metadata
+    });
+
     if (!userId) {
-      console.error('No userId in session metadata');
+      console.error('🚨 No userId in session metadata');
       return;
     }
 
-    console.log(`Processing completed checkout for user ${userId}, session ${sessionId}, course ${courseId}`);
+    console.log(`✅ Processing completed checkout for user ${userId}, session ${sessionId}, course ${courseId}`);
 
     // Update payment record
     await db.collection('payments').doc(sessionId).update({

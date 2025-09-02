@@ -16,7 +16,6 @@ import FinalCTA from '@/components/sales/FinalCTA';
 import CourseDetailsSection from '@/components/course-detail/CourseDetailsSection';
 import GameChanger from '@/components/sales/GameChanger';
 import FOMOSection from '@/components/sales/FOMOSection';
-import CourseOfferSection from '@/components/sales/CourseOfferSection';
 
 export default function Home() {
   return (
@@ -26,7 +25,6 @@ export default function Home() {
       <main className="pt-16 md:pt-0">
         <SalesHero />
         <CourseDetailsSection />
-        <CourseOfferSection />
         <GameChanger />
         <FOMOSection />
         <ProblemSection />

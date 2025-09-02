@@ -125,7 +125,6 @@ export async function createCheckoutSession(
     }
 
     // Add additional session configuration
-    sessionConfig.billing_address_collection = 'required';
     sessionConfig.payment_intent_data = {
       metadata: {
         userId: userId,
@@ -134,12 +133,10 @@ export async function createCheckoutSession(
       }
     };
     sessionConfig.allow_promotion_codes = true;
-    sessionConfig.automatic_tax = {
-      enabled: true
-    };
     sessionConfig.customer_update = {
       address: 'auto'
     };
+    sessionConfig.billing_address_collection = 'auto';
 
     console.log('[Stripe] Creating session with config:', JSON.stringify(sessionConfig, null, 2));
     const session = await stripe.checkout.sessions.create(sessionConfig);
@@ -160,13 +157,38 @@ export async function createCheckoutSession(
 
 // Helper function to verify webhook signature
 export function verifyWebhookSignature(body: string, signature: string): Stripe.Event | null {
-  if (!stripe || !stripeWebhookSecret) return null;
+  console.log('🔐 SIGNATURE VERIFICATION START:', {
+    hasStripe: !!stripe,
+    hasSecret: !!stripeWebhookSecret,
+    secretLength: stripeWebhookSecret?.length,
+    secretPreview: stripeWebhookSecret?.substring(0, 15) + '...',
+    bodyLength: body.length,
+    bodyPreview: body.substring(0, 50) + '...',
+    signatureLength: signature.length,
+    signaturePreview: signature.substring(0, 30) + '...'
+  });
+  
+  if (!stripe || !stripeWebhookSecret) {
+    console.error('🚨 Stripe or webhook secret not configured:', {
+      stripe: !!stripe,
+      secret: !!stripeWebhookSecret
+    });
+    return null;
+  }
 
   try {
     const event = stripe.webhooks.constructEvent(body, signature, stripeWebhookSecret);
+    console.log('✅ Webhook signature verified successfully');
     return event;
-  } catch (error) {
-    console.error('Webhook signature verification failed:', error);
+  } catch (error: any) {
+    console.error('🚨 Webhook signature verification failed:', {
+      errorMessage: error?.message,
+      errorType: error?.type,
+      errorCode: error?.code,
+      bodyFirstChar: body.charAt(0),
+      bodyLastChar: body.charAt(body.length - 1),
+      expectedSignatureFormat: 't=timestamp,v1=signature'
+    });
     return null;
   }
 }

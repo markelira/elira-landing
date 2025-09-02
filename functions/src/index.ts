@@ -24,7 +24,32 @@ const app = express();
 
 // Middleware
 app.use(cors({ origin: true }));
-app.use(express.json());
+
+// Use express.raw for webhook with detailed logging
+app.use('/api/payment/webhook', (req, res, next) => {
+  console.log('🔧 Webhook middleware: Starting raw body processing');
+  express.raw({ type: 'application/json' })(req, res, (err) => {
+    if (err) {
+      console.error('🚨 Raw middleware error:', err);
+      return next(err);
+    }
+    console.log('🔧 Raw middleware completed:', {
+      bodyType: typeof req.body,
+      isBuffer: req.body instanceof Buffer,
+      bodyLength: req.body instanceof Buffer ? req.body.length : (req.body ? String(req.body).length : 0)
+    });
+    next();
+  });
+});
+
+// Apply JSON middleware to everything EXCEPT webhook routes  
+app.use((req, res, next) => {
+  if (req.path === '/api/payment/webhook') {
+    console.log('🔧 Skipping JSON middleware for webhook');
+    return next();
+  }
+  return express.json()(req, res, next);
+});
 
 // Import middleware
 import { authenticateUser } from './middleware/auth';
@@ -121,7 +146,9 @@ import {
 import {
   createEnrollmentHandler,
   getUserEnrollmentsHandler,
-  checkEnrollmentHandler
+  checkEnrollmentHandler,
+  migrateUserEnrollment,
+  removeDuplicateEnrollments
 } from './routes/enrollments';
 import {
   getAdminSettingsHandler,
@@ -159,7 +186,7 @@ app.post('/api/courses/:courseId/enroll', enrollUserInCourseHandler);
 
 // Payment routes
 app.post('/api/payment/create-session', createSessionHandler);
-app.post('/api/payment/webhook', stripeWebhookHandler);
+app.post('/api/payment/webhook', stripeWebhookHandler); // No auth for webhooks
 app.get('/api/payment/status/:sessionId', getPaymentStatusHandler);
 app.get('/api/payment/session/:sessionId', getSessionDetailsHandler);
 
@@ -220,7 +247,11 @@ app.get('/api/users/:userId/last-watched', authenticateUser, getLastWatchedHandl
 // Enrollment routes
 app.post('/api/enrollments', authenticateUser, createEnrollmentHandler);
 app.get('/api/enrollments', authenticateUser, getUserEnrollmentsHandler);
-app.get('/api/enrollments/check/:courseId', checkEnrollmentHandler);
+app.get('/api/enrollments/check/:courseId', authenticateUser, checkEnrollmentHandler);
+
+// Admin migration routes
+app.post('/api/admin/migrate-user-enrollment', migrateUserEnrollment);
+app.post('/api/admin/remove-duplicate-enrollments', removeDuplicateEnrollments);
 
 // Admin settings routes
 app.get('/api/admin/settings', authenticateUser, getAdminSettingsHandler);
@@ -316,6 +347,9 @@ export const api = onRequest(
   },
   app
 );
+
+// Export dedicated webhook function
+export { webhook } from './webhook';
 
 // Export new callable functions
 export {
