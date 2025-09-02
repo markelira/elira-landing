@@ -71,8 +71,8 @@ export const functions = getFunctions(app);
 // Initialize Storage
 export const storage = getStorage(app);
 
-// Connect to emulators in development
-if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+// Connect to emulators in development (controlled by USE_FIREBASE_EMULATORS env var)
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined' && process.env.USE_FIREBASE_EMULATORS === 'true') {
   // Use a flag to prevent multiple connections
   const connectEmulators = () => {
     if ((window as any).__FIREBASE_EMULATORS_CONNECTED__) {

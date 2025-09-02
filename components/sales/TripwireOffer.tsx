@@ -89,7 +89,7 @@ const TripwireOffer: React.FC = () => {
             >
               Csak egy dolgot kérek Tőled:
               <br />
-              <span className="text-teal-200">ne vedd meg, előbb nézz bele ingyen.</span>
+              <span className="text-teal-200">mielőtt megvennéd, előbb nézz bele ingyen.</span>
             </motion.h2>
             
             <motion.p
@@ -235,25 +235,6 @@ const TripwireOffer: React.FC = () => {
             )}
           </motion.div>
 
-          {/* Course Player Demo Link */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.6 }}
-            viewport={{ once: true }}
-            className="text-center mt-8 pt-6 border-t border-white/20"
-          >
-            <p className="text-white/80 text-sm mb-4">
-              Vagy nézd meg a kurzus lejátszó előnézetét:
-            </p>
-            <Link
-              href="/course-player"
-              className="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 hover:border-white/50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
-            >
-              <CheckCircle className="w-5 h-5" />
-              <span>🎬 Kurzus lejátszó előnézet</span>
-            </Link>
-          </motion.div>
 
         </div>
       </div>
