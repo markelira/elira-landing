@@ -34,144 +34,131 @@ const SolutionSection: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-20 bg-gradient-to-br from-green-50 via-white to-emerald-50">
-      
-      {/* Healing Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-100/30 via-transparent to-blue-100/30" />
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
-      </div>
-
-      <div className="relative z-10 container mx-auto px-6">
+    <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F8F7F5' }}>
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-green-200 rounded-full filter blur-3xl opacity-10 animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-64 h-64 bg-emerald-200 rounded-full filter blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           
-          {/* Powerful Solution Header */}
+          {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-full shadow-lg mb-8">
-              <Sparkles className="w-6 h-6" />
-              <span className="font-bold text-xl">✅ A MEGOLDÁS</span>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 px-4 py-2 rounded-full shadow-sm mb-6 hover:shadow-md transition-all duration-300">
+              <Sparkles className="w-5 h-5 text-green-600 animate-pulse" />
+              <span className="font-medium text-gray-900">A megoldás</span>
             </div>
             
-            <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-tight">
-              STOP!<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Itt a megoldás</span><br />
-              ezekre a problémákra
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+              Itt a megoldás ezekre a problémákra
             </h2>
             
-            <p className="text-xl text-gray-700 font-semibold max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Ahelyett, hogy tovább veszítenéd az időt és a pénzt, íme az egyetlen kurzus, 
               amire szükséged van a versenyben maradáshoz
             </p>
           </motion.div>
 
-          {/* Solution Cards - Direct Problem/Solution Pairs */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {/* Solution Cards */}
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             {solutions.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-xl border-2 border-gray-100 hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
+                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 group relative overflow-hidden"
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10"
               >
                 {/* Problem (crossed out) */}
-                <div className="mb-6 pb-4 border-b border-gray-200">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
-                      <span className="text-red-600 text-lg font-bold">✗</span>
+                <div className="mb-4 pb-4 border-b border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-red-50 rounded-full flex items-center justify-center">
+                      <span className="text-red-500 text-sm">✗</span>
                     </div>
-                    <p className="text-gray-500 line-through font-medium">
+                    <p className="text-gray-500 line-through text-sm">
                       {item.problem}
                     </p>
                   </div>
                 </div>
 
-                {/* Solution (highlighted) */}
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                    <item.icon className="w-6 h-6 text-white" />
+                {/* Solution */}
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <item.icon className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-green-600 font-bold text-sm">MEGOLDÁS:</span>
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <span className="text-green-600 font-medium text-sm">Megoldás:</span>
                     </div>
-                    <p className="text-gray-900 font-bold text-lg leading-relaxed">
+                    <p className="text-gray-900 font-medium leading-relaxed">
                       {item.solution}
                     </p>
                   </div>
                 </div>
-
-                {/* Animated success indicator */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
               </motion.div>
             ))}
           </div>
 
-          {/* The Answer Section */}
+          {/* Course Introduction */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-12 text-white shadow-2xl relative overflow-hidden">
+            <div className="bg-gradient-to-br from-white to-green-50/30 rounded-xl border border-gray-200 p-8 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+              {/* Decorative corner accent */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-green-100 to-transparent rounded-full opacity-50"></div>
               
-              {/* Success Pattern Background */}
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                  backgroundSize: '60px 60px'
-                }} />
+              <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Shield className="w-6 h-6 text-green-600" />
               </div>
               
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-                
-                <h3 className="text-3xl md:text-4xl font-bold mb-6">
-                  🎯 Itt az egyetlen megoldás:
-                </h3>
-                
-                <p className="text-xl md:text-2xl font-bold text-green-100 leading-relaxed mb-8">
-                  "Olvass a vevőid gondolataiban" - Az AI-alapú copywriting kurzus, 
-                  ami <span className="text-yellow-300 font-black">véget vet a lemaradásnak </span> 
-                  és <span className="text-yellow-300 font-black">előnybe hoz a versenyben</span>
-                </p>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                Itt az egyetlen megoldás:
+              </h3>
+              
+              <p className="text-lg text-gray-700 leading-relaxed mb-8 max-w-3xl mx-auto">
+                "Olvass a vevőid gondolataiban" - Az AI-alapú copywriting kurzus, 
+                ami véget vet a lemaradásnak és előnybe hoz a versenyben
+              </p>
 
-                {/* Immediate Benefits */}
-                <div className="grid md:grid-cols-3 gap-6 mt-8">
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-yellow-300 mb-2">24 óra</div>
-                    <p className="text-green-100">alatt használhatod</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-yellow-300 mb-2">3x gyorsabb</div>
-                    <p className="text-green-100">szövegírás azonnal</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-yellow-300 mb-2">0 kockázat</div>
-                    <p className="text-green-100">30 napos garancia</p>
-                  </div>
+              {/* Benefits */}
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-2xl font-semibold text-gray-900 mb-2">24 óra</div>
+                  <p className="text-gray-600">alatt használhatod</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-semibold text-gray-900 mb-2">3x gyorsabb</div>
+                  <p className="text-gray-600">szövegírás azonnal</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-semibold text-gray-900 mb-2">0 kockázat</div>
+                  <p className="text-gray-600">30 napos garancia</p>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Urgency CTA */}
+          {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             viewport={{ once: true }}
             className="text-center"
           >

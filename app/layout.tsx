@@ -27,9 +27,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://elira.hu'),
-  title: "Elira - Ingyenes Karrierfejlesztési Anyagok | 5 Prémium PDF",
-  description: "Töltsd le ingyen az 5 prémium karrierfejlesztési anyagot! ChatGPT promptok, LinkedIn stratégia, email marketing és még sok más. Egyetemi oktatóktól, azonnal.",
-  keywords: "karrierfejlesztés, ingyenes PDF, ChatGPT promptok, LinkedIn stratégia, email marketing, TikTok növekedés, marketing automatizáció, Miskolci Egyetem, magyar",
+  title: "ELIRA - Olvass a vevőid gondolataiban | AI Copywriting Kurzus",
+  description: "Tanuld meg az AI-alapú copywriting titkait! Buyer persona 5 perc alatt, profitnövelő szövegek, MI-sablonok. Doktorandusz oktatótól, 30 napos garanciával.",
+  keywords: "AI copywriting, buyer persona, marketing automatizáció, MI sablonok, copywriting kurzus, Miskolci Egyetem, doktorandusz, Somosi Zoltán, magyar",
   authors: [{ name: "Elira Team" }],
   robots: "index, follow",
   
@@ -82,10 +82,25 @@ export default function RootLayout({
     <html lang="hu">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Hotjar Tracking Code for https://elira.hu */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:6519485,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+              })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            `
+          }}
+        />
         <StructuredData />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} academic-mode antialiased`}
       >
         <ClientProviders>
           {children}

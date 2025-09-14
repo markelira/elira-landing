@@ -8,8 +8,10 @@ export const content = {
   
   navbar: {
     items: [
+      { label: "Rólunk", href: "/rolunk" },
       { label: "Ingyenes kurzus anyag", href: "#tripwire" },
-      { label: "Vélemények", href: "#testimonials" }
+      { label: "Vélemények", href: "#testimonials" },
+      { label: "🔥 Kurzusok", href: "/courses/ai-copywriting-course" }
     ]
   },
   

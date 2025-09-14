@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useQuery } from '@tanstack/react-query'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import {
   CreditCard,
@@ -120,15 +120,15 @@ export default function PaymentsClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen py-8" style={{ backgroundColor: '#F8F7F5' }}>
         <div className="container mx-auto px-4">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-300 rounded w-1/4"></div>
-            <div className="h-32 bg-gray-300 rounded"></div>
+            <div className="h-8 bg-slate-300 rounded w-1/4"></div>
+            <div className="h-32 bg-slate-300 rounded"></div>
             <div className="space-y-3">
-              <div className="h-20 bg-gray-300 rounded"></div>
-              <div className="h-20 bg-gray-300 rounded"></div>
-              <div className="h-20 bg-gray-300 rounded"></div>
+              <div className="h-20 bg-slate-300 rounded"></div>
+              <div className="h-20 bg-slate-300 rounded"></div>
+              <div className="h-20 bg-slate-300 rounded"></div>
             </div>
           </div>
         </div>
@@ -147,28 +147,28 @@ export default function PaymentsClient() {
     switch (status) {
       case 'succeeded':
         return (
-          <Badge className="bg-green-100 text-green-800 border-green-300">
+          <Badge className="bg-emerald-100/60 text-emerald-800 border-emerald-300/50 font-light">
             <CheckCircle className="w-3 h-3 mr-1" />
             Sikeres
           </Badge>
         )
       case 'pending':
         return (
-          <Badge className="bg-yellow-100 text-yellow-800 border-yellow-300">
+          <Badge className="bg-amber-100/60 text-amber-800 border-amber-300/50 font-light">
             <Clock className="w-3 h-3 mr-1" />
             Folyamatban
           </Badge>
         )
       case 'failed':
         return (
-          <Badge className="bg-red-100 text-red-800 border-red-300">
+          <Badge className="bg-red-100/60 text-red-800 border-red-300/50 font-light">
             <XCircle className="w-3 h-3 mr-1" />
             Sikertelen
           </Badge>
         )
       case 'refunded':
         return (
-          <Badge className="bg-gray-100 text-gray-800 border-gray-300">
+          <Badge className="bg-slate-100/60 text-slate-800 border-slate-300/50 font-light">
             <RefreshCw className="w-3 h-3 mr-1" />
             Visszatérítve
           </Badge>
@@ -193,20 +193,22 @@ export default function PaymentsClient() {
   const availableYears = Array.from(yearSet).sort((a, b) => b - a)
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b">
+    <div className="min-h-screen" style={{ backgroundColor: '#F8F7F5' }}>
+      {/* Academic Header */}
+      <div className="bg-white/60 backdrop-blur-sm border-b border-slate-200/50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Fizetési előzmények</h1>
-              <p className="text-gray-600 mt-1">Kezeld a vásárlásaidat és számláidat</p>
+              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-4"></div>
+              <h1 className="text-2xl font-serif font-medium text-slate-900">Fizetési előzmények</h1>
+              <p className="text-slate-700 font-light mt-1">Kezeld a vásárlásaidat és számláidat</p>
+              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-4"></div>
             </div>
             <div className="mt-4 md:mt-0">
               <Button
                 onClick={() => router.push('/dashboard/settings')}
                 variant="outline"
-                className="gap-2"
+                className="gap-2 border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700"
               >
                 <CreditCard className="w-4 h-4" />
                 Fizetési módok
@@ -217,52 +219,52 @@ export default function PaymentsClient() {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Stats Cards */}
+        {/* Academic Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="p-6 bg-white">
+          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Teljes költés</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-slate-600 font-light">Teljes költés</p>
+                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
                   {formatAmount(totalSpent, 'HUF')}
                 </p>
               </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <DollarSign className="w-6 h-6 text-blue-600" />
+              <div className="bg-emerald-100/60 p-3 rounded border border-emerald-200/50">
+                <DollarSign className="w-6 h-6 text-emerald-700" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white">
+          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Vásárlások száma</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-slate-600 font-light">Vásárlások száma</p>
+                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
                   {successfulPayments}
                 </p>
               </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <TrendingUp className="w-6 h-6 text-green-600" />
+              <div className="bg-amber-100/60 p-3 rounded border border-amber-200/50">
+                <TrendingUp className="w-6 h-6 text-amber-700" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white">
+          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Visszatérítések</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-slate-600 font-light">Visszatérítések</p>
+                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
                   {formatAmount(totalRefunded, 'HUF')}
                 </p>
               </div>
-              <div className="bg-yellow-100 p-3 rounded-full">
-                <RefreshCw className="w-6 h-6 text-yellow-600" />
+              <div className="bg-violet-100/60 p-3 rounded border border-violet-200/50">
+                <RefreshCw className="w-6 h-6 text-violet-700" />
               </div>
             </div>
           </Card>
         </div>
 
-        {/* Year Filter */}
+        {/* Academic Year Filter */}
         {availableYears.length > 1 && (
           <div className="mb-6 flex gap-2">
             {availableYears.map(year => (
@@ -271,6 +273,10 @@ export default function PaymentsClient() {
                 onClick={() => setSelectedYear(year)}
                 variant={selectedYear === year ? 'primary' : 'outline'}
                 size="sm"
+                className={selectedYear === year 
+                  ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-600' 
+                  : 'border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700'
+                }
               >
                 {year}
               </Button>
@@ -278,32 +284,33 @@ export default function PaymentsClient() {
           </div>
         )}
 
-        {/* Payments Table */}
-        <Card className="bg-white overflow-hidden">
-          <div className="px-6 py-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-900">Tranzakciók</h2>
+        {/* Academic Payments Table */}
+        <Card className="bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-200/50">
+            <h2 className="text-lg font-serif font-medium text-slate-900">Tranzakciók</h2>
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mt-2"></div>
           </div>
           
           {filteredPayments.length > 0 ? (
             <div className="divide-y">
               {filteredPayments.map((payment) => (
-                <div key={payment.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
+                <div key={payment.id} className="px-6 py-4 hover:bg-slate-50/60 transition-colors">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-start gap-4">
-                        <div className="bg-gray-100 p-2 rounded-lg">
-                          <Receipt className="w-5 h-5 text-gray-600" />
+                        <div className="bg-amber-100/60 p-2 rounded border border-amber-200/50">
+                          <Receipt className="w-5 h-5 text-amber-700" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-medium text-gray-900">
+                          <h3 className="font-serif font-medium text-slate-900">
                             {payment.courseTitle}
                           </h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
-                            <span className="flex items-center gap-1">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-slate-600">
+                            <span className="flex items-center gap-1 font-light">
                               <Calendar className="w-3 h-3" />
                               {new Date(payment.createdAt).toLocaleDateString('hu-HU')}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-1 font-light">
                               <CreditCard className="w-3 h-3" />
                               {payment.paymentMethod === 'card' ? 'Bankkártya' : payment.paymentMethod}
                             </span>
@@ -314,11 +321,11 @@ export default function PaymentsClient() {
 
                     <div className="flex items-center gap-6">
                       <div className="text-right">
-                        <div className="font-semibold text-gray-900">
+                        <div className="font-serif font-medium text-slate-900">
                           {formatAmount(payment.amount, payment.currency)}
                         </div>
                         {payment.refundAmount && (
-                          <div className="text-sm text-red-600">
+                          <div className="text-sm text-red-600 font-light">
                             -{formatAmount(payment.refundAmount, payment.currency)}
                           </div>
                         )}
@@ -364,9 +371,9 @@ export default function PaymentsClient() {
                   
                   {payment.refundedAt && (
                     <div className="mt-3 pl-14">
-                      <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-1 rounded">
+                      <div className="inline-flex items-center gap-2 text-sm text-slate-700 bg-slate-100/60 px-3 py-1 rounded border border-slate-200/50">
                         <AlertCircle className="w-3 h-3" />
-                        Visszatérítve: {new Date(payment.refundedAt).toLocaleDateString('hu-HU')}
+                        <span className="font-light">Visszatérítve: {new Date(payment.refundedAt).toLocaleDateString('hu-HU')}</span>
                       </div>
                     </div>
                   )}
@@ -375,11 +382,11 @@ export default function PaymentsClient() {
             </div>
           ) : (
             <div className="px-6 py-12 text-center">
-              <Receipt className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <Receipt className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+              <h3 className="text-lg font-serif font-medium text-slate-900 mb-2">
                 Nincs tranzakció
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 font-light mb-6">
                 {selectedYear === new Date().getFullYear() 
                   ? 'Még nem vásároltál kurzust.'
                   : `Nincs tranzakció ${selectedYear}-ben.`}
@@ -388,6 +395,7 @@ export default function PaymentsClient() {
                 <Button
                   onClick={() => router.push('/courses')}
                   variant="primary"
+                  className="bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
                 >
                   Kurzusok böngészése
                 </Button>
@@ -396,12 +404,12 @@ export default function PaymentsClient() {
           )}
         </Card>
 
-        {/* Help Section */}
-        <Card className="mt-8 p-6 bg-blue-50 border-blue-200">
-          <h3 className="font-semibold text-blue-900 mb-2">
+        {/* Academic Help Section */}
+        <Card className="mt-8 p-6 bg-amber-50/60 border-amber-200/50 backdrop-blur-sm shadow-sm">
+          <h3 className="font-serif font-medium text-amber-900 mb-2">
             Segítségre van szükséged a számlázással kapcsolatban?
           </h3>
-          <p className="text-sm text-blue-800 mb-4">
+          <p className="text-sm text-amber-800 font-light mb-4">
             Ha kérdésed van a fizetésekkel vagy számlákkal kapcsolatban, vagy visszatérítést szeretnél kérni, 
             vedd fel velünk a kapcsolatot.
           </p>
@@ -409,6 +417,7 @@ export default function PaymentsClient() {
             onClick={() => router.push('/support')}
             variant="primary"
             size="sm"
+            className="bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
           >
             Kapcsolatfelvétel
           </Button>

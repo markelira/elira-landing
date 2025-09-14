@@ -46,16 +46,16 @@ const FloatingNavbar: React.FC = () => {
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-lg"
       >
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <img 
                 src="/eliraicon.png" 
                 alt="Elira logo" 
-                className="w-8 h-8 object-contain"
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
               />
-              <span className="text-2xl font-bold text-black">
+              <span className="text-xl sm:text-2xl font-bold text-black">
                 Elira
               </span>
             </div>
@@ -135,9 +135,10 @@ const FloatingNavbar: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-teal-700 transition-colors"
+              className="md:hidden p-2 text-gray-700 hover:text-teal-700 transition-colors touch-target"
+              aria-label="Menu"
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -151,7 +152,7 @@ const FloatingNavbar: React.FC = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden bg-white border-t border-gray-200"
             >
-              <div className="container mx-auto px-6 py-4 space-y-4">
+              <div className="container mx-auto px-4 sm:px-6 py-4 space-y-3">
                 {content.navbar.items.map((item) => {
                   if (item.href.startsWith('/')) {
                     return (
@@ -159,7 +160,7 @@ const FloatingNavbar: React.FC = () => {
                         key={item.href}
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-2"
+                        className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-3 px-2 rounded-lg hover:bg-gray-50 touch-target"
                       >
                         {item.label}
                       </Link>
@@ -169,7 +170,7 @@ const FloatingNavbar: React.FC = () => {
                     <button
                       key={item.href}
                       onClick={() => scrollToSection(item.href)}
-                      className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-2"
+                      className="block w-full text-left text-gray-700 hover:text-teal-700 transition-colors font-medium py-3 px-2 rounded-lg hover:bg-gray-50 touch-target"
                     >
                       {item.label}
                     </button>

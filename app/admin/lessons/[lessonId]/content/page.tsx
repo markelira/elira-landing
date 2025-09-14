@@ -21,8 +21,8 @@ import {
   Clock,
   AlertCircle
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/badge';
 import VideoEditor from '@/components/admin/content/VideoEditor';
 import TextEditor from '@/components/admin/content/TextEditor';

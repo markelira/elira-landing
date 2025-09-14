@@ -174,7 +174,19 @@ const EmailCaptureModalV2: React.FC<EmailCaptureModalProps> = ({
 
       logger.log('Submitting form data:', { ...payload, email: payload.email.replace(/@.*/, '@***') });
 
-      const response = await fetch('https://europe-west1-elira-landing-ce927.cloudfunctions.net/api/api/subscribe', {
+      // 🔍 DEBUG: Environment and URL logging  
+      console.log('🔍 EmailCaptureModalV2 Environment check:', {
+        NODE_ENV: process.env.NODE_ENV,
+        NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL: process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL,
+        currentURL: typeof window !== 'undefined' ? window.location.origin : 'SSR'
+      });
+
+      // 🚨 HARDCODED FIX - Environment variables are corrupted in production
+      const apiUrl = 'https://api-5k33v562ya-ew.a.run.app/api/subscribe'; // Direct working URL
+
+      console.log('🎯 EmailCaptureModalV2 calling API URL:', apiUrl);
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
 import { PerformanceProvider } from '@/components/PerformanceProvider';
 import SalesHero from '@/components/sales/SalesHero';
+import InteractiveCourseModules from '@/components/course/InteractiveCourseModules';
 import ZoliIntroduction from '@/components/sales/ZoliIntroduction';
 import ProblemSection from '@/components/sales/ProblemSection';
 import SolutionSection from '@/components/sales/SolutionSection';
@@ -13,19 +14,18 @@ import TripwireOffer from '@/components/sales/TripwireOffer';
 import PricingSection from '@/components/sales/PricingSection';
 import TestimonialsSection from '@/components/sales/TestimonialsSection';
 import FinalCTA from '@/components/sales/FinalCTA';
-import CourseDetailsSection from '@/components/course-detail/CourseDetailsSection';
-import GameChanger from '@/components/sales/GameChanger';
 import FOMOSection from '@/components/sales/FOMOSection';
+import ExamplesSection from '@/components/sales/ExamplesSection';
 
 export default function Home() {
   return (
     <PerformanceProvider>
       <ScrollProgressIndicator />
       <FloatingNavbar />
-      <main className="pt-16 md:pt-0">
+      <main className="pt-16 md:pt-0 overflow-x-hidden">
         <SalesHero />
-        <CourseDetailsSection />
-        <GameChanger />
+        <InteractiveCourseModules />
+        <ExamplesSection />
         <FOMOSection />
         <ProblemSection />
         {/* TODO: Add 3 one-line testimonials here */}

@@ -1,22 +1,28 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
 import { z } from 'zod';
-import { sendLeadMagnetEmail } from '../services/sendgrid';
+import { sendLeadMagnetEmail, sendVideoEmail } from '../services/sendgrid';
 import { sendDiscordNotification } from '../services/discord';
 
 // Get Firestore instance
 const db = admin.firestore();
 
-// Validation schema - updated to handle removed fields
+// Validation schema - updated to handle video modal submissions
 const subscribeSchema = z.object({
   email: z.string().email('Invalid email address'),
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(1, 'Last name must be at least 1 character'),
+  phone: z.string().optional(), // Added for video modal
   job: z.string().optional(), // Changed from enum to string to accept empty values
   education: z.string().optional(), // Changed from enum to string to accept empty values
   magnetId: z.string().optional(),
   magnetTitle: z.string().optional(),
   magnetSelected: z.string().optional(),
+  source: z.string().optional(), // Added to identify video modal submissions
+  metadata: z.object({
+    phone: z.string().optional(),
+    selectedVideoUrl: z.string().optional(),
+  }).optional(),
 });
 
 interface LeadData {
@@ -24,7 +30,9 @@ interface LeadData {
   firstName: string;
   lastName: string;
   name: string;
+  phone?: string; // Added for video modal
   magnetSelected: string;
+  selectedVideoUrl?: string; // Added for video modal
   job: string;
   education: string;
   selectedMagnets: string[];
@@ -101,8 +109,20 @@ export async function subscribeHandler(req: Request, res: Response) {
       });
     }
 
-    const { email, firstName, lastName, job, education, magnetId, magnetSelected } = validationResult.data;
-    console.log('Processing subscription for:', email);
+    const { email, firstName, lastName, phone, job, education, magnetId, magnetSelected, source, metadata } = validationResult.data;
+    console.log('Processing subscription for:', email, 'Source:', source);
+    console.log('🔍 DEBUG - Received data:', {
+      magnetId,
+      magnetSelected,
+      source,
+      metadata,
+      fullData: validationResult.data
+    });
+
+    // Handle video modal submissions
+    const isVideoModal = source === 'video-modal';
+    const videoUrl = metadata?.selectedVideoUrl;
+    const userPhone = phone || metadata?.phone;
 
     // 1. ALWAYS save to Firebase first (this is critical)
     const leadData = {
@@ -110,11 +130,13 @@ export async function subscribeHandler(req: Request, res: Response) {
       firstName,
       lastName,
       name: `${firstName} ${lastName}`,
+      phone: userPhone,
       magnetSelected: magnetSelected || magnetId || 'none',
+      selectedVideoUrl: videoUrl,
       job: job || 'Not specified',
       education: education || 'Not specified',
       selectedMagnets: magnetId ? [magnetId] : [],
-      source: 'website',
+      source: source || 'website',
       status: 'active'
     };
     
@@ -136,16 +158,39 @@ export async function subscribeHandler(req: Request, res: Response) {
     let emailSent = false;
     
     try {
-      // Send email with SendGrid
-      const emailResult = await sendLeadMagnetEmail(
-        email,
-        `${firstName} ${lastName}`,
-        magnetSelected || magnetId || 'none'
-      );
+      let emailResult;
+      
+      // Use different email templates based on source
+      if (isVideoModal) {
+        // Send video-specific email with enhanced template
+        const finalMagnetType = magnetSelected || magnetId || 'none';
+        console.log('🔍 DEBUG - Email magnet type selection:', {
+          magnetSelected,
+          magnetId,
+          finalMagnetType,
+          isVideoModal,
+          userPhone
+        });
+        
+        emailResult = await sendVideoEmail(
+          email,
+          `${firstName} ${lastName}`,
+          finalMagnetType,
+          userPhone
+        );
+        console.log('Sending video email for:', finalMagnetType);
+      } else {
+        // Send standard lead magnet email
+        emailResult = await sendLeadMagnetEmail(
+          email,
+          `${firstName} ${lastName}`,
+          magnetSelected || magnetId || 'none'
+        );
+      }
 
       if (emailResult.success) {
         emailSent = true;
-        console.log('SendGrid: Email sent successfully to', email);
+        console.log(`SendGrid: ${isVideoModal ? 'Video' : 'Standard'} email sent successfully to`, email);
       } else {
         console.warn('SendGrid: Failed to send email:', emailResult.error);
       }

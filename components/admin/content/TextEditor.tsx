@@ -28,8 +28,8 @@ import {
   Heading3,
   FileText
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { toast } from 'sonner';
 import { uploadFile } from '@/lib/upload';
 

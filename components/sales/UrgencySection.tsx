@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, AlertTriangle, Users, Gift, TrendingDown, DollarSign, Zap } from 'lucide-react';
+import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
 
 const UrgencySection: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     hours: 72,
     minutes: 0,
@@ -68,7 +70,7 @@ const UrgencySection: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-20 bg-gradient-to-br from-red-900 via-red-800 to-orange-900">
+    <section className="relative py-16 bg-gradient-to-br from-red-900 via-red-800 to-orange-900">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-10 left-10 w-32 h-32 bg-red-500/20 rounded-full blur-3xl animate-pulse" />
@@ -220,25 +222,21 @@ const UrgencySection: React.FC = () => {
             className="text-center mt-16"
           >
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-xl hover:bg-white/15 text-white border-2 border-white/30 hover:border-white/50 px-6 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-xl hover:bg-white/15 text-white border-2 border-white/30 hover:border-white/50 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
               >
                 <span className="text-xl">🎁</span>
                 <span>ELŐSZÖR AZ INGYENES VIDEÓT KÉREM</span>
-              </motion.a>
+              </motion.button>
               
-              <motion.a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 
@@ -252,12 +250,18 @@ const UrgencySection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </motion.a>
+              </motion.button>
             </div>
           </motion.div>
 
         </div>
       </div>
+      
+      {/* Video Selection Modal */}
+      <VideoSelectionModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 };

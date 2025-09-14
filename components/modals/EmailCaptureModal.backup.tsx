@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X, CheckCircle, AlertCircle } from 'lucide-react';
 import { content } from '@/lib/content/hu';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import useAnalytics from '@/hooks/useAnalytics';
 import { logger } from '@/lib/logger';
 

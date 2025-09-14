@@ -13,7 +13,7 @@ const auth = admin.auth();
 
 async function enrollUser() {
   try {
-    const email = 'marquesesacue@gmail.com';
+    const email = 'mark@elira.hu';
     const courseId = 'ai-copywriting-course';
     
     console.log(`Finding user with email: ${email}`);

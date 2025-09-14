@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { formatPrice } from '@/lib/payment';
 import { COURSE_CONFIG } from '@/types/payment';
@@ -25,6 +25,26 @@ interface PurchaseButtonProps {
   disabled?: boolean;
 }
 
+// Function to determine if background is dark
+const isDarkBackground = (element: HTMLElement | null): boolean => {
+  if (!element) return false;
+  
+  const computedStyle = window.getComputedStyle(element);
+  const bgColor = computedStyle.backgroundColor;
+  
+  // Parse RGB values
+  const rgbMatch = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (rgbMatch) {
+    const [, r, g, b] = rgbMatch.map(Number);
+    // Calculate luminance using standard formula
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance < 0.5;
+  }
+  
+  // If no background color or transparent, check parent
+  return isDarkBackground(element.parentElement);
+};
+
 const PurchaseButton: React.FC<PurchaseButtonProps> = ({
   courseId = 'ai-copywriting-course',
   course,
@@ -37,8 +57,28 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
   const { user } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [textColor, setTextColor] = useState('text-academic-slate-600');
   const currentCourseId = course?.id || courseId;
   const { data: enrollmentData, isLoading: enrollmentLoading } = useEnrollmentStatus(currentCourseId);
+
+  // Check background and set text color
+  useEffect(() => {
+    const checkBackground = () => {
+      const container = document.querySelector('.text-center');
+      if (isDarkBackground(container as HTMLElement)) {
+        setTextColor('text-white');
+      } else {
+        setTextColor('text-academic-slate-600');
+      }
+    };
+    
+    checkBackground();
+    // Re-check when component mounts or updates
+    const observer = new MutationObserver(checkBackground);
+    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+    
+    return () => observer.disconnect();
+  }, []);
 
   const handlePurchase = async () => {
     const currentCourseId = course?.id || courseId;
@@ -131,7 +171,18 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
       <div className={`text-center ${className}`}>
         <button
           onClick={() => router.push(`/courses/${currentCourseId}/learn`)}
-          className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="academic-button inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-sm transition-all duration-300 text-white hover:shadow-lg transform hover:-translate-y-1 uppercase tracking-wide"
+          style={{
+            backgroundColor: '#0f766e',
+            borderColor: '#134e4a',
+            border: '1px solid #134e4a'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#134e4a';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#0f766e';
+          }}
         >
           <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-9-9h10a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V7a2 2 0 012-2z" />
@@ -148,13 +199,29 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
         onClick={handlePurchase}
         disabled={isLoading || disabled}
         className={`
-          inline-flex items-center justify-center px-8 py-4 
-          text-lg font-semibold rounded-lg transition-all duration-200
+          academic-button inline-flex items-center justify-center px-8 py-4 
+          text-lg font-semibold rounded-sm transition-all duration-300 uppercase tracking-wide
           ${isLoading || disabled
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+            ? 'cursor-not-allowed'
+            : 'text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1'
           }
         `}
+        style={{
+          backgroundColor: isLoading || disabled ? '#E2E8F0' : '#0f766e',
+          color: isLoading || disabled ? '#64748B' : 'white',
+          borderColor: isLoading || disabled ? '#CBD5E1' : '#134e4a',
+          border: `1px solid ${isLoading || disabled ? '#CBD5E1' : '#134e4a'}`
+        }}
+        onMouseEnter={(e) => {
+          if (!isLoading && !disabled) {
+            e.currentTarget.style.backgroundColor = '#134e4a';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isLoading && !disabled) {
+            e.currentTarget.style.backgroundColor = '#0f766e';
+          }
+        }}
       >
         {isLoading ? (
           <>
@@ -179,7 +246,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
       </button>
 
 
-      <div className="mt-4 text-xs text-gray-400">
+      <div className={`mt-4 text-xs ${textColor} academic-body`}>
         <p>🔒 Biztonságos fizetés Stripe segítségével</p>
         <p>💳 Bankkártya, Apple Pay, Google Pay elfogadva</p>
         <p>🇭🇺 Magyar számlázás és ÁFA kezelés</p>

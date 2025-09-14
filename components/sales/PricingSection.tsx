@@ -50,45 +50,51 @@ const PricingSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <div className="container mx-auto px-6">
+    <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F8F7F5' }}>
+      {/* Money flow animation */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2310b981' fill-opacity='1'%3E%3Ccircle cx='50' cy='50' r='2'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='80' cy='80' r='1'/%3E%3Ccircle cx='20' cy='80' r='1'/%3E%3Ccircle cx='80' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E")`
+      }} />
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12"
           >
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-full shadow-lg mb-8">
-              <DollarSign className="w-6 h-6" />
-              <span className="font-bold text-lg">💰 FŐ AJÁNLAT</span>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 px-3 sm:px-4 py-2 rounded-full border border-green-200 shadow-sm mb-4 sm:mb-6 hover:shadow-md transition-all duration-300">
+              <DollarSign className="w-5 h-5 text-green-600 animate-pulse" />
+              <span className="font-medium text-gray-900">Fő ajánlat</span>
             </div>
           </motion.div>
 
           {/* Value Calculation Section */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-gray-200 mb-8"
+            className="bg-gradient-to-br from-white to-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-8 border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 mb-6 sm:mb-8 relative overflow-hidden"
           >
+            {/* Value stack shimmer effect */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-green-400 animate-pulse"></div>
             
             {/* Value Header */}
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Calculator className="w-8 h-8 text-teal-600" />
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 flex-wrap">
+                <Calculator className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 text-center">
                   A kurzus összes komponensének értéke:
                 </h2>
               </div>
             </div>
 
             {/* Components List with Values */}
-            <div className="space-y-4 mb-8">
+            <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
               {courseComponents.map((component, index) => (
                 <motion.div
                   key={index}
@@ -96,21 +102,21 @@ const PricingSection: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md hover:border-green-200 hover:bg-green-50/30 transition-all duration-300 group gap-3 sm:gap-4"
                 >
-                  <div className="flex items-center gap-4">
-                    <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0" />
-                    <div>
-                      <p className="font-bold text-gray-900">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+                    <div className="flex-1">
+                      <p className="font-bold text-gray-900 text-sm sm:text-base">
                         {component.text}
                       </p>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-gray-600 text-xs sm:text-sm">
                         {component.detail}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-lg text-gray-900">
+                  <div className="text-right sm:text-right flex-shrink-0">
+                    <p className="font-bold text-base sm:text-lg text-gray-900">
                       {component.value.toLocaleString()} Ft
                     </p>
                   </div>
@@ -119,18 +125,18 @@ const PricingSection: React.FC = () => {
             </div>
 
             {/* Total Value Calculation */}
-            <div className="border-t-2 border-gray-300 pt-6 mb-8">
-              <div className="flex items-center justify-between bg-gradient-to-r from-teal-50 to-cyan-50 p-6 rounded-xl border-2 border-teal-200">
+            <div className="border-t border-gray-200 pt-6 mb-6">
+              <div className="flex items-center justify-between bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-lg border border-green-200 shadow-sm hover:shadow-md transition-all duration-300">
                 <div>
-                  <p className="text-xl font-bold text-gray-900">
+                  <p className="text-lg font-semibold text-gray-900">
                     Összes érték:
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-sm">
                     Ha külön-külön vennéd meg
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-2xl font-bold text-gray-900">
                     {totalValue.toLocaleString()} Ft
                   </p>
                 </div>
@@ -138,21 +144,25 @@ const PricingSection: React.FC = () => {
             </div>
 
             {/* Actual Price */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-8 rounded-2xl shadow-xl"
+                className="bg-gradient-to-br from-white via-green-50/20 to-white border-2 border-green-300 p-6 rounded-lg shadow-lg relative overflow-hidden"
               >
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                {/* Animated savings badge */}
+                <div className="absolute -top-3 -right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">
+                  -69%
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   Te azonban csak ennyit fizetsz:
                 </h3>
-                <div className="text-5xl md:text-6xl font-black text-yellow-300 mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                   {actualPrice.toLocaleString()} Ft
                 </div>
-                <p className="text-green-100 text-lg">
+                <p className="text-gray-600">
                   Egyszerű, átlátható árképzés
                 </p>
               </motion.div>

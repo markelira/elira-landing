@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, Star } from 'lucide-react';
 import { UniversalCourseCard } from '../course/UniversalCourseCard';
 import { useTrendingCourses } from '@/hooks/useCoursesCatalog';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 const CourseOfferSection: React.FC = () => {
   const router = useRouter();

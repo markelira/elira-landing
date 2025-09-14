@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import { fadeInUp } from '@/lib/animations';
 import { logger } from '@/lib/logger';
 

@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useUserProgress } from '@/hooks/useUserProgress'
 import { useTrendingCourses } from '@/hooks/useCoursesCatalog'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { UniversalCourseCard } from '@/components/course/UniversalCourseCard'
 import { DashboardRoleRedirect } from '@/components/RoleBasedRedirect'
@@ -96,15 +96,15 @@ export default function DashboardPage() {
     return (
       <>
         <DashboardRoleRedirect />
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen" style={{ backgroundColor: '#F8F7F5' }}>
           <div className="px-6 py-8">
             <div className="max-w-4xl mx-auto animate-pulse space-y-6">
-              <div className="h-8 bg-gray-300 rounded w-1/3"></div>
-              <div className="h-32 bg-gray-300 rounded"></div>
+              <div className="h-8 bg-slate-300 rounded w-1/3"></div>
+              <div className="h-32 bg-slate-300 rounded"></div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="h-24 bg-gray-300 rounded"></div>
-                <div className="h-24 bg-gray-300 rounded"></div>
-                <div className="h-24 bg-gray-300 rounded"></div>
+                <div className="h-24 bg-slate-300 rounded"></div>
+                <div className="h-24 bg-slate-300 rounded"></div>
+                <div className="h-24 bg-slate-300 rounded"></div>
               </div>
             </div>
           </div>
@@ -114,82 +114,85 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#F8F7F5' }}>
       <DashboardRoleRedirect />
       <div className="px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
           
-          {/* Welcome Header */}
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          {/* Academic Welcome Header */}
+          <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-4"></div>
+            <h1 className="text-2xl font-serif font-medium text-slate-900 mb-2">
               Üdvözöljük, {user?.firstName || user?.email?.split('@')[0]}!
             </h1>
-            <p className="text-gray-600">Itt követheti nyomon a tanulási előrehaladását</p>
+            <p className="text-slate-700 font-light">Itt követheti nyomon a tanulási előrehaladását</p>
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-4"></div>
           </div>
 
-          {/* Stats Cards */}
+          {/* Academic Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-4 md:p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Beiratkozott kurzusok</p>
-                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-slate-600 font-light">Beiratkozott kurzusok</p>
+                  <p className="text-xl md:text-2xl font-serif font-medium text-slate-900 mt-1">
                     {progressData?.totalCourses || 0}
                   </p>
                 </div>
-                <div className="bg-blue-100 p-2 md:p-3 rounded-full">
-                  <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
+                <div className="bg-amber-100/60 p-2 md:p-3 rounded border border-amber-200/50">
+                  <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-amber-700" />
                 </div>
               </div>
             </Card>
 
-            <Card className="p-4 md:p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Befejezett kurzusok</p>
-                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-slate-600 font-light">Befejezett kurzusok</p>
+                  <p className="text-xl md:text-2xl font-serif font-medium text-slate-900 mt-1">
                     {progressData?.completedCourses || 0}
                   </p>
                 </div>
-                <div className="bg-green-100 p-2 md:p-3 rounded-full">
-                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-600" />
+                <div className="bg-emerald-100/60 p-2 md:p-3 rounded border border-emerald-200/50">
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-emerald-700" />
                 </div>
               </div>
             </Card>
 
-            <Card className="p-4 md:p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Tanulási idő</p>
-                  <p className="text-xl md:text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xs md:text-sm text-slate-600 font-light">Tanulási idő</p>
+                  <p className="text-xl md:text-2xl font-serif font-medium text-slate-900 mt-1">
                     {formatTime(progressData?.totalLearningTime || 0)}
                   </p>
                 </div>
-                <div className="bg-purple-100 p-2 md:p-3 rounded-full">
-                  <Clock className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
+                <div className="bg-violet-100/60 p-2 md:p-3 rounded border border-violet-200/50">
+                  <Clock className="w-5 h-5 md:w-6 md:h-6 text-violet-700" />
                 </div>
               </div>
             </Card>
           </div>
 
-          {/* Available Courses Section */}
+          {/* Academic Available Courses Section */}
           {availableCourses.length > 0 && (
-            <Card className="p-4 md:p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-500" />
+                <h2 className="text-lg md:text-xl font-serif font-medium text-slate-900 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-amber-600" />
                   Elérhető kurzusok
                 </h2>
                 <Button
                   onClick={() => router.push('/courses')}
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-2 border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700"
                 >
                   Összes kurzus
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
+              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-6"></div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {availableCourses.map((course) => (
@@ -205,38 +208,39 @@ export default function DashboardPage() {
             </Card>
           )}
 
-          {/* Continue Learning Section */}
+          {/* Academic Continue Learning Section */}
           {progressData?.enrolledCourses && progressData.enrolledCourses.length > 0 ? (
-            <Card className="p-4 md:p-6 bg-white">
+            <Card className="p-4 md:p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg md:text-xl font-semibold text-gray-900">Folyamatban lévő kurzusai</h2>
+                <h2 className="text-lg md:text-xl font-serif font-medium text-slate-900">Folyamatban lévő kurzusai</h2>
                 <Button
                   onClick={() => router.push('/dashboard/learning')}
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-2 border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700"
                 >
                   Mind megtekintése
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
+              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-6"></div>
               
               <div className="grid grid-cols-1 gap-4">
                 {progressData.enrolledCourses
                   .filter(course => !course.isCompleted)
                   .slice(0, 2)
                   .map((course) => (
-                    <div key={course.courseId} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+                    <div key={course.courseId} className="border border-slate-300/50 rounded bg-white/60 p-4 hover:border-amber-300 transition-colors">
                       <div className="flex items-start gap-4">
-                        <div className="bg-blue-100 p-2 rounded-lg">
-                          <BookOpen className="w-5 h-5 text-blue-600" />
+                        <div className="bg-amber-100/60 p-2 rounded border border-amber-200/50">
+                          <BookOpen className="w-5 h-5 text-amber-700" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-medium text-gray-900 mb-2">{course.courseTitle}</h3>
+                          <h3 className="font-serif font-medium text-slate-900 mb-2">{course.courseTitle}</h3>
                           <div className="mb-3">
                             <div className="flex justify-between text-sm mb-1">
-                              <span className="text-gray-600">Haladás</span>
-                              <span className="font-medium">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
+                              <span className="text-slate-600 font-light">Haladás</span>
+                              <span className="font-medium text-slate-800">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
                             </div>
                             <ProgressBar 
                               value={isNaN(course.progressPercentage) ? 0 : course.progressPercentage}
@@ -253,7 +257,7 @@ export default function DashboardPage() {
                               }
                             }}
                             size="sm"
-                            className="gap-2"
+                            className="gap-2 bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
                           >
                             <Play className="w-4 h-4" />
                             Tanulás folytatása
@@ -265,17 +269,17 @@ export default function DashboardPage() {
               </div>
             </Card>
           ) : (
-            /* Featured Course Card when not enrolled */
-            <Card className="overflow-hidden bg-white">
-              <div className="bg-gradient-to-br from-teal-500 to-cyan-600 p-6 text-white">
+            /* Academic Featured Course Card when not enrolled */
+            <Card className="overflow-hidden bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
+              <div className="bg-gradient-to-br from-amber-600 to-amber-700 p-6 text-white">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur rounded-full">
+                  <span className="inline-block px-3 py-1 text-xs font-serif font-medium bg-white/20 backdrop-blur rounded border border-white/30">
                     NÉPSZERŰ KURZUS
                   </span>
-                  <span className="text-2xl font-bold">9 990 Ft</span>
+                  <span className="text-2xl font-serif font-light">9 990 Ft</span>
                 </div>
-                <h2 className="text-2xl font-bold mb-2">AI Copywriting Mastery Kurzus</h2>
-                <p className="text-white/90 mb-4">
+                <h2 className="text-2xl font-serif font-medium mb-2">AI Copywriting Mastery Kurzus</h2>
+                <p className="text-white/90 font-light mb-4">
                   Tanulj meg hatékony szövegeket írni AI eszközökkel
                 </p>
               </div>
@@ -283,41 +287,41 @@ export default function DashboardPage() {
               <div className="p-6">
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
-                    <Clock className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                    <div className="text-sm font-medium text-gray-900">8 óra</div>
-                    <div className="text-xs text-gray-500">Videó tartalom</div>
+                    <Clock className="w-5 h-5 text-slate-500 mx-auto mb-1" />
+                    <div className="text-sm font-serif font-medium text-slate-900">8 óra</div>
+                    <div className="text-xs text-slate-600 font-light">Videó tartalom</div>
                   </div>
                   <div className="text-center">
-                    <BookOpen className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                    <div className="text-sm font-medium text-gray-900">12 lecke</div>
-                    <div className="text-xs text-gray-500">Gyakorlatokkal</div>
+                    <BookOpen className="w-5 h-5 text-slate-500 mx-auto mb-1" />
+                    <div className="text-sm font-serif font-medium text-slate-900">12 lecke</div>
+                    <div className="text-xs text-slate-600 font-light">Gyakorlatokkal</div>
                   </div>
                   <div className="text-center">
-                    <Award className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                    <div className="text-sm font-medium text-gray-900">Tanúsítvány</div>
-                    <div className="text-xs text-gray-500">Befejezéskor</div>
+                    <Award className="w-5 h-5 text-slate-500 mx-auto mb-1" />
+                    <div className="text-sm font-serif font-medium text-slate-900">Tanúsítvány</div>
+                    <div className="text-xs text-slate-600 font-light">Befejezéskor</div>
                   </div>
                 </div>
                 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-gray-700">Gyakorlati példák valós projektekből</span>
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <span className="text-sm text-slate-700 font-light">Gyakorlati példák valós projektekből</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-gray-700">AI promptok és sablonok</span>
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <span className="text-sm text-slate-700 font-light">AI promptok és sablonok</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-gray-700">Életfogytig tartó hozzáférés</span>
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <span className="text-sm text-slate-700 font-light">Életfogytig tartó hozzáférés</span>
                   </div>
                 </div>
                 
                 <Button
                   onClick={() => router.push('/courses/ai-copywriting-course')}
                   size="lg"
-                  className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white"
+                  className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-light"
                 >
                   Részletek és vásárlás
                 </Button>
@@ -325,30 +329,30 @@ export default function DashboardPage() {
             </Card>
           )}
 
-          {/* Quick Actions */}
+          {/* Academic Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Button
               onClick={() => router.push('/dashboard/learning')}
               variant="outline"
-              className="p-6 h-auto flex-col items-start hover:border-blue-300"
+              className="p-6 h-auto flex-col items-start bg-white/60 backdrop-blur-sm border-slate-300 hover:border-amber-400 hover:bg-white/80"
             >
               <div className="flex items-center gap-3 w-full mb-2">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-                <span className="font-medium">Tanulási központ</span>
+                <BookOpen className="w-5 h-5 text-amber-700" />
+                <span className="font-serif font-medium text-slate-900">Tanulási központ</span>
               </div>
-              <p className="text-sm text-gray-600 text-left">Kurzusok, haladás és tanúsítványok</p>
+              <p className="text-sm text-slate-600 text-left font-light">Kurzusok, haladás és tanúsítványok</p>
             </Button>
 
             <Button
               onClick={() => router.push('/dashboard/payments')}
               variant="outline"
-              className="p-6 h-auto flex-col items-start hover:border-green-300"
+              className="p-6 h-auto flex-col items-start bg-white/60 backdrop-blur-sm border-slate-300 hover:border-amber-400 hover:bg-white/80"
             >
               <div className="flex items-center gap-3 w-full mb-2">
-                <Award className="w-5 h-5 text-green-600" />
-                <span className="font-medium">Fizetési előzmények</span>
+                <Award className="w-5 h-5 text-amber-700" />
+                <span className="font-serif font-medium text-slate-900">Fizetési előzmények</span>
               </div>
-              <p className="text-sm text-gray-600 text-left">Számlák és tranzakciók</p>
+              <p className="text-sm text-slate-600 text-left font-light">Számlák és tranzakciók</p>
             </Button>
           </div>
 

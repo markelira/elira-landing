@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback } from 'react';
-import { Button } from './button';
+import { Button } from './Button';
 import { Progress } from './progress';
-import { Card, CardContent } from './card';
+import { Card, CardContent } from './Card';
 import { 
   Upload, 
   X, 

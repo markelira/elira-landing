@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Gift, Users, Target, Search, Heart, Trophy, ArrowRight, CheckCircle } from 'lucide-react';
+import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
 
 const TripwireOffer: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const modules = [
     {
@@ -52,19 +54,18 @@ const TripwireOffer: React.FC = () => {
 
   const handleGetFreeVideo = () => {
     if (selectedModule) {
-      window.open('https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514', '_blank');
+      setModalOpen(true);
     }
   };
 
   return (
-    <section id="tripwire" className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-6">
+    <section id="tripwire" className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F8F7F5' }}>
+      {/* Subtle decorative pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2314b8a6' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }} />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           
           {/* Section Header */}
@@ -75,32 +76,20 @@ const TripwireOffer: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full border border-white/30 mb-8">
-              <Gift className="w-6 h-6" />
-              <span className="font-bold text-lg">🎁 INGYENES VIDEÓ AJÁNLAT</span>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-50 to-cyan-50 px-4 py-2 rounded-full border border-teal-200 shadow-sm mb-8 hover:shadow-md transition-all duration-300">
+              <Gift className="w-5 h-5 text-teal-600 animate-pulse" />
+              <span className="font-medium text-gray-900">🎁 Ingyenes videó ajánlat</span>
             </div>
             
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-bold text-white mb-8 leading-tight"
-            >
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-6 leading-tight">
               Csak egy dolgot kérek Tőled:
               <br />
-              <span className="text-teal-200">mielőtt megvennéd, előbb nézz bele ingyen.</span>
-            </motion.h2>
+              <span className="text-teal-600">mielőtt megvennéd, előbb nézz bele ingyen.</span>
+            </h2>
             
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="text-white text-xl md:text-2xl font-semibold"
-            >
-              Válaszd ki, melyik téma érdekel a legjobban, és <span className="bg-white/20 px-3 py-1 rounded-lg">INGYEN</span> megkapod:
-            </motion.p>
+            <p className="text-gray-700 text-lg">
+              Válaszd ki, melyik téma érdekel a legjobban, és <span className="bg-teal-100 text-teal-700 px-2 py-1 rounded font-semibold">INGYEN</span> megkapod:
+            </p>
           </motion.div>
 
           {/* Module Selection */}
@@ -126,16 +115,20 @@ const TripwireOffer: React.FC = () => {
                       : 'hover:scale-102'
                   }`}
                 >
-                  <div className={`bg-white/95 backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-300 ${
+                  <div className={`rounded-xl p-6 border-2 transition-all duration-300 relative overflow-hidden ${
                     selectedModule === module.number 
-                      ? 'border-yellow-400 shadow-2xl bg-white' 
-                      : 'border-white/30 hover:border-white/50 shadow-lg'
+                      ? 'border-teal-400 shadow-xl bg-gradient-to-r from-teal-50 to-cyan-50' 
+                      : 'bg-white border-gray-200 hover:border-teal-300 shadow-sm hover:shadow-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-white'
                   }`}>
+                    {/* Hover accent line */}
+                    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 transform transition-transform duration-500 ${
+                      selectedModule === module.number ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}></div>
                     <div className="flex items-center gap-4">
                       {/* Selection Indicator */}
                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                         selectedModule === module.number
-                          ? 'border-yellow-400 bg-yellow-400'
+                          ? 'border-teal-500 bg-teal-500'
                           : 'border-gray-300 bg-white'
                       }`}>
                         {selectedModule === module.number && (
@@ -182,10 +175,10 @@ const TripwireOffer: React.FC = () => {
               disabled={!selectedModule}
               whileHover={selectedModule ? { scale: 1.05, y: -3 } : {}}
               whileTap={selectedModule ? { scale: 0.95 } : {}}
-              className={`px-12 py-6 rounded-2xl font-bold text-xl shadow-2xl transition-all duration-300 flex items-center justify-center gap-4 mx-auto relative overflow-hidden ${
+              className={`px-6 py-3 md:px-8 md:py-4 rounded-lg font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-4 mx-auto relative overflow-hidden ${
                 selectedModule 
-                  ? 'bg-white text-teal-700 hover:bg-gray-50 hover:shadow-3xl cursor-pointer' 
-                  : 'bg-white/50 text-gray-400 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:from-teal-600 hover:to-cyan-600 shadow-lg hover:shadow-xl cursor-pointer' 
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
               }`}
             >
               {selectedModule && (
@@ -211,7 +204,7 @@ const TripwireOffer: React.FC = () => {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-teal-100 text-sm mt-4 italic"
+                className="text-gray-600 text-sm mt-4 italic"
               >
                 ☝️ Kattints egy modulra a fenti listából
               </motion.p>
@@ -225,9 +218,9 @@ const TripwireOffer: React.FC = () => {
                 transition={{ duration: 0.4 }}
                 className="mt-6"
               >
-                <div className="inline-flex items-center gap-2 bg-green-500/20 backdrop-blur-md text-green-100 px-4 py-2 rounded-full border border-green-300/30">
-                  <CheckCircle className="w-4 h-4" />
-                  <span className="font-semibold text-sm">
+                <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full border border-green-200">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="font-medium text-sm">
                     Azonnali hozzáférés, nincs rejtett költség
                   </span>
                 </div>
@@ -238,6 +231,12 @@ const TripwireOffer: React.FC = () => {
 
         </div>
       </div>
+      
+      {/* Video Selection Modal */}
+      <VideoSelectionModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 };

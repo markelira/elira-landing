@@ -7,8 +7,8 @@ import { useLessonProgress } from '@/hooks/useLessonProgress'
 import { VideoPlayer } from '@/components/video/VideoPlayer'
 import { VideoPlayerControls } from '@/components/video/VideoPlayerControls'
 import PDFViewer from '@/components/lesson/PDFViewer'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import { 
   ChevronLeft, 

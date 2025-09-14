@@ -58,7 +58,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 py-12 px-4" style={{ backgroundColor: '#F8F7F5' }}>
       <div className="max-w-md mx-auto">
         {/* Back to Home Link */}
         <Link 
@@ -68,6 +68,49 @@ export default function AuthPage() {
           <ChevronLeft className="w-4 h-4 mr-1" />
           <span>Vissza a főoldalra</span>
         </Link>
+
+        {/* Course Purchase Banner */}
+        {courseId && (
+          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-6 mb-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Jelentkezz be a vásárlás befejezéséhez
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Egy lépésre vagy attól, hogy hozzáférj: <br />
+                  <span className="font-medium text-gray-800">Olvass a vevőid gondolataiban</span> (9990 Ft)
+                </p>
+                
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
+                    </svg>
+                    <span className="text-gray-700">Biztonságos fiók szükséges a kurzus eléréséhez</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
+                    </svg>
+                    <span className="text-gray-700">Haladásod követése és tanúsítványok</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span className="text-gray-700">Automatikus átirányítás bejelentkezés után</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Logo */}
         <div className="text-center mb-8">
@@ -79,11 +122,7 @@ export default function AuthPage() {
             />
             <span className="text-3xl font-bold text-gray-900">Elira</span>
           </Link>
-          <p className="mt-2 text-gray-600">
-            {fromPurchase 
-              ? 'Jelentkezz be vagy regisztrálj a vásárlás folytatásához'
-              : 'Jelentkezz be a tanulási platformra'}
-          </p>
+          <p className="mt-2 text-gray-600">A kurzusod vár rád!</p>
         </div>
 
         {/* Auth Card */}
@@ -133,29 +172,35 @@ export default function AuthPage() {
         </div>
 
         {/* Benefits Section */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-600 mb-4">A regisztrációval hozzáférsz:</p>
-          <div className="space-y-2">
-            <div className="flex items-center justify-center text-sm text-gray-700">
-              <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              AI Copywriting Mastery Kurzus
-            </div>
-            <div className="flex items-center justify-center text-sm text-gray-700">
-              <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Személyre szabott tanulási útvonal
-            </div>
-            <div className="flex items-center justify-center text-sm text-gray-700">
-              <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Haladás követés és tanúsítvány
+        {courseId ? (
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-600 mb-4">🛒 Bejelentkezés után automatikusan átirányítunk a vásárlás befejezéséhez</p>
+          </div>
+        ) : (
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-600 mb-4">A regisztrációval hozzáférsz:</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-center text-sm text-gray-700">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                AI Copywriting Mastery Kurzus
+              </div>
+              <div className="flex items-center justify-center text-sm text-gray-700">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Személyre szabott tanulási útvonal
+              </div>
+              <div className="flex items-center justify-center text-sm text-gray-700">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Haladás követés és tanúsítvány
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Privacy Links */}
         <div className="mt-8 text-center text-xs text-gray-500">

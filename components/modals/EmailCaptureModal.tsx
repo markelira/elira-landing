@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X, CheckCircle, AlertCircle, ChevronDown, Mail } from 'lucide-react';
 import { content } from '@/lib/content/hu';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import useAnalytics from '@/hooks/useAnalytics';
 import { logger } from '@/lib/logger';
 
@@ -163,8 +163,20 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
     setErrorMessage('');
 
     try {
+      // 🔍 DEBUG: Environment and URL logging  
+      console.log('🔍 EmailCaptureModal Environment check:', {
+        NODE_ENV: process.env.NODE_ENV,
+        NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL: process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL,
+        currentURL: typeof window !== 'undefined' ? window.location.origin : 'SSR'
+      });
+
+      // 🚨 HARDCODED FIX - Environment variables are corrupted in production
+      const apiUrl = 'https://api-5k33v562ya-ew.a.run.app/api/subscribe'; // Direct working URL
+
+      console.log('🎯 EmailCaptureModal calling API URL:', apiUrl);
+
       // Call Firebase Functions directly
-      const response = await fetch('https://europe-west1-elira-landing-ce927.cloudfunctions.net/api/api/subscribe', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -177,9 +189,23 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
         }),
       });
 
+      // 🔍 DEBUG: Response logging
+      console.log('📥 EmailCaptureModal Response details:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        url: response.url,
+        headers: Object.fromEntries(response.headers)
+      });
+
       // Check if response is OK first
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('❌ EmailCaptureModal API Error:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorText
+        });
         logger.error(`Firebase Functions error (${response.status}):`, errorText);
         throw new Error('Hiba történt az email küldése során. Kérjük próbáld újra később.');
       }

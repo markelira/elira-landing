@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, GraduationCap, Building2, Users, Microscope } from 'lucide-react';
+import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
 
 const GuaranteeSection: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const trustFactors = [
     {
       icon: GraduationCap,
@@ -54,7 +56,7 @@ const GuaranteeSection: React.FC = () => {
               <span className="font-bold">🔒 GARANCIA ÉS BIZALOM</span>
             </div>
             
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
               Miért bízhatsz bennem?
             </h2>
           </motion.div>
@@ -120,25 +122,21 @@ const GuaranteeSection: React.FC = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center justify-center gap-3 bg-white backdrop-blur-xl hover:bg-gray-50 text-teal-700 border-2 border-teal-200 hover:border-teal-300 px-6 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                className="flex items-center justify-center gap-3 bg-white backdrop-blur-xl hover:bg-gray-50 text-teal-700 border-2 border-teal-200 hover:border-teal-300 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
               >
                 <span className="text-xl">🎁</span>
                 <span>ELŐSZÖR AZ INGYENES VIDEÓT KÉREM</span>
-              </motion.a>
+              </motion.button>
               
-              <motion.a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 
@@ -152,12 +150,18 @@ const GuaranteeSection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </motion.a>
+              </motion.button>
             </div>
           </motion.div>
 
         </div>
       </div>
+      
+      {/* Video Selection Modal */}
+      <VideoSelectionModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 };

@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, ArrowRight, TrendingDown, TrendingUp, Clock, Target, Trophy, Brain } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
+import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
 
 const FinalCTA: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const badChoicePoints = [
     {
       icon: Clock,
@@ -49,11 +51,11 @@ const FinalCTA: React.FC = () => {
 
 
   const handleFreeVideo = () => {
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLSfRJ-hWzGa1qxZ7luJr_en2Pk1_O4SrKaCyliiShfSHEg87VA/viewform?usp=sharing&ouid=113299212479349141514', '_blank');
+    setModalOpen(true);
   };
 
   return (
-    <section className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+    <section className="relative py-16 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl" />
@@ -69,20 +71,20 @@ const FinalCTA: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
             <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-full border border-white/20 mb-8">
               <Phone className="w-6 h-6" />
               <span className="font-bold text-lg">📞 VÉGSŐ DÖNTÉS</span>
             </div>
             
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 leading-tight">
               Két <span className="text-teal-400">választásod</span> van:
             </h2>
           </motion.div>
 
           {/* Two Choices Comparison */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-8 mb-12">
             
             {/* Bad Choice - Left */}
             <motion.div
@@ -210,6 +212,12 @@ const FinalCTA: React.FC = () => {
 
         </div>
       </div>
+      
+      {/* Video Selection Modal */}
+      <VideoSelectionModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </section>
   );
 };

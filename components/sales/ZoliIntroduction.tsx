@@ -6,7 +6,7 @@ import { GraduationCap, Building2, CheckCircle, Lightbulb, LinkedinIcon } from '
 
 const ZoliIntroduction: React.FC = () => {
   return (
-    <section className="relative py-20 bg-white">
+    <section className="py-16" style={{ backgroundColor: '#F8F7F5' }}>
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           
@@ -21,7 +21,7 @@ const ZoliIntroduction: React.FC = () => {
               viewport={{ once: true }}
               className="lg:sticky lg:top-8"
             >
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-8 border border-teal-100 shadow-lg">
+              <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
                 
                 {/* Profile Image */}
                 <div className="w-32 h-32 mx-auto mb-6 rounded-full shadow-xl overflow-hidden border-4 border-white">

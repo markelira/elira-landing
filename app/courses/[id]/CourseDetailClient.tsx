@@ -18,31 +18,31 @@ export default function CourseDetailClient({ courseId }: Props) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-gray-50 py-8 sm:py-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Hero Section Skeleton */}
-          <div className="mb-12 animate-pulse">
-            <div className="h-12 bg-gray-300 rounded w-3/4 mb-4"></div>
-            <div className="h-6 bg-gray-200 rounded w-full mb-2"></div>
-            <div className="h-6 bg-gray-200 rounded w-2/3 mb-8"></div>
-            <div className="flex gap-4">
-              <div className="h-12 bg-gray-300 rounded w-32"></div>
-              <div className="h-12 bg-gray-200 rounded w-24"></div>
+          <div className="mb-8 sm:mb-12 animate-pulse">
+            <div className="h-8 sm:h-12 bg-gray-300 rounded w-3/4 mb-3 sm:mb-4"></div>
+            <div className="h-4 sm:h-6 bg-gray-200 rounded w-full mb-2"></div>
+            <div className="h-4 sm:h-6 bg-gray-200 rounded w-2/3 mb-6 sm:mb-8"></div>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="h-12 bg-gray-300 rounded w-full sm:w-32"></div>
+              <div className="h-12 bg-gray-200 rounded w-full sm:w-24"></div>
             </div>
           </div>
           
           {/* Content Skeleton */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
-              <div className="h-64 bg-gray-300 rounded"></div>
-              <div className="space-y-4">
-                <div className="h-4 bg-gray-200 rounded w-full"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+              <div className="h-48 sm:h-64 bg-gray-300 rounded"></div>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="h-3 sm:h-4 bg-gray-200 rounded w-full"></div>
+                <div className="h-3 sm:h-4 bg-gray-200 rounded w-5/6"></div>
+                <div className="h-3 sm:h-4 bg-gray-200 rounded w-4/6"></div>
               </div>
             </div>
-            <div className="lg:col-span-1">
-              <div className="h-96 bg-gray-300 rounded"></div>
+            <div className="lg:col-span-1 mt-6 lg:mt-0">
+              <div className="h-80 sm:h-96 bg-gray-300 rounded"></div>
             </div>
           </div>
         </div>
@@ -52,13 +52,13 @@ export default function CourseDetailClient({ courseId }: Props) {
 
   if (error || !course) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="min-h-screen bg-gray-50 py-8 sm:py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Kurzus nem található</h1>
-          <p className="text-lg text-gray-600 mb-8">A keresett kurzus nem létezik vagy nem érhető el.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Kurzus nem található</h1>
+          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">A keresett kurzus nem létezik vagy nem érhető el.</p>
           <button
             onClick={() => router.push('/courses')}
-            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+            className="mobile-btn bg-teal-600 text-white hover:bg-teal-700 transition-colors w-full sm:w-auto"
           >
             Vissza a kurzusokhoz
           </button>
