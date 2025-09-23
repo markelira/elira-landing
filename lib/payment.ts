@@ -3,10 +3,10 @@
 import { CreateSessionRequest, CreateSessionResponse, PaymentStatusResponse } from '@/types/payment';
 
 export const COURSE_CONFIG = {
-  title: 'AI-alapú piac-kutatásos copywriting',
-  price: 7990,
+  title: '3x több érdeklődő - vállalkozói vevőpszichológia masterclass',
+  price: 49990,
   currency: 'huf' as const,
-  description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal'
+  description: 'Teljes Grand Slam ajánlat: masterclass + 3 bundle + 3 bónusz + tripla garancia'
 };
 
 export function formatPrice(price: number): string {

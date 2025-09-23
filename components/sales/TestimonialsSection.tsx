@@ -4,11 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, ChevronLeft, ChevronRight, TrendingUp, Clock, DollarSign } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
-import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
 
 const TestimonialsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const testimonials = [
     {
@@ -212,31 +210,13 @@ const TestimonialsSection: React.FC = () => {
             viewport={{ once: true }}
             className="text-center"
           >
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                onClick={() => setModalOpen(true)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <span>🎁</span>
-                <span>Válassz egyet az 5 modulból ingyen</span>
-              </motion.button>
-              
-              <PurchaseButton 
-                courseId="ai-copywriting-course"
-              />
-            </div>
+            <PurchaseButton 
+              courseId="ai-copywriting-course"
+            />
           </motion.div>
 
         </div>
       </div>
-      
-      {/* Video Selection Modal */}
-      <VideoSelectionModal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
     </section>
   );
 };

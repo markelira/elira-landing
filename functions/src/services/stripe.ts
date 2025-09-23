@@ -134,9 +134,13 @@ export async function createCheckoutSession(
     };
     sessionConfig.allow_promotion_codes = true;
     sessionConfig.customer_update = {
-      address: 'auto'
+      address: 'auto',
+      shipping: 'auto'
     };
-    sessionConfig.billing_address_collection = 'auto';
+    sessionConfig.billing_address_collection = 'required';
+    sessionConfig.shipping_address_collection = {
+      allowed_countries: ['HU', 'AT', 'DE', 'SK', 'RO', 'HR', 'SI', 'RS']
+    };
 
     console.log('[Stripe] Creating session with config:', JSON.stringify(sessionConfig, null, 2));
     const session = await stripe.checkout.sessions.create(sessionConfig);

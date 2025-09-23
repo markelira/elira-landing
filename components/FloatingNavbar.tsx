@@ -44,7 +44,7 @@ const FloatingNavbar: React.FC = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-lg"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-lg"
       >
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
@@ -71,12 +71,6 @@ const FloatingNavbar: React.FC = () => {
                   >
                     <BookOpen size={16} />
                     <span>Irányítópult</span>
-                  </Link>
-                  <Link
-                    href="/courses"
-                    className="text-gray-700 hover:text-teal-700 transition-colors font-medium"
-                  >
-                    Kurzusok
                   </Link>
                   <Link
                     href="/dashboard/learning"

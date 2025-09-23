@@ -7,8 +7,8 @@ export default function CoursesPage() {
   const router = useRouter()
   
   useEffect(() => {
-    // Immediately redirect to the AI copywriting course
-    router.replace('/courses/ai-copywriting-course')
+    // Redirect to home page since course page is no longer accessible
+    router.replace('/')
   }, [router])
   
   return null // Return nothing while redirecting

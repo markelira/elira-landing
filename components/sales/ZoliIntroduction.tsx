@@ -10,6 +10,28 @@ const ZoliIntroduction: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-50 to-cyan-50 border border-teal-200 px-4 py-2 rounded-full shadow-sm mb-6 hover:shadow-md transition-all duration-300">
+              <Lightbulb className="w-5 h-5 text-teal-600 animate-pulse" />
+              <span className="font-medium text-gray-900">A kurzus készítője</span>
+            </div>
+            
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+              Ki áll a háttérben?
+            </h2>
+            
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Megismerheted a szakembert, aki a tudományos kutatás és a gyakorlati tapasztalat ötvözésével hozta létre ezt a rendszert
+            </p>
+          </motion.div>
+          
           {/* Two Column Grid Layout - 30/70 split */}
           <div className="grid lg:grid-cols-[30%_70%] gap-12 items-start">
             

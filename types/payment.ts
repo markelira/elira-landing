@@ -24,10 +24,10 @@ export interface CreateSessionResponse {
 }
 
 export const COURSE_CONFIG = {
-  title: 'AI Copywriting Mastery Kurzus',
-  price: 9990,
+  title: '3x több érdeklődő - vállalkozói vevőpszichológia masterclass',
+  price: 49990,
   currency: 'HUF' as const,
-  description: 'Teljes hozzáférés az AI-alapú copywriting kurzushoz',
+  description: 'Teljes Grand Slam ajánlat: masterclass + 3 bundle + 3 bónusz + tripla garancia',
   stripePriceId: 'price_1S0MvyHhqyKpFIBMQdiSPodM',
   stripeProductId: 'prod_SwFQ50r0KCrxss'
 };

@@ -2,33 +2,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star } from 'lucide-react';
-import { salesPageContent } from '@/lib/sales-page-config';
 import useAnalytics from '@/hooks/useAnalytics';
 import PurchaseButton from '@/components/course/PurchaseButton';
-import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
-import { COURSE_CONFIG } from '@/types/payment';
 
 const SalesHero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const { trackButton } = useAnalytics();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleCTAClick = () => {
-    trackButton('Browse Courses', 'sales-hero-cta');
-    const element = document.getElementById('courses-grid');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600">
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-teal-800 to-teal-700">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating shapes */}
@@ -49,7 +37,7 @@ const SalesHero: React.FC = () => {
 
       {/* Main Content */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-24">
-        <div className="max-w-4xl mx-auto w-full">
+        <div className="max-w-5xl mx-auto w-full">
         <div className="flex flex-col items-center text-center min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-12rem)]">
           
           {/* Header Content */}
@@ -57,145 +45,227 @@ const SalesHero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-white space-y-4 sm:space-y-6 lg:space-y-8 mb-8 sm:mb-12 lg:mb-16"
+            className="text-white space-y-8 sm:space-y-12 mb-8 sm:mb-12 lg:mb-16"
           >
-            {/* Top Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-teal-100 text-xs sm:text-sm md:text-base font-medium mb-3 sm:mb-4 px-2 sm:px-0"
-            >
-              A Miskolci Egyetem doktorandusza és a Heureka Group marketing specialistája bemutatja:
-            </motion.p>
-
-            {/* Main Headline */}
+            {/* MAIN HEADLINE */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-white mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-0"
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-white"
             >
-              🧠 Olvass a vevőid gondolataiban
+              3x több érdeklődő
+              <span className="block bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
+                30 nap alatt
+              </span>
             </motion.h1>
 
-            {/* Course Description */}
+            {/* SIMPLE VALUE PROP */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="text-sm sm:text-base md:text-base lg:text-lg text-teal-100 leading-relaxed max-w-3xl mx-auto font-normal mb-6 sm:mb-8 px-4 sm:px-2"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-lg sm:text-xl text-white/80 font-normal max-w-3xl mx-auto"
             >
-              Képzeld el, hogy percek alatt készítesz buyer personát, pontosan feltérképezed a piacodat, és az MI-vel olyan szövegeket írsz, amelyek nem csak a figyelmet ragadják meg, hanem profitot is termelnek.
+              Megérted, mit akar valójában a vevőd, és ezzel többet adsz el <span className="italic">(akár drágábban is)</span> anélkül, hogy bármit újat kellene fejlesztened.
             </motion.p>
 
+            {/* KINEK SZÓL SECTION */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="max-w-4xl mx-auto"
+            >
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Ez Neked Szól */}
+                <div className="bg-green-500/10 backdrop-blur-sm rounded-2xl p-6 border border-green-400/30">
+                  <h3 className="text-xl font-bold text-green-300 mb-4 text-left">Ez Neked Szól, Ha...</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Webshopod van és évi 50M+ HUF forgalmat csinálsz</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Online szolgáltatást nyújtasz és van bevételed</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Vendéglátóhely tulajdonosa vagy és online rendelést akarsz növelni</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Marketing költségvetésed van, de nem hozza a várt eredményt</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Tudod, hogy az AI-ban van a jövő, de nem tudod, hogyan alkalmazd</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-green-400 text-lg flex-shrink-0">✅</span>
+                      <p className="text-white/90 text-sm text-left">Elakadtál a jelenlegi bevételi szinteden</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ez NEM Neked Szól */}
+                <div className="bg-red-500/10 backdrop-blur-sm rounded-2xl p-6 border border-red-400/30">
+                  <h3 className="text-xl font-bold text-red-300 mb-4 text-left">Ez NEM Neked Szól, Ha...</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">"Gyors pénz" megoldásokat keresel - ez nem get-rich-quick séma</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Nem vagy hajlandó fejleszteni a jelenlegi módszereiden</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Nincs időd 1-2 órát hetente a masterclassra</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Azt várod, hogy "mágikusan" működjön anélkül, hogy alkalmaznád</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Nem akarsz befektetni saját magadba és a tudásodba</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Szkeptikus vagy az AI és a vevőpszichológia kapcsán</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Azt hiszed, hogy már mindent tudsz a marketingről</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-red-400 text-lg flex-shrink-0">❌</span>
+                      <p className="text-white/90 text-sm text-left">Csak nézegetni akarod, de nem csinálni</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* URGENCY WARNING */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="bg-red-500/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto border border-red-400/50"
+            >
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                <p className="text-red-200 font-bold text-lg">CSAK 10 HELYRE KORLÁTOZOTT!</p>
+                <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+              </div>
+              <p className="text-white/90 text-center text-sm">
+                <span className="font-semibold">Miért csak 10 főnek?</span> Azért, mert a személyes mentorálás, és az online konzultációk minőségéből - amik a kurzushoz járnak - nem akarunk engedni
+              </p>
+            </motion.div>
+
+            {/* WHAT'S INCLUDED CARDS */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="max-w-6xl mx-auto"
+            >
+              <h3 className="text-2xl font-bold text-white text-center mb-8">Mit kapsz a csomagban, a kurzus mellé?</h3>
+              
+              {/* Bundles */}
+              <div className="grid md:grid-cols-2 gap-4 mb-8">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-3xl mb-3">⚡</div>
+                  <h4 className="text-lg font-bold text-white mb-2">Eredmény 48 órán belül - 48 órás launch</h4>
+                  <p className="text-white/80 text-sm mb-4">Amely az első 48 órában látható eredményeket hoz, és garantálja hogy az első hónapban megtérül a befektetésed.</p>
+                  <button 
+                    onClick={() => window.location.href = '#bundles'}
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Bővebben →
+                  </button>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-3xl mb-3">⭐</div>
+                  <h4 className="text-lg font-bold text-white mb-2">Átütő sikertámogatás tervrajz – VIP támogatási ökoszisztéma 4 hétig</h4>
+                  <p className="text-white/80 text-sm mb-4">Biztosítjuk, hogy minden egyes lépést megértesz és alkalmazni tudsz, még ha eddig mindig elakadtál hasonló képzéseknél.</p>
+                  <button 
+                    onClick={() => window.location.href = '#bundles'}
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Bővebben →
+                  </button>
+                </div>
+              </div>
+
+              {/* Bonuses */}
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-xl p-6 border border-green-400/30 hover:from-green-500/25 hover:to-emerald-500/25 transition-all duration-300">
+                  <div className="text-3xl mb-3">🎁</div>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #1: "6db COPY-PASTE PROFIT GENERÁTOR"</h4>
+                  <p className="text-white/80 text-sm mb-4">Kész AI promptok új kampányokhoz, blog posztokhoz...</p>
+                  <button 
+                    onClick={() => window.location.href = '#bonuses'}
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Bővebben →
+                  </button>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-6 border border-purple-400/30 hover:from-purple-500/25 hover:to-pink-500/25 transition-all duration-300">
+                  <div className="text-3xl mb-3">🎯</div>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #2: "VERSENYTÁRS VADÁSZ RENDSZER" </h4>
+                  <p className="text-white/80 text-sm mb-4">Versenytárs elemzés + 1:1 meeting az eredményekkel.</p>
+                  <button 
+                    onClick={() => window.location.href = '#bonuses'}
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Bővebben →
+                  </button>
+                </div>
+
+                <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm rounded-xl p-6 border border-orange-400/30 hover:from-orange-500/25 hover:to-red-500/25 transition-all duration-300">
+                  <div className="text-3xl mb-3">🛡️</div>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #3: "PROFIT MENTÉS GARANCIA</h4>
+                  <p className="text-white/80 text-sm mb-4">1 év korlátlan support + kampány átírási garancia.</p>
+                  <button 
+                    onClick={() => window.location.href = '#bonuses'}
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Bővebben →
+                  </button>
+                </div>
+              </div>
+            </motion.div>
 
           </motion.div>
 
-          {/* CTA Button - Before Video */}
+          {/* CTA Button */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1.0 }}
-            className="flex items-center justify-center max-w-lg mx-auto mb-8 sm:mb-12 lg:mb-16 px-4 sm:px-0"
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="mb-8 sm:mb-12 lg:mb-16"
           >
-            <motion.button
-              onClick={() => setModalOpen(true)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-200 w-full sm:w-auto"
-            >
-              Válassz egyet az 5 modulból ingyen
-            </motion.button>
+            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
+              <PurchaseButton
+                courseId="ai-copywriting-course"
+                className="transform hover:scale-105 transition-transform duration-300 w-full"
+                onPurchaseStart={() => trackButton('Grand Slam Purchase', 'sales-hero-purchase-button')}
+              />
+            </div>
           </motion.div>
 
-          {/* Central Video Showcase */}
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="w-full max-w-4xl mx-auto mb-8 sm:mb-12 lg:mb-16"
-          >
-            {/* Video Frame with Runway-style Design */}
-            <div className="relative bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-6 lg:p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 group">
-              
-              {/* Video Header */}
-              <div className="flex items-center justify-between mb-4 sm:mb-6">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 sm:px-3 py-1 rounded-full">
-                    KURZUS BEMUTATÓ
-                  </span>
-                </div>
-              </div>
 
-              {/* Video Title */}
-              <div className="mb-4 sm:mb-6 text-center">
-                <div className="bg-gradient-to-r from-teal-100 to-cyan-100 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-teal-200">
-                  <h4 className="font-bold text-gray-900 text-base sm:text-lg lg:text-xl mb-1">🧠 Olvass a vevőid gondolataiban</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">Ingyenes kurzus előzetes</p>
-                </div>
-              </div>
-
-              {/* Video Player - Central Focus */}
-              <div className="relative rounded-lg sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-gray-900 to-gray-800 group-hover:shadow-2xl transition-all duration-300">
-                <iframe
-                  src="https://player.mux.com/tTZjKcQAhn0233X1jBoj4UARa2nEKnEDRarPGZNUJ2Gg?metadata-video-title=Olvass+a+vevo%CC%8Bid+gondolataiban+kurzus+bemutato%CC%81&video-title=Olvass+a+vevo%CC%8Bid+gondolataiban+kurzus+bemutato%CC%81"
-                  style={{ width: '100%', border: 'none', aspectRatio: '16/9' }}
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowFullScreen
-                  className="rounded-lg sm:rounded-2xl"
-                />
-              </div>
-
-              {/* Video Meta Info */}
-              <div className="mt-4 sm:mt-6 flex items-center justify-center gap-4 sm:gap-6 flex-wrap">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-xs sm:text-sm font-medium text-gray-700">5.0</span>
-                  <span className="text-xs text-gray-500">• 312+ értékelés</span>
-                </div>
-                <div className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xs font-bold px-2 sm:px-3 py-1 rounded-full">
-                  INGYENES
-                </div>
-              </div>
-            </div>
-
-          </motion.div>
-
-          {/* Trust Signals - After Video */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 2.0 }}
-            className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-white/80 text-center px-4 sm:px-0"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-green-400">✓</span>
-              <span>Azonnali hozzáférés</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-green-400">✓</span>
-              <span>Nincs rejtett költség</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-green-400">✓</span>
-              <span>30 napos garancia</span>
-            </div>
-          </motion.div>
         </div>
         </div>
       </div>
       
-      {/* Video Selection Modal */}
-      <VideoSelectionModal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
 
       
       {/* Subtle Fade Overlay */}

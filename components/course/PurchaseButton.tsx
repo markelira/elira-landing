@@ -233,14 +233,14 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
             <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
-            Vásárlás és azonnali kezdés - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
+Jelentkezés a masterclassra - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
           </>
         ) : (
           <>
             <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            Vásárlás és azonnali kezdés - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
+Jelentkezés a masterclassra - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
           </>
         )}
       </button>
@@ -250,6 +250,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
         <p>🔒 Biztonságos fizetés Stripe segítségével</p>
         <p>💳 Bankkártya, Apple Pay, Google Pay elfogadva</p>
         <p>🇭🇺 Magyar számlázás és ÁFA kezelés</p>
+        <p>🎁 Masterclass + 3 Bundle + 3 Bónusz + Tripla Garancia</p>
       </div>
     </div>
   );

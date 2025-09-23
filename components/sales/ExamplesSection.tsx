@@ -1899,30 +1899,6 @@ Szeretnéd megtudni, hogyan építhetnénk fel számodra egy **egyedi webáruhá
         )}
       </AnimatePresence>
 
-      {/* Purchase CTA Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-center mt-16"
-      >
-        <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg p-8 max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">
-            Készen állsz ilyen eredményekre?
-          </h3>
-          <p className="text-lg text-gray-600 mb-6">
-            Tanuld meg a kurzusban, hogyan készíthetsz professzionális AI generátorokat minden üzleti területre.
-          </p>
-          <PurchaseButton 
-            courseId="ai-copywriting-course"
-            className="mt-4"
-          />
-          <div className="mt-4 text-sm text-gray-500">
-            💡 Élethosszig használható sablonok és technikák
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 };

@@ -1,16 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Zap, DollarSign, X, AlertTriangle } from 'lucide-react';
-import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
+import PurchaseButton from '@/components/course/PurchaseButton';
 
 const ProblemSection: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openVideoModal = () => {
-    setModalOpen(true);
-  };
   const painPoints = [
     {
       icon: Clock,
@@ -171,26 +166,16 @@ const ProblemSection: React.FC = () => {
               </p>
 
               {/* CTA Button */}
-              <motion.button
-                onClick={openVideoModal}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <span>🎁</span>
-                <span>Válassz egyet az 5 modulból ingyen</span>
-              </motion.button>
+              <PurchaseButton 
+                courseId="ai-copywriting-course"
+                className="bg-transparent border-2 border-teal-700 hover:border-teal-800 text-teal-700 hover:text-teal-800 px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              />
             </div>
           </motion.div>
 
         </div>
       </div>
       
-      {/* Video Selection Modal */}
-      <VideoSelectionModal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
     </section>
   );
 };

@@ -10,17 +10,15 @@ import {
   Home,
   BookOpen, 
   GraduationCap,
-  Search,
   TrendingUp,
-  Award,
   Settings,
-  Bell,
   ChevronRight,
   User,
+  Users,
   LogOut,
   Building2,
-  UserCheck,
-  FolderOpen
+  FolderOpen,
+  Video
 } from 'lucide-react'
 
 /**
@@ -40,8 +38,8 @@ const navigationSections = {
       items: [
         { title: 'Kezdőlap', href: '/dashboard', icon: Home },
         { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
-        { title: 'Kurzusok', href: '/courses', icon: Search },
-        { title: 'Fizetések', href: '/dashboard/payments', icon: Award },
+        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
   ],
@@ -61,6 +59,8 @@ const navigationSections = {
       items: [
         { title: 'Diák Dashboard', href: '/dashboard', icon: GraduationCap },
         { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
+        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
   ],
@@ -72,7 +72,6 @@ const navigationSections = {
         { title: 'Felhasználók', href: '/admin/users', icon: User },
         { title: 'Kurzusok', href: '/admin/courses', icon: BookOpen },
         { title: 'Elemzések', href: '/admin/analytics', icon: TrendingUp },
-        { title: 'Fizetések', href: '/admin/payments', icon: Award },
         { title: 'Beállítások', href: '/admin/settings', icon: Settings },
       ]
     },
@@ -87,6 +86,8 @@ const navigationSections = {
       items: [
         { title: 'Diák Dashboard', href: '/dashboard', icon: GraduationCap },
         { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
+        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
   ]

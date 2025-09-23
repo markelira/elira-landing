@@ -26,7 +26,7 @@ export default function MyLearningClient() {
   const router = useRouter()
   const { user } = useAuth()
   const { data: progressData, isLoading } = useUserProgress()
-  const [activeTab, setActiveTab] = useState<'courses' | 'completed' | 'certificates'>('courses')
+  const [activeTab, setActiveTab] = useState<'courses' | 'completed'>('courses')
 
   // Redirect if not authenticated
   React.useEffect(() => {
@@ -37,15 +37,20 @@ export default function MyLearningClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen py-8" style={{ backgroundColor: '#F8F7F5' }}>
-        <div className="container mx-auto px-4">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-slate-300 rounded w-1/4"></div>
-            <div className="h-32 bg-slate-300 rounded"></div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="h-48 bg-slate-300 rounded"></div>
-              <div className="h-48 bg-slate-300 rounded"></div>
-              <div className="h-48 bg-slate-300 rounded"></div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50/90 via-white to-gray-50/70 relative overflow-hidden">
+        {/* Liquid Glass Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-teal-100/20 to-cyan-100/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-100/20 to-amber-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+        <div className="relative z-10 px-4 md:px-6 py-6 md:py-8">
+          <div className="max-w-6xl mx-auto animate-pulse space-y-6">
+            <div className="h-8 bg-white/40 rounded-2xl w-1/4"></div>
+            <div className="h-32 bg-white/40 rounded-3xl"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="h-48 bg-white/40 rounded-3xl"></div>
+              <div className="h-48 bg-white/40 rounded-3xl"></div>
+              <div className="h-48 bg-white/40 rounded-3xl"></div>
             </div>
           </div>
         </div>
@@ -69,146 +74,124 @@ export default function MyLearningClient() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F8F7F5' }}>
-      {/* Academic Header */}
-      <div className="bg-white/60 backdrop-blur-sm border-b border-slate-200/50">
-        <div className="container mx-auto px-4 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50/90 via-white to-gray-50/70 relative overflow-hidden">
+      {/* Liquid Glass Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-teal-100/20 to-cyan-100/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-100/20 to-amber-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+      
+      {/* Header */}
+      <div className="relative z-10 bg-white/40 backdrop-blur-xl border-b border-white/30">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-4"></div>
-              <h1 className="text-2xl font-serif font-medium text-slate-900">Tanulási Központ</h1>
-              <p className="text-slate-700 font-light mt-1">Üdv újra, {user?.firstName || user?.email?.split('@')[0]}!</p>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-4"></div>
+              <div className="inline-flex items-center gap-3 bg-white/60 backdrop-blur-xl border border-white/40 px-5 py-3 rounded-full shadow-lg shadow-gray-100/50 mb-4 hover:shadow-xl hover:bg-white/70 transition-all duration-300">
+                <BookOpen className="w-5 h-5 text-teal-600" />
+                <span className="font-medium text-gray-900 tracking-tight">Tanulási Központ</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight leading-tight">
+                Üdv újra, {user?.firstName || user?.email?.split('@')[0]}!
+              </h1>
+              <p className="text-lg text-gray-600">Kövesd nyomon a masterclass programjaid haladását</p>
             </div>
-            <div className="mt-4 md:mt-0">
+            <div className="mt-6 md:mt-0">
               <Button
                 onClick={() => router.push('/courses')}
                 variant="primary"
-                className="gap-2 bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
+                className="gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 <BookOpen className="w-4 h-4" />
-                Új kurzusok böngészése
+                Új programok felfedezése
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Academic Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 py-8">
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <Card className="p-8 bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600 font-light">Beiratkozott kurzusok</p>
-                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
+                <p className="text-sm text-gray-600 font-medium mb-2">Masterclass beiratkozások</p>
+                <p className="text-4xl font-bold text-gray-900 tracking-tight">
                   {progressData?.totalCourses || 0}
                 </p>
               </div>
-              <div className="bg-amber-100/60 p-3 rounded border border-amber-200/50">
-                <BookOpen className="w-6 h-6 text-amber-700" />
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center shadow-lg">
+                <BookOpen className="w-8 h-8 text-teal-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
+          <Card className="p-8 bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600 font-light">Befejezett kurzusok</p>
-                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
+                <p className="text-sm text-gray-600 font-medium mb-2">Befejezett programok</p>
+                <p className="text-4xl font-bold text-gray-900 tracking-tight">
                   {progressData?.completedCourses || 0}
                 </p>
               </div>
-              <div className="bg-emerald-100/60 p-3 rounded border border-emerald-200/50">
-                <CheckCircle className="w-6 h-6 text-emerald-700" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 font-light">Tanulási idő</p>
-                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
-                  {formatTime(progressData?.totalLearningTime || 0)}
-                </p>
-              </div>
-              <div className="bg-violet-100/60 p-3 rounded border border-violet-200/50">
-                <Clock className="w-6 h-6 text-violet-700" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 font-light">Tanúsítványok</p>
-                <p className="text-2xl font-serif font-medium text-slate-900 mt-1">
-                  {progressData?.certificates?.length || 0}
-                </p>
-              </div>
-              <div className="bg-amber-100/60 p-3 rounded border border-amber-200/50">
-                <Award className="w-6 h-6 text-amber-700" />
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-green-100 rounded-2xl flex items-center justify-center shadow-lg">
+                <CheckCircle className="w-8 h-8 text-emerald-600" />
               </div>
             </div>
           </Card>
         </div>
 
-        {/* Academic Learning Streak / Motivation */}
-        <Card className="p-6 mb-8 bg-gradient-to-r from-amber-600 to-amber-700 text-white border border-amber-500/50 shadow-sm">
-          <div className="flex items-center justify-between">
+        {/* Learning Progress / Motivation */}
+        <Card className="p-8 mb-8 bg-gradient-to-br from-teal-600 via-cyan-600 to-teal-700 text-white rounded-3xl border border-white/20 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-xl animate-float" />
+          <div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg animate-pulse" />
+          
+          <div className="relative z-10 flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-serif font-medium flex items-center gap-2">
-                <Zap className="w-6 h-6" />
-                Tanulási sorozat
+              <h3 className="text-2xl font-bold flex items-center gap-3 mb-3 tracking-tight">
+                <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
+                  <Zap className="w-5 h-5" />
+                </div>
+                Masterclass Haladás
               </h3>
-              <p className="mt-2 opacity-90 font-light">
+              <p className="text-white/90 text-lg leading-relaxed">
                 {getMotivationalMessage(progressData?.overallProgress || 0)}
               </p>
             </div>
-            <div>
+            <div className="ml-6">
               <CircularProgress
                 value={progressData?.overallProgress || 0}
                 size="lg"
                 color="green"
-                className="bg-white/20 rounded-full p-2"
+                className="bg-white/20 rounded-full p-3 shadow-lg"
               />
             </div>
           </div>
         </Card>
 
-        {/* Academic Tab Navigation */}
-        <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 shadow-sm p-1 mb-6">
-          <div className="flex space-x-1">
+        {/* Tab Navigation */}
+        <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-xl shadow-gray-200/50 p-2 mb-8">
+          <div className="flex space-x-2">
             <button
               onClick={() => setActiveTab('courses')}
-              className={`flex-1 py-2 px-4 rounded text-sm font-light transition-colors ${
+              className={`flex-1 py-3 px-6 rounded-2xl font-medium transition-all duration-300 ${
                 activeTab === 'courses'
-                  ? 'bg-amber-600 text-white'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
+                  ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg transform scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
               }`}
             >
               Folyamatban ({progressData?.inProgressCourses || 0})
             </button>
             <button
               onClick={() => setActiveTab('completed')}
-              className={`flex-1 py-2 px-4 rounded text-sm font-light transition-colors ${
+              className={`flex-1 py-3 px-6 rounded-2xl font-medium transition-all duration-300 ${
                 activeTab === 'completed'
-                  ? 'bg-amber-600 text-white'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
+                  ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg transform scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
               }`}
             >
               Befejezett ({progressData?.completedCourses || 0})
-            </button>
-            <button
-              onClick={() => setActiveTab('certificates')}
-              className={`flex-1 py-2 px-4 rounded text-sm font-light transition-colors ${
-                activeTab === 'certificates'
-                  ? 'bg-amber-600 text-white'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
-              }`}
-            >
-              Tanúsítványok ({progressData?.certificates?.length || 0})
             </button>
           </div>
         </div>
@@ -220,21 +203,26 @@ export default function MyLearningClient() {
               {progressData?.enrolledCourses
                 ?.filter(course => !course.isCompleted)
                 .map((course) => (
-                  <Card key={course.courseId} className="overflow-hidden bg-white/60 backdrop-blur-sm border border-slate-200/50 hover:shadow-lg transition-shadow">
-                    <div className="aspect-video bg-gradient-to-br from-amber-400 to-amber-600 relative">
+                  <Card key={course.courseId} className="overflow-hidden bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500 group">
+                    <div className="aspect-video bg-gradient-to-br from-teal-500 to-cyan-600 relative">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <BookOpen className="w-12 h-12 text-white/60" />
+                        <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                          <BookOpen className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+                        <span className="text-white text-sm font-medium">Masterclass</span>
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-serif font-medium text-lg text-slate-900 mb-2">
+                      <h3 className="text-xl font-bold text-gray-900 mb-4 tracking-tight group-hover:text-teal-700 transition-colors duration-300">
                         {course.courseTitle}
                       </h3>
                       
-                      <div className="mb-4">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className="text-slate-600 font-light">Haladás</span>
-                          <span className="font-medium text-slate-800">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
+                      <div className="mb-6">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-gray-600 font-medium">Haladás</span>
+                          <span className="font-bold text-gray-900">{isNaN(course.progressPercentage) ? 0 : Math.round(course.progressPercentage)}%</span>
                         </div>
                         <ProgressBar 
                           value={isNaN(course.progressPercentage) ? 0 : course.progressPercentage}
@@ -242,15 +230,15 @@ export default function MyLearningClient() {
                           height="sm"
                           animated
                         />
-                        <p className="text-xs text-slate-600 font-light mt-1">
-                          {course.completedLessons}/{course.totalLessons} lecke befejezve
+                        <p className="text-sm text-gray-600 mt-2">
+                          {course.completedLessons}/{course.totalLessons} modul befejezve
                         </p>
                       </div>
 
                       {course.lastActivityAt && (
-                        <div className="flex items-center gap-2 text-sm text-slate-600 mb-4">
-                          <Calendar className="w-4 h-4" />
-                          <span className="font-light">
+                        <div className="flex items-center gap-3 text-sm text-gray-600 mb-6 bg-gray-50/50 rounded-xl p-3">
+                          <Calendar className="w-4 h-4 text-teal-600" />
+                          <span className="font-medium">
                             Utoljára: {new Date(course.lastActivityAt).toLocaleDateString('hu-HU')}
                           </span>
                         </div>
@@ -261,7 +249,7 @@ export default function MyLearningClient() {
                           router.push(`/courses/${course.courseId}/learn`)
                         }}
                         variant="primary"
-                        className="w-full gap-2 bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
+                        className="w-full gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
                         <Play className="w-4 h-4" />
                         Tanulás folytatása
@@ -271,20 +259,22 @@ export default function MyLearningClient() {
                 ))}
 
               {(!progressData?.enrolledCourses || progressData.enrolledCourses.filter(c => !c.isCompleted).length === 0) && (
-                <div className="col-span-full text-center py-12">
-                  <BookOpen className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-serif font-medium text-slate-900 mb-2">
-                    Nincs folyamatban lévő kurzusod
+                <div className="col-span-full text-center py-16">
+                  <div className="w-20 h-20 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <BookOpen className="w-10 h-10 text-teal-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">
+                    Nincs folyamatban lévő programod
                   </h3>
-                  <p className="text-slate-600 font-light mb-6">
-                    Fedezd fel a kurzusainkat és kezdj el tanulni még ma!
+                  <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+                    Fedezd fel a masterclass programjainkat és kezdj el tanulni még ma!
                   </p>
                   <Button
                     onClick={() => router.push('/courses')}
                     variant="primary"
-                    className="bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
+                    className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
-                    Kurzusok böngészése
+                    Programok felfedezése
                   </Button>
                 </div>
               )}
@@ -324,119 +314,35 @@ export default function MyLearningClient() {
                         </div>
                       </div>
 
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={() => router.push(`/courses/${course.courseId}`)}
-                          variant="outline"
-                          className="flex-1 border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700"
-                        >
-                          Újranézés
-                        </Button>
-                        <Button
-                          onClick={() => router.push(`/certificates/${course.courseId}`)}
-                          variant="primary"
-                          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
-                        >
-                          Tanúsítvány
-                        </Button>
-                      </div>
+                      <Button
+                        onClick={() => router.push(`/courses/${course.courseId}`)}
+                        variant="primary"
+                        className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        Program újranézése
+                      </Button>
                     </div>
                   </Card>
                 ))}
 
               {(!progressData?.enrolledCourses || progressData.enrolledCourses.filter(c => c.isCompleted).length === 0) && (
-                <div className="col-span-full text-center py-12">
-                  <Trophy className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-serif font-medium text-slate-900 mb-2">
-                    Még nincs befejezett kurzusod
+                <div className="col-span-full text-center py-16">
+                  <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-green-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <Trophy className="w-10 h-10 text-emerald-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">
+                    Még nincs befejezett programod
                   </h3>
-                  <p className="text-slate-600 font-light">
-                    Folytasd a megkezdett kurzusaidat a tanúsítvány megszerzéséhez!
+                  <p className="text-lg text-gray-600 max-w-md mx-auto">
+                    Folytasd a megkezdett masterclass programjaidat!
                   </p>
                 </div>
               )}
             </>
           )}
 
-          {activeTab === 'certificates' && (
-            <>
-              {progressData?.certificates?.map((cert: any) => (
-                <Card key={cert.id} className="overflow-hidden bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
-                  <div className="aspect-video bg-gradient-to-br from-amber-500 to-amber-600 relative p-6 flex items-center justify-center">
-                    <Award className="w-24 h-24 text-white" />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-serif font-medium text-lg text-slate-900 mb-2">
-                      {cert.courseName}
-                    </h3>
-                    <p className="text-sm text-slate-600 font-light mb-4">
-                      Kiállítva: {new Date(cert.issuedAt).toLocaleDateString('hu-HU')}
-                    </p>
-                    <Button
-                      onClick={() => router.push(`/certificates/${cert.id}`)}
-                      variant="primary"
-                      className="w-full bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
-                    >
-                      Tanúsítvány megtekintése
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-
-              {(!progressData?.certificates || progressData.certificates.length === 0) && (
-                <div className="col-span-full text-center py-12">
-                  <Award className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-serif font-medium text-slate-900 mb-2">
-                    Még nincs tanúsítványod
-                  </h3>
-                  <p className="text-slate-600 font-light mb-6">
-                    Fejezz be egy kurzust a tanúsítvány megszerzéséhez!
-                  </p>
-                </div>
-              )}
-            </>
-          )}
         </div>
 
-        {/* Academic Learning Goals Section */}
-        <Card className="mt-8 p-6 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm">
-          <h3 className="text-lg font-serif font-medium text-slate-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-amber-700" />
-            Tanulási célok
-          </h3>
-          <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-amber-50/60 rounded border border-amber-200/50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-light text-amber-900">Heti cél</span>
-                <Badge variant="outline" className="bg-amber-100/60 text-amber-700 border-amber-300/50 font-light">
-                  3/5 nap
-                </Badge>
-              </div>
-              <ProgressBar value={60} color="blue" height="sm" />
-            </div>
-            
-            <div className="p-4 bg-emerald-50/60 rounded border border-emerald-200/50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-light text-emerald-900">Havi leckék</span>
-                <Badge variant="outline" className="bg-emerald-100/60 text-emerald-700 border-emerald-300/50 font-light">
-                  12/20
-                </Badge>
-              </div>
-              <ProgressBar value={60} color="green" height="sm" />
-            </div>
-            
-            <div className="p-4 bg-violet-50/60 rounded border border-violet-200/50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-light text-violet-900">Szint</span>
-                <Badge variant="outline" className="bg-violet-100/60 text-violet-700 border-violet-300/50 font-light">
-                  Haladó
-                </Badge>
-              </div>
-              <ProgressBar value={75} color="yellow" height="sm" />
-            </div>
-          </div>
-        </Card>
       </div>
     </div>
   )

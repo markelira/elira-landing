@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap, TrendingDown, Clock } from 'lucide-react';
-import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
+import PurchaseButton from '@/components/course/PurchaseButton';
 
 const FOMOSection: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F8F7F5' }}>
@@ -184,7 +183,7 @@ const FOMOSection: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Free Video CTA */}
+          {/* Purchase CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -192,26 +191,15 @@ const FOMOSection: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <motion.button
-              onClick={() => setModalOpen(true)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white px-8 py-4 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 min-w-[280px] relative overflow-hidden group"
-            >
-              {/* Shine effect */}
-              <div className="absolute inset-0 -top-[2px] -bottom-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-              <span className="relative z-10">Válassz egyet az 5 modulból ingyen</span>
-            </motion.button>
+            <PurchaseButton 
+              courseId="ai-copywriting-course"
+              className="bg-transparent border-2 border-teal-700 hover:border-teal-800 text-teal-700 hover:text-teal-800 px-8 py-4 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 min-w-[280px]"
+            />
           </motion.div>
 
         </div>
       </div>
 
-      {/* Video Selection Modal */}
-      <VideoSelectionModal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
     </section>
   );
 };

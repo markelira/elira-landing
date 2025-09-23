@@ -9,9 +9,10 @@ export const content = {
   navbar: {
     items: [
       { label: "Rólunk", href: "/rolunk" },
-      { label: "Ingyenes kurzus anyag", href: "#tripwire" },
-      { label: "Vélemények", href: "#testimonials" },
-      { label: "🔥 Kurzusok", href: "/courses/ai-copywriting-course" }
+      { label: "Megoldás", href: "#bundles" },
+      { label: "Masterclass", href: "#masterclass" },
+      { label: "Bónuszok", href: "#bonuses" },
+      { label: "Vélemények", href: "#testimonials" }
     ]
   },
   
