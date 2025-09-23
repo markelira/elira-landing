@@ -40,6 +40,7 @@ interface Webinar {
   }
   attendees?: number
   maxAttendees?: number
+  status?: 'upcoming' | 'live' | 'completed'
 }
 
 export default function WebinarsPage() {
