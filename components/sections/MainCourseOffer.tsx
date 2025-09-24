@@ -190,12 +190,14 @@ const MainCourseOffer: React.FC = () => {
       id="main-course-offer" 
       className="py-16 sm:py-20 lg:py-24 relative overflow-hidden"
       style={{ backgroundColor: '#F8F7F5' }}
+      role="main"
+      aria-labelledby="course-offer-heading"
     >
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 id="course-offer-heading" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
               3x több érdeklődő
             </span>
@@ -218,42 +220,42 @@ const MainCourseOffer: React.FC = () => {
               <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
                 Online vállalkozói vevőpszichológia kurzus
               </h3>
-              </div>
+            </div>
             {/* Solutions & Benefits */}
             <div className="mb-8">
               <h4 className="text-xl font-semibold text-gray-900 mb-4">
                 Mit fog ez megoldani a számodra?
               </h4>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+              <ul className="space-y-4" role="list">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <span className="text-gray-900 font-medium">Végre megérted, mit akar a vevőd</span>
                     <p className="text-gray-600 text-sm mt-1">10 perc alatt készítesz buyer personát, ami pontosan célba talál</p>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <span className="text-gray-900 font-medium">Mindig egy lépéssel előrébb leszel a versenytársaidnál</span>
                     <p className="text-gray-600 text-sm mt-1">AI-val automatizálod az elemzést, míg mások még kézzel kutakodnak</p>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <span className="text-gray-900 font-medium">Az üzeneteid végre hatnak - és eladnak</span>
                     <p className="text-gray-600 text-sm mt-1">Pszichológiai triggerekkel írsz, amikre az emberek nem tudnak nemet mondani</p>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <span className="text-gray-900 font-medium">Órák helyett percek alatt készülnek a kampányaid</span>
                     <p className="text-gray-600 text-sm mt-1">Email, social media, Facebook hirdetés - mind automatizálva, mind hatékony</p>
                   </div>
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
 
             {/* Value Proposition */}

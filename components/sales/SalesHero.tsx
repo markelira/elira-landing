@@ -15,7 +15,7 @@ const SalesHero: React.FC = () => {
 
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-teal-800 to-teal-700">
+    <header className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-teal-800 to-teal-700" role="banner">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating shapes */}
@@ -235,7 +235,7 @@ const SalesHero: React.FC = () => {
       {/* Subtle Fade Overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-50/20 to-transparent z-20 pointer-events-none" />
       
-    </section>
+    </header>
   );
 };
 

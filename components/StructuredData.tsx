@@ -7,7 +7,7 @@ const StructuredData: React.FC = () => {
     "name": "Elira",
     "url": "https://elira.hu",
     "logo": "https://elira.hu/logo.png",
-    "description": "Ingyenes karrierfejlesztési anyagok és képzések magyaroknak",
+    "description": "Vevőpszichológia masterclass és AI-alapú marketing képzések magyaroknak",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "HU",
@@ -25,16 +25,15 @@ const StructuredData: React.FC = () => {
       "https://linkedin.com/company/elira-hu",
       "https://twitter.com/elira_hu"
     ],
-    "offers": {
+    "makesOffer": {
       "@type": "Offer",
       "itemOffered": {
-        "@type": "DigitalDocument",
-        "name": "5 Ingyenes Karrierfejlesztési Anyag",
-        "description": "Prémium PDF gyűjtemény ChatGPT promptokkal, LinkedIn stratégiával és marketing tippekkel"
+        "@type": "Course",
+        "name": "3x több érdeklődő 30 nap alatt - Vevőpszichológia Masterclass",
+        "description": "Online vállalkozói vevőpszichológia kurzus AI eszközökkel"
       },
-      "price": "0",
-      "priceCurrency": "HUF",
-      "availability": "https://schema.org/InStock"
+      "availability": "https://schema.org/LimitedAvailability",
+      "validThrough": "2024-10-05"
     }
   };
 
@@ -43,8 +42,12 @@ const StructuredData: React.FC = () => {
     "@type": "WebSite",
     "name": "Elira",
     "url": "https://elira.hu",
-    "description": "Ingyenes karrierfejlesztési anyagok letöltése",
+    "description": "3x több érdeklődő 30 nap alatt - Vevőpszichológia masterclass AI eszközökkel",
     "inLanguage": "hu",
+    "mainEntity": {
+      "@type": "Course",
+      "name": "Online vállalkozói vevőpszichológia kurzus"
+    },
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://elira.hu/search?q={search_term_string}",
@@ -55,8 +58,8 @@ const StructuredData: React.FC = () => {
   const educationalData = {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Ingyenes Karrierfejlesztési Anyagok",
-    "description": "5 prémium PDF anyag karrierfejlesztéshez: ChatGPT promptok, LinkedIn stratégia, email marketing, TikTok növekedés és marketing automatizáció",
+    "name": "Online vállalkozói vevőpszichológia kurzus",
+    "description": "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is) anélkül, hogy bármit újat kellene fejlesztened. 5 modul, 17 videó lecke + PDF sablonok.",
     "provider": {
       "@type": "Organization",
       "name": "Elira",
@@ -64,38 +67,57 @@ const StructuredData: React.FC = () => {
     },
     "courseMode": "online",
     "inLanguage": "hu",
-    "isAccessibleForFree": true,
+    "isAccessibleForFree": false,
+    "numberOfCredits": 17,
+    "timeRequired": "PT55M",
+    "availableLanguage": "hu",
     "offers": {
       "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "HUF",
-      "category": "free"
+      "availability": "https://schema.org/LimitedAvailability",
+      "validThrough": "2024-10-05",
+      "category": "masterclass"
     },
     "hasPart": [
       {
-        "@type": "LearningResource",
-        "name": "ChatGPT Prompt Sablon Gyűjtemény",
-        "description": "100+ bevált prompt template marketingeseknek"
+        "@type": "CourseInstance",
+        "name": "Alkoss hidat közted, és a vevő között - hogyan érintsd meg a vevődet",
+        "description": "A kommunikációdban mindig te vagy a főhős, nem a vevő. Találd meg a közös nevezőt a vevőddel.",
+        "timeRequired": "PT4M",
+        "numberOfCredits": 1
       },
       {
-        "@type": "LearningResource", 
-        "name": "30 Napos LinkedIn Növekedési Naptár",
-        "description": "Napi feladatok 0-ról 1000 követőig"
+        "@type": "CourseInstance",
+        "name": "Hogyan állítsd be a kommunikációd, hogy csak azok hallják, akik fizetni fognak",
+        "description": "Pontos célzás és célcsoport meghatározás AI eszközökkel.",
+        "timeRequired": "PT12M",
+        "numberOfCredits": 3
+      },
+      {
+        "@type": "CourseInstance",
+        "name": "Ha nem ismered a vevődet, elveszíted a piacot térképezd fel azonnal!",
+        "description": "Buyer persona készítés és piackutatás AI eszközökkel.",
+        "timeRequired": "PT9M",
+        "numberOfCredits": 1
+      },
+      {
+        "@type": "CourseInstance",
+        "name": "Hogyan írd úgy az üzeneted, hogy először érezze, aztán értse meg – és végül vásároljon",
+        "description": "Pszichológiai triggerek és érzelmi copywriting technikák.",
+        "timeRequired": "PT12M",
+        "numberOfCredits": 5
+      },
+      {
+        "@type": "CourseInstance",
+        "name": "Hogyan spórolj órákat az MI-val – és érj be elsőként a piacra",
+        "description": "Gyakorlati AI eszközök és generátorok használata.",
+        "timeRequired": "PT18M",
+        "numberOfCredits": 7
       },
       {
         "@type": "LearningResource",
-        "name": "Email Marketing Sablon Könyvtár", 
-        "description": "20 high-converting email template"
-      },
-      {
-        "@type": "LearningResource",
-        "name": "TikTok Algoritmus Hack Guide",
-        "description": "Hogyan menjél virálisra Magyarországon"
-      },
-      {
-        "@type": "LearningResource",
-        "name": "Marketing Automatizáció Tervezők",
-        "description": "Munkafolyamat sablonok időspóroláshoz"
+        "name": "Letölthető PDF-ek / sablonok",
+        "description": "7 gyakorlati sablon és útmutató - azonnal letölthető és használható generátorok.",
+        "learningResourceType": "template"
       }
     ]
   };

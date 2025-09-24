@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# XML Sitemap
+Sitemap: https://elira.hu/sitemap.xml
+
+# Optimization for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Block common bot patterns that waste resources
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

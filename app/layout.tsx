@@ -27,16 +27,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://elira.hu'),
-  title: "ELIRA - Olvass a vevőid gondolataiban | AI Copywriting Kurzus",
-  description: "Tanuld meg az AI-alapú copywriting titkait! Buyer persona 5 perc alatt, profitnövelő szövegek, MI-sablonok. Doktorandusz oktatótól, 30 napos garanciával.",
-  keywords: "AI copywriting, buyer persona, marketing automatizáció, MI sablonok, copywriting kurzus, Miskolci Egyetem, doktorandusz, Somosi Zoltán, magyar",
+  title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
+  description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is) anélkül, hogy bármit újat kellene fejlesztened. 5 modul, 17 videó lecke + PDF sablonok.",
+  keywords: "vevőpszichológia, AI copywriting, buyer persona, marketing automatizáció, vevői kutatás, pszichológiai triggerek, érzelmi copywriting, online masterclass, magyar",
   authors: [{ name: "Elira Team" }],
   robots: "index, follow",
   
   // Open Graph / Facebook
   openGraph: {
-    title: "Elira - 5 Ingyenes Karrierfejlesztési Anyag",
-    description: "Töltsd le ingyen az 5 prémium karrierfejlesztési anyagot! Egyetemi oktatóktól készítve, azonnali hozzáférés.",
+    title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
+    description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is). 5 modul, 17 videó lecke AI eszközökkel. Csak 10 helyre korlátozott!.",
     type: "website",
     url: "https://elira.hu",
     siteName: "Elira",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Elira - 5 Ingyenes Karrierfejlesztési Anyag"
+        alt: "3x több érdeklődő 30 nap alatt - Vevőpszichológia Masterclass"
       }
     ]
   },
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Elira - 5 Ingyenes Karrierfejlesztési Anyag",
-    description: "Töltsd le ingyen az 5 prémium karrierfejlesztési anyagot! Egyetemi oktatóktól készítve.",
+    title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
+    description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is). 5 modul, 17 videó lecke AI eszközökkel.",
     images: ["/twitter-card.jpg"],
     site: "@elira_hu",
     creator: "@elira_hu"
@@ -98,6 +98,9 @@ export default function RootLayout({
           }}
         />
         <StructuredData />
+        <link rel="canonical" href="https://elira.hu" />
+        <link rel="alternate" hrefLang="hu" href="https://elira.hu" />
+        <link rel="alternate" hrefLang="x-default" href="https://elira.hu" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} academic-mode antialiased`}
