@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { CheckCircle, Star, Shield, Gift, Zap, Users, Clock, Trophy, Video, Headphones, FileText } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -19,13 +18,7 @@ const OfferSummary: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-yellow-400/20 border border-yellow-400/30 px-4 py-2 rounded-full mb-6 shadow-sm hover:shadow-md transition-all duration-300">
               <Trophy className="w-5 h-5 text-yellow-300" />
               <span className="font-medium text-yellow-200">Teljes csomag áttekintése</span>
@@ -41,16 +34,10 @@ const OfferSummary: React.FC = () => {
             <p className="text-lg text-white/90 max-w-3xl mx-auto">
               Teljes értékű masterclass + 2 exkluzív csomag + 3 értékes bónusz + tripla garancia
             </p>
-          </motion.div>
+          </div>
 
           {/* Main Course */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
+          <div className="mb-12">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 shadow-md hover:shadow-lg transition-all duration-300">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center">
@@ -111,16 +98,10 @@ const OfferSummary: React.FC = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Bundle Overview */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
+          <div className="mb-12">
             <div className="text-center mb-8">
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">+ 2 exkluzív megoldás csomag</h3>
               <p className="text-white/80">Garantált sikerhez teljes támogatási ökoszisztéma</p>
@@ -374,16 +355,10 @@ const OfferSummary: React.FC = () => {
               </div>
 
             </div>
-          </motion.div>
+          </div>
 
           {/* Bonuses Overview */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
+          <div className="mb-12">
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-400/30 px-4 py-2 rounded-full mb-6">
                 <Gift className="w-5 h-5 text-orange-300" />
@@ -427,16 +402,10 @@ const OfferSummary: React.FC = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Guarantee Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
+          <div className="text-center">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 shadow-md hover:shadow-lg transition-all duration-300">
               <div className="flex items-center justify-center gap-4 mb-6">
                 <Shield className="w-10 h-10 text-green-400" />
@@ -481,21 +450,17 @@ const OfferSummary: React.FC = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Purchase Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.0 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <PurchaseButton 
-              courseId="ai-copywriting-course"
-              className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-gray-900 px-12 py-6 rounded-xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
-            />
-          </motion.div>
+          <div className="text-center">
+            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
+              <PurchaseButton 
+                courseId="ai-copywriting-course"
+                className="transform hover:scale-105 transition-transform duration-300 w-full"
+              />
+            </div>
+          </div>
 
         </div>
       </div>

@@ -11,6 +11,8 @@ const InfoBar: React.FC = () => {
     minutes: 0,
     seconds: 0
   });
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -40,15 +42,68 @@ const InfoBar: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Only hide on mobile/tablet (below lg breakpoint)
+      if (window.innerWidth < 1024) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and past 100px - hide the bar
+          setIsVisible(false);
+        } else if (currentScrollY < lastScrollY) {
+          // Scrolling up - show the bar
+          setIsVisible(true);
+        }
+      } else {
+        // Always visible on desktop
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed top-[68px] sm:top-[76px] left-0 right-0 z-30 bg-gradient-to-br from-teal-800 to-teal-700 text-white shadow-lg"
+      animate={{ 
+        opacity: isVisible ? 1 : 0, 
+        y: isVisible ? 0 : -100,
+        height: isVisible ? 'auto' : 0
+      }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className="fixed top-[52px] sm:top-[68px] lg:top-[76px] left-0 right-0 z-30 bg-gradient-to-br from-teal-800 to-teal-700 text-white shadow-lg overflow-hidden"
     >
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-3 text-center lg:text-left">
+      <div className="container mx-auto px-4 py-2 lg:py-3">
+        {/* Mobile-optimized compact layout */}
+        <div className="lg:hidden">
+          <div className="flex items-center justify-between gap-2">
+            {/* Compact date info */}
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-white/80" />
+              <span className="text-sm font-medium">Okt 6</span>
+              <span className="text-xs bg-red-500/20 px-1.5 py-0.5 rounded-full text-red-200">10 hely</span>
+            </div>
+            
+            {/* Compact timer */}
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-3 h-3 text-white/80" />
+              <div className="flex gap-1 text-sm font-mono">
+                <span className="bg-white/10 px-1.5 py-0.5 rounded">{timeLeft.days}n</span>
+                <span className="bg-white/10 px-1.5 py-0.5 rounded">{timeLeft.hours.toString().padStart(2, '0')}ó</span>
+                <span className="bg-white/10 px-1.5 py-0.5 rounded">{timeLeft.minutes.toString().padStart(2, '0')}p</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden lg:flex flex-row items-center justify-between gap-3">
           
           {/* Left: Masterclass Date with Spots Info */}
           <motion.div

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
-import { UserProfileResponse, LinkDownloadsRequest } from '../../../src/types/auth';
+import { UserProfileResponse, LinkDownloadsRequest } from '../../../types/auth';
 
 const db = admin.firestore();
 

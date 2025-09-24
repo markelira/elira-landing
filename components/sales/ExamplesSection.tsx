@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Users, Mail, MessageSquare, BarChart3, Target, X, ArrowRight } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
 const ExamplesSection: React.FC = () => {

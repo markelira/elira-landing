@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { GraduationCap, Building2, CheckCircle, Lightbulb, LinkedinIcon } from 'lucide-react';
 
 const ZoliIntroduction: React.FC = () => {
@@ -11,13 +10,7 @@ const ZoliIntroduction: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-50 to-cyan-50 border border-teal-200 px-4 py-2 rounded-full shadow-sm mb-6 hover:shadow-md transition-all duration-300">
               <Lightbulb className="w-5 h-5 text-teal-600 animate-pulse" />
               <span className="font-medium text-gray-900">A kurzus készítője</span>
@@ -30,19 +23,13 @@ const ZoliIntroduction: React.FC = () => {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Megismerheted a szakembert, aki a tudományos kutatás és a gyakorlati tapasztalat ötvözésével hozta létre ezt a rendszert
             </p>
-          </motion.div>
+          </div>
           
           {/* Two Column Grid Layout - 30/70 split */}
           <div className="grid lg:grid-cols-[30%_70%] gap-12 items-start">
             
             {/* Left Column - Profile Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="lg:sticky lg:top-8"
-            >
+            <div className="lg:sticky lg:top-8">
               <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
                 
                 {/* Profile Image */}
@@ -93,16 +80,10 @@ const ZoliIntroduction: React.FC = () => {
                   </a>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Column - Introduction Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="space-y-12"
-            >
+            <div className="space-y-12">
               
               {/* Engedd meg, hogy bemutatkozzam */}
               <div>
@@ -146,7 +127,7 @@ const ZoliIntroduction: React.FC = () => {
                 </p>
               </div>
 
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

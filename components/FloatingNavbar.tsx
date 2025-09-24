@@ -46,7 +46,7 @@ const FloatingNavbar: React.FC = () => {
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-lg"
       >
-        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-2 sm:py-3 lg:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2 sm:space-x-3">
@@ -126,11 +126,11 @@ const FloatingNavbar: React.FC = () => {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Enhanced touch target */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-teal-700 transition-colors touch-target"
-              aria-label="Menu"
+              className="md:hidden p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-700 hover:text-teal-700 transition-colors rounded-lg hover:bg-gray-100"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>

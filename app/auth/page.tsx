@@ -84,7 +84,7 @@ export default function AuthPage() {
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
                   Egy lépésre vagy attól, hogy hozzáférj: <br />
-                  <span className="font-medium text-gray-800">Olvass a vevőid gondolataiban</span> (9990 Ft)
+                  <span className="font-medium text-gray-800">3x több érdeklődő 30 nap alatt - Vállalkozói vevőpszichológia masterclass</span> (49.990 Ft)
                 </p>
                 
                 <div className="space-y-2 text-sm">
@@ -92,13 +92,13 @@ export default function AuthPage() {
                     <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
                     </svg>
-                    <span className="text-gray-700">Biztonságos fiók szükséges a kurzus eléréséhez</span>
+                    <span className="text-gray-700">Teljes masterclass + 4 webinár + 5 személyes 1:1 meeting</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
                     </svg>
-                    <span className="text-gray-700">Haladásod követése és tanúsítványok</span>
+                    <span className="text-gray-700">+2 extra csomag + 3 bónusz csomag + tripla garancia</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,19 +184,19 @@ export default function AuthPage() {
                 <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                AI Copywriting Mastery Kurzus
+                Vállalkozói vevőpszichológia masterclass
               </div>
               <div className="flex items-center justify-center text-sm text-gray-700">
                 <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Személyre szabott tanulási útvonal
+                5 webinár + 4 személyes 1:1 meeting
               </div>
               <div className="flex items-center justify-center text-sm text-gray-700">
                 <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Haladás követés és tanúsítvány
+                3 bónusz csomag + tripla garancia
               </div>
             </div>
           </div>

@@ -1,19 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
 import { 
   BookOpen, 
-  Target, 
-  Play,
+  Target,
   Clock,
   CheckCircle,
   Users,
   Search,
   Heart,
-  Rocket,
-  Star,
-  ArrowRight
+  Rocket
 } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
@@ -41,27 +37,8 @@ interface CourseModule {
 }
 
 const MainCourseOffer: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [activeModule, setActiveModule] = useState<string>('1');
   const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1, rootMargin: '-50px' }
-    );
-
-    const element = document.getElementById('main-course-offer');
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   // Real course modules from InteractiveCourseModules
   const modules: CourseModule[] = [
@@ -207,33 +184,17 @@ const MainCourseOffer: React.FC = () => {
 
   const activeModuleData = modules.find(m => m.id === activeModule) || modules[0];
 
-  const getLessonIcon = (type: string) => {
-    switch (type) {
-      case 'video': return <Play className="w-3 h-3" />;
-      case 'project': return <BookOpen className="w-3 h-3" />;
-      default: return <CheckCircle className="w-3 h-3" />;
-    }
-  };
 
   return (
     <section 
       id="main-course-offer" 
-      className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-white overflow-hidden"
+      className="py-16 sm:py-20 lg:py-24 relative overflow-hidden"
+      style={{ backgroundColor: '#F8F7F5' }}
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-teal-200/20 rounded-full blur-2xl" />
-        <div className="absolute bottom-32 right-16 w-48 h-48 bg-orange-200/20 rounded-full blur-3xl" />
-      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
               3x több érdeklődő
@@ -246,22 +207,12 @@ const MainCourseOffer: React.FC = () => {
             és ezzel többet adsz el <span className="font-medium italic">(akár drágábban is)</span> anélkül, 
             hogy bármit újat kellene fejlesztened.
           </p>
-        </motion.div>
+        </div>
 
         {/* Two Column Layout */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid lg:grid-cols-2 gap-8 lg:gap-12"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
           {/* Left Column - Main Course Offer */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="bg-white rounded-3xl shadow-xl p-8 lg:p-10 border border-gray-200"
-          >
+          <div className="bg-white rounded-3xl shadow-xl p-8 lg:p-10 border border-gray-200">
             {/* Course Title */}
             <div className="mb-8">
               <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
@@ -323,39 +274,26 @@ const MainCourseOffer: React.FC = () => {
               </button>
             </div>
 
-          </motion.div>
+          </div>
 
           {/* Right Column - Course Content (Same as InteractiveCourseModules) */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-white rounded-xl border border-gray-200 shadow-lg shadow-gray-100 overflow-hidden backdrop-blur-sm"
-          >
+          <div className="bg-white rounded-xl border border-gray-200 shadow-lg shadow-gray-100 overflow-hidden backdrop-blur-sm">
             <div className="grid lg:grid-cols-1 gap-0 min-h-[600px]">
             
             {/* Module List (Minimized) */}
             <div className="bg-gradient-to-br from-gray-50 to-gray-50/80 lg:bg-gradient-to-br lg:from-gray-50/60 lg:to-white p-4 lg:p-6 border-b border-gray-200/70">
               
               {/* Module List Header */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={isVisible ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6 }}
-                className="mb-4"
-              >
+              <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">Teljes tanulási út lépésről lépésre</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">5 modul, 17 videó lecke</p>
-              </motion.div>
+              </div>
 
               {/* Compact Module Grid */}
               <div className="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto">
-                {modules.filter(module => module.type !== 'resource').map((module, index) => (
-                  <motion.div
+                {modules.filter(module => module.type !== 'resource').map((module) => (
+                  <div
                     key={module.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
                     onClick={() => setActiveModule(module.id)}
                     className={`
                       cursor-pointer rounded-lg p-3 border transition-all duration-300 hover:translate-x-1 hover:shadow-md group
@@ -396,21 +334,14 @@ const MainCourseOffer: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Dynamic Content Area (Minimized) */}
             <div className="p-4 lg:p-6 bg-gradient-to-br from-white to-gray-50/30">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeModule}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                >
+              <div key={activeModule}>
                   
                   {/* Module Header */}
                   <div className="mb-4">
@@ -455,34 +386,25 @@ const MainCourseOffer: React.FC = () => {
                     </h4>
                     <div className="grid grid-cols-1 gap-2">
                       {activeModuleData.learningObjectives?.slice(0, 3).map((objective, index) => (
-                        <motion.div
+                        <div
                           key={index}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
                           className="flex items-center gap-2 p-2 bg-gradient-to-r from-gray-50 to-gray-50/70 rounded-lg border border-gray-200/70 hover:shadow-sm hover:border-gray-300 transition-all duration-300 backdrop-blur-sm"
                         >
                           <CheckCircle className="w-3 h-3 text-gray-600 flex-shrink-0" />
                           <span className="text-gray-700 text-xs leading-relaxed">{objective}</span>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </div>
 
-                </motion.div>
-              </AnimatePresence>
+                </div>
             </div>
           </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* October Masterclass Application CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-12"
-        >
+        <div className="text-center mt-12">
           <div className="bg-gradient-to-r from-slate-900 via-teal-800 to-teal-700 rounded-2xl p-8 text-white relative overflow-hidden">
             {/* Limited Spots Badge */}
             <div className="absolute top-4 right-4">
@@ -498,7 +420,7 @@ const MainCourseOffer: React.FC = () => {
               </p>
               
               {/* Benefits row */}
-              <div className="grid md:grid-cols-3 gap-4 mb-8 text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-sm">
                 <div className="flex items-center gap-2 justify-center">
                   <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
                   <span>1:1 mentorálás</span>
@@ -527,7 +449,7 @@ const MainCourseOffer: React.FC = () => {
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Video Selection Modal */}

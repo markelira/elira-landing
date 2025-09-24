@@ -6,7 +6,7 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
 import { CourseLesson, LessonContent } from '../../../types/course';
-import { CourseLessonSchema } from '../../../lib/validations/course';
+import { CourseLessonSchema } from '../validations/course';
 
 const db = admin.firestore();
 
@@ -62,7 +62,7 @@ export const createLessonHandler = async (req: Request, res: Response): Promise<
       res.status(400).json({ 
         success: false, 
         error: 'Validation failed',
-        errors: validationResult.error.errors 
+        errors: validationResult.error.issues 
       });
       return;
     }
@@ -309,7 +309,7 @@ export const updateLessonHandler = async (req: Request, res: Response): Promise<
       res.status(400).json({ 
         success: false, 
         error: 'Validation failed',
-        errors: validationResult.error.errors 
+        errors: validationResult.error.issues 
       });
       return;
     }

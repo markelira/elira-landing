@@ -29,7 +29,7 @@ export async function createSimpleCourse() {
       totalLessons: 17,
       status: 'PUBLISHED',
       isFree: false,
-      stripePriceId: 'price_1S2g4HHhqyKpFIBMp3uCFZta',
+      stripePriceId: 'price_1SAbPbHhqyKpFIBMcfdPF1Lh',
       stripeProductId: 'prod_SwFQ50r0KCrxss',
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),

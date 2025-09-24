@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Users, Video, ChevronLeft, ChevronRight, Trophy, Heart, Scissors, Bot } from 'lucide-react';
+import PurchaseButton from '@/components/course/PurchaseButton';
 
 interface CalendarEvent {
   id: string;
@@ -136,7 +137,7 @@ const CalendarSection: React.FC = () => {
           whileHover={isInRange ? { scale: 1.02 } : {}}
           whileTap={isInRange ? { scale: 0.98 } : {}}
           className={`
-            h-11 flex flex-col items-center justify-center rounded-full cursor-pointer relative backdrop-blur-xl
+            h-11 w-11 sm:h-11 sm:w-auto min-h-[44px] min-w-[44px] flex flex-col items-center justify-center rounded-full cursor-pointer relative backdrop-blur-xl
             transition-all duration-200 ease-out
             ${isInRange 
               ? `bg-white/80 border border-gray-200/60 hover:bg-white/90 hover:border-gray-300/80 hover:shadow-md shadow-sm
@@ -197,14 +198,8 @@ const CalendarSection: React.FC = () => {
   const dayNames = ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50/90 via-white to-gray-50/70 relative overflow-hidden">
-      {/* Liquid Glass Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-blue-100/20 to-teal-100/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-100/20 to-amber-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-      
-      <div className="container mx-auto px-6 relative z-10">
+    <section className="py-16 relative overflow-hidden" style={{ backgroundColor: '#F8F7F5' }}>
+      <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
@@ -256,15 +251,16 @@ const CalendarSection: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          {/* Mobile-first layout: Events first, then calendar */}
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 lg:gap-8">
             
-            {/* Calendar */}
+            {/* Calendar - Hidden on mobile, shows on desktop */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="lg:col-span-2"
+              className="hidden lg:block lg:col-span-2 order-2 lg:order-1"
             >
               <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-200/50 border border-white/60 overflow-hidden hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500">
                 
@@ -273,8 +269,9 @@ const CalendarSection: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                      className="p-3 hover:bg-white/60 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/40 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-3 min-h-[48px] min-w-[48px] flex items-center justify-center hover:bg-white/60 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/40 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={currentDate.getMonth() === 9} // October
+                      aria-label="Previous month"
                     >
                       <ChevronLeft className="w-5 h-5 text-gray-700" />
                     </button>
@@ -285,8 +282,9 @@ const CalendarSection: React.FC = () => {
                     
                     <button
                       onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                      className="p-3 hover:bg-white/60 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/40 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-3 min-h-[48px] min-w-[48px] flex items-center justify-center hover:bg-white/60 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/40 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={currentDate.getMonth() === 9} // Only October for now
+                      aria-label="Next month"
                     >
                       <ChevronRight className="w-5 h-5 text-gray-700" />
                     </button>
@@ -334,17 +332,42 @@ const CalendarSection: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Event List */}
+            {/* Mobile-only: Compact Date Overview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="lg:hidden order-1 mb-6"
+            >
+              <div className="bg-white/70 backdrop-blur-xl rounded-2xl p-4 border border-white/60 shadow-lg">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3 text-center">Webinár dátumok - Október 2025</h4>
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {events.map((event, index) => (
+                    <div key={event.id} className="text-center">
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-md bg-gradient-to-br ${event.theme?.gradientFrom || 'from-blue-500'} ${event.theme?.gradientTo || 'to-blue-600'}`}>
+                        {event.date.getDate()}
+                      </div>
+                      <div className="text-xs text-gray-600 mt-1">{event.time}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Event List - Priority on mobile */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
+              className="order-2 lg:order-2"
             >
-              <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-200/50 border border-white/60 p-8 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500">
+              <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-200/50 border border-white/60 p-6 sm:p-8 hover:shadow-2xl hover:shadow-gray-200/60 transition-all duration-500">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-teal-600" />
-                  Következő események
+                  <span className="lg:hidden">Webinár programok</span>
+                  <span className="hidden lg:inline">Következő események</span>
                 </h4>
                 
                 <div className="space-y-4">
@@ -401,6 +424,20 @@ const CalendarSection: React.FC = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* Purchase CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <PurchaseButton 
+              courseId="ai-copywriting-course"
+              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            />
+          </motion.div>
         </div>
       </div>
     </section>

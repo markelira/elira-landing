@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Target, TrendingUp, Users, Repeat, AlertTriangle } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -34,7 +33,7 @@ const NeedEstablishment: React.FC = () => {
       icon: "💰"
     },
     {
-      text: "Többször vásárolnak csak akkor, ha tudod, mikor és mit akarnak legközelebb",
+      text: "Többször csak akkor vásárolnak, ha tudod, mikor és mit akarnak legközelebb",
       icon: "🔄"
     }
   ];
@@ -50,13 +49,7 @@ const NeedEstablishment: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-teal-50 px-4 py-2 rounded-full border border-green-200 mb-6 shadow-sm hover:shadow-md transition-all duration-300">
               <Target className="w-5 h-5 text-green-600" />
               <span className="text-gray-900 font-medium">Az igazság a bevételnövelésről</span>
@@ -65,23 +58,13 @@ const NeedEstablishment: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 leading-tight">
               3 módja van annak, hogy többet keress:
             </h2>
-          </motion.div>
+          </div>
 
           {/* Three Ways to Earn More */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-6 mb-12"
-          >
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
             {revenueWays.map((way, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                viewport={{ once: true }}
                 className="bg-white rounded-xl border border-gray-200 p-6 shadow-md hover:shadow-lg hover:border-green-200 transition-all duration-300 relative overflow-hidden group"
               >
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-teal-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
@@ -99,33 +82,21 @@ const NeedEstablishment: React.FC = () => {
                 <p className="text-gray-600 text-sm">
                   {way.description}
                 </p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Emphasis */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm max-w-2xl mx-auto">
               <p className="text-xl font-semibold text-gray-900">
                 Ennyi. Nincs 4. módszer.
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* The Problem */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
+          <div className="mb-12">
             <div className="bg-gradient-to-br from-white to-orange-50/20 rounded-xl border border-orange-200 p-8 shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-red-400 to-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               
@@ -144,12 +115,8 @@ const NeedEstablishment: React.FC = () => {
 
               <div className="space-y-4">
                 {keyRequirements.map((requirement, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.0 + index * 0.1 }}
-                    viewport={{ once: true }}
                     className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:shadow-sm hover:border-orange-200 transition-all duration-300"
                   >
                     <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-50 rounded-lg flex items-center justify-center">
@@ -158,20 +125,14 @@ const NeedEstablishment: React.FC = () => {
                     <p className="font-medium text-gray-800 flex-1">
                       {requirement.text}
                     </p>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* The Reality */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-8 mb-12"
-          >
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
             {/* What Most Do */}
             <div className="bg-gradient-to-br from-white to-red-50/20 rounded-xl border border-red-200 p-6 shadow-md hover:shadow-lg transition-all duration-300">
               <h4 className="text-lg font-semibold text-gray-900 mb-4 text-center">
@@ -190,7 +151,7 @@ const NeedEstablishment: React.FC = () => {
             {/* What A.I.M. Teaches */}
             <div className="bg-gradient-to-br from-white to-green-50/20 rounded-xl border border-green-200 p-6 shadow-md hover:shadow-lg transition-all duration-300">
               <h4 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-                Itt A Különbség:
+                Itt a különbség:
               </h4>
               
               <div className="space-y-4">
@@ -201,51 +162,37 @@ const NeedEstablishment: React.FC = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* The Truth - Final CTA Setup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.6 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="bg-gradient-to-br from-white to-teal-50/30 rounded-xl border border-teal-200 p-8 shadow-lg max-w-4xl mx-auto">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                Az igazság:
-              </h3>
-              
-              <div className="space-y-4 text-lg text-gray-800 leading-relaxed">
-                <p>
-                  Ha ismered a vevőd gondolatait, <span className="font-semibold text-teal-700">nem kell kitalálnod, mit csinálj.</span>
-                </p>
-                <p className="font-medium">
-                  Ő megmondja neked.
-                </p>
-                <p className="text-xl font-semibold text-teal-800 bg-teal-50 rounded-lg p-4 border border-teal-200">
-                  A vevőpszichológia az egyetlen skill, ami mind a 3 bevételnövelési módszert egyszerre javítja.
-                </p>
-                <p className="text-lg font-medium text-gray-900">
-                  Most megtanulhatod, hogyan.
-                </p>
-              </div>
-              
-              {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.8 }}
-                viewport={{ once: true }}
-                className="mt-8 pt-6 border-t border-teal-200"
-              >
-                <PurchaseButton 
-                  courseId="ai-copywriting-course"
-                  className="bg-transparent border-2 border-teal-700 hover:border-teal-800 text-teal-700 hover:text-teal-800 px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                />
-              </motion.div>
+          <div className="text-center max-w-4xl mx-auto">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+              Az igazság:
+            </h3>
+            
+            <div className="space-y-4 text-lg text-gray-800 leading-relaxed mb-8">
+              <p>
+                Ha ismered a vevőd gondolatait, <span className="font-semibold text-teal-700">nem kell kitalálnod, mit csinálj.</span>
+              </p>
+              <p className="font-medium">
+                Ő megmondja neked.
+              </p>
+              <p className="text-xl font-semibold text-teal-800 bg-teal-50 rounded-lg p-4 border border-teal-200">
+                A vevőpszichológia az egyetlen skill, ami mind a 3 bevételnövelési módszert egyszerre javítja.
+              </p>
+              <p className="text-lg font-medium text-gray-900">
+                Most megtanulhatod, hogyan.
+              </p>
             </div>
-          </motion.div>
+            
+            {/* CTA Button */}
+            <div className="text-center">
+              <PurchaseButton 
+                courseId="ai-copywriting-course"
+                className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              />
+            </div>
+          </div>
 
         </div>
       </div>

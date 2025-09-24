@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Clock, Zap, DollarSign, X, AlertTriangle } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -54,13 +53,7 @@ const ProblemSection: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-50 to-orange-50 px-4 py-2 rounded-full border border-red-200 mb-6 shadow-sm hover:shadow-md transition-all duration-300">
               <AlertTriangle className="w-5 h-5 text-red-600 animate-pulse" />
               <span className="text-gray-900 font-medium">A probléma</span>
@@ -69,18 +62,13 @@ const ProblemSection: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 leading-tight">
               Nézzük meg őszintén, hol tartasz most:
             </h2>
-          </motion.div>
+          </div>
 
           {/* Main Problems Grid */}
           <div className="grid lg:grid-cols-2 gap-8 mb-12">
             
             {/* Left Column - AI Problems */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
+            <div>
               <div className="bg-gradient-to-br from-white to-red-50/20 rounded-xl border border-gray-200 p-6 shadow-md hover:shadow-lg hover:border-red-200 transition-all duration-300 relative overflow-hidden group">
                 {/* Animated danger indicator */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400 via-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
@@ -90,12 +78,8 @@ const ProblemSection: React.FC = () => {
                 
                 <div className="space-y-4">
                   {painPoints.map((point, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      initial={{ opacity: 0, y: 15 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                      viewport={{ once: true }}
                       className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:shadow-sm hover:border-red-200 transition-all duration-300 group"
                     >
                       <div className="w-8 h-8 bg-gradient-to-br from-red-100 to-red-50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
@@ -106,19 +90,14 @@ const ProblemSection: React.FC = () => {
                           {point.text}
                         </p>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Column - Course Problems */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
+            <div>
               <div className="bg-gradient-to-br from-white to-red-50/20 rounded-xl border border-gray-200 p-6 shadow-md hover:shadow-lg hover:border-red-200 transition-all duration-300 relative overflow-hidden group">
                 {/* Animated danger indicator */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400 via-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
@@ -128,12 +107,8 @@ const ProblemSection: React.FC = () => {
                 
                 <div className="space-y-4">
                   {courseProblems.map((problem, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      initial={{ opacity: 0, y: 15 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                      viewport={{ once: true }}
                       className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:shadow-sm hover:border-red-200 transition-all duration-300 group"
                     >
                       <div className="w-8 h-8 bg-gradient-to-br from-red-100 to-red-50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
@@ -144,34 +119,26 @@ const ProblemSection: React.FC = () => {
                           {problem.text}
                         </p>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm max-w-3xl mx-auto">
-              <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                Minden elvesztegetett óra, minden alacsony konverzió, minden elszalasztott ügyfel... 
-                <span className="font-semibold text-gray-900">pénz, amit soha nem fogsz visszakapni.</span>
-              </p>
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="text-gray-700 text-lg leading-relaxed mb-8">
+              Minden elvesztegetett óra, minden alacsony konverzió, minden elszalasztott ügyfel... 
+              <span className="font-semibold text-gray-900">pénz, amit soha nem fogsz visszakapni.</span>
+            </p>
 
-              {/* CTA Button */}
-              <PurchaseButton 
-                courseId="ai-copywriting-course"
-                className="bg-transparent border-2 border-teal-700 hover:border-teal-800 text-teal-700 hover:text-teal-800 px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              />
-            </div>
-          </motion.div>
+            {/* CTA Button */}
+            <PurchaseButton 
+              courseId="ai-copywriting-course"
+              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            />
+          </div>
 
         </div>
       </div>

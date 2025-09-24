@@ -156,6 +156,30 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </button>
         </div>
 
+        <div className="mt-6 bg-teal-50 rounded-lg p-4 border border-teal-200">
+          <h4 className="text-sm font-semibold text-teal-800 mb-2">A bejelentkezéssel hozzáférsz:</h4>
+          <div className="space-y-1">
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Vállalkozói vevőpszichológia masterclass
+            </div>
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              4 webinár + 5 személyes 1:1 meeting
+            </div>
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              2 extra csomag + 3 bónusz csomag + tripla garancia
+            </div>
+          </div>
+        </div>
+
         {onSwitchToRegister && (
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">

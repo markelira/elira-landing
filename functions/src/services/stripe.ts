@@ -27,7 +27,7 @@ export const COURSE_CONFIG = {
   title: 'AI-alapú piac-kutatásos copywriting',
   description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal',
   // Stripe product and price IDs for the course
-  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1S2g4HHhqyKpFIBMp3uCFZta',
+  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1SAbPbHhqyKpFIBMcfdPF1Lh',
   stripeProductId: 'prod_SwFQ50r0KCrxss'
 };
 

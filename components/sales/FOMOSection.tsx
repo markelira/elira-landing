@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Zap, TrendingDown, Clock } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -18,13 +17,7 @@ const FOMOSection: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 relative">
               <span className="relative z-10">Miközben te ezt olvasod:</span>
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent opacity-60"></div>
@@ -32,17 +25,11 @@ const FOMOSection: React.FC = () => {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               A piaci adatok egyértelműen mutatják az AI-copywriting fontosságát
             </p>
-          </motion.div>
+          </div>
 
           {/* Real-time Stats */}
           <div className="space-y-4 mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-orange-200 transition-all duration-300 group relative overflow-hidden"
-            >
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-orange-200 transition-all duration-300 group relative overflow-hidden">
               {/* Animated accent bar */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               
@@ -59,15 +46,9 @@ const FOMOSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group relative overflow-hidden"
-            >
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group relative overflow-hidden">
               {/* Animated accent bar */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               
@@ -84,15 +65,9 @@ const FOMOSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-red-200 transition-all duration-300 group relative overflow-hidden"
-            >
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-red-200 transition-all duration-300 group relative overflow-hidden">
               {/* Animated accent bar */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400 via-red-500 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               
@@ -109,17 +84,11 @@ const FOMOSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Results Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 p-8 shadow-md hover:shadow-xl transition-all duration-300 relative"
-          >
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 p-8 shadow-md hover:shadow-xl transition-all duration-300 relative">
             {/* Corner accent */}
             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-red-100 to-transparent rounded-bl-full opacity-50"></div>
             
@@ -129,73 +98,43 @@ const FOMOSection: React.FC = () => {
             </h3>
             
             <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100"
-              >
+              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
                 <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
                   <span className="text-red-600 text-lg">⚡</span>
                 </div>
                 <span className="text-gray-900 text-lg font-medium">Ők kapják a te ügyfeleidet</span>
-              </motion.div>
+              </div>
               
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100"
-              >
+              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
                 <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
                   <span className="text-red-600 text-lg">💸</span>
                 </div>
                 <span className="text-gray-900 text-lg font-medium">Ők viszik el a te profitod</span>
-              </motion.div>
+              </div>
               
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100"
-              >
+              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
                 <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
                   <span className="text-red-600 text-lg">⛔</span>
                 </div>
                 <span className="text-gray-900 text-lg font-medium">Te maradsz le véglegesen</span>
-              </motion.div>
+              </div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-              viewport={{ once: true }}
-              className="mt-6 text-center"
-            >
+            <div className="mt-6 text-center">
               <div className="w-16 h-0.5 bg-gray-300 mx-auto rounded-full"></div>
               <p className="text-gray-600 text-sm font-medium mt-3">
                 Minden pillanat számít
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Purchase CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
+          <div className="text-center mt-12">
             <PurchaseButton 
               courseId="ai-copywriting-course"
-              className="bg-transparent border-2 border-teal-700 hover:border-teal-800 text-teal-700 hover:text-teal-800 px-8 py-4 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 min-w-[280px]"
+              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 min-w-[280px]"
             />
-          </motion.div>
+          </div>
 
         </div>
       </div>

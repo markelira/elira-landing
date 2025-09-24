@@ -175,10 +175,12 @@ const FinalCTA: React.FC = () => {
             className="space-y-6"
           >
             {/* Primary CTA */}
-            <PurchaseButton 
-              courseId="ai-copywriting-course"
-              className="w-full"
-            />
+            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
+              <PurchaseButton 
+                courseId="ai-copywriting-course"
+                className="transform hover:scale-105 transition-transform duration-300 w-full"
+              />
+            </div>
 
             {/* Secondary CTA */}
             <motion.button

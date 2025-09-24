@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import useAnalytics from '@/hooks/useAnalytics';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -41,46 +40,26 @@ const SalesHero: React.FC = () => {
         <div className="flex flex-col items-center text-center min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-12rem)]">
           
           {/* Header Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-white space-y-8 sm:space-y-12 mb-8 sm:mb-12 lg:mb-16"
-          >
+          <div className="text-white space-y-8 sm:space-y-12 mb-8 sm:mb-12 lg:mb-16">
             {/* MAIN HEADLINE */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-white"
-            >
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight sm:leading-tight md:leading-tight text-white">
               3x több érdeklődő
               <span className="block bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
                 30 nap alatt
               </span>
-            </motion.h1>
+            </h1>
 
             {/* SIMPLE VALUE PROP */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-lg sm:text-xl text-white/80 font-normal max-w-3xl mx-auto"
-            >
+            <p className="text-lg sm:text-xl text-white/80 font-normal max-w-3xl mx-auto">
               Megérted, mit akar valójában a vevőd, és ezzel többet adsz el <span className="italic">(akár drágábban is)</span> anélkül, hogy bármit újat kellene fejlesztened.
-            </motion.p>
+            </p>
 
             {/* KINEK SZÓL SECTION */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="max-w-4xl mx-auto"
-            >
-              <div className="grid md:grid-cols-2 gap-8">
+            <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 lg:px-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                 {/* Ez Neked Szól */}
                 <div className="bg-green-500/10 backdrop-blur-sm rounded-2xl p-6 border border-green-400/30">
-                  <h3 className="text-xl font-bold text-green-300 mb-4 text-left">Ez Neked Szól, Ha...</h3>
+                  <h3 className="text-xl font-bold text-green-300 mb-4 text-left">Ez neked szól, ha...</h3>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
                       <span className="text-green-400 text-lg flex-shrink-0">✅</span>
@@ -111,11 +90,11 @@ const SalesHero: React.FC = () => {
 
                 {/* Ez NEM Neked Szól */}
                 <div className="bg-red-500/10 backdrop-blur-sm rounded-2xl p-6 border border-red-400/30">
-                  <h3 className="text-xl font-bold text-red-300 mb-4 text-left">Ez NEM Neked Szól, Ha...</h3>
+                  <h3 className="text-xl font-bold text-red-300 mb-4 text-left">Ez NEM neked szól, ha...</h3>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
                       <span className="text-red-400 text-lg flex-shrink-0">❌</span>
-                      <p className="text-white/90 text-sm text-left">"Gyors pénz" megoldásokat keresel - ez nem get-rich-quick séma</p>
+                      <p className="text-white/90 text-sm text-left">"Gyors pénz" megoldásokat keresel - ez nem gazdagodj meg gyorsan séma</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <span className="text-red-400 text-lg flex-shrink-0">❌</span>
@@ -148,15 +127,10 @@ const SalesHero: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* URGENCY WARNING */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="bg-red-500/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto border border-red-400/50"
-            >
+            <div className="bg-red-500/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto border border-red-400/50">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
                 <p className="text-red-200 font-bold text-lg">CSAK 10 HELYRE KORLÁTOZOTT!</p>
@@ -165,19 +139,14 @@ const SalesHero: React.FC = () => {
               <p className="text-white/90 text-center text-sm">
                 <span className="font-semibold">Miért csak 10 főnek?</span> Azért, mert a személyes mentorálás, és az online konzultációk minőségéből - amik a kurzushoz járnak - nem akarunk engedni
               </p>
-            </motion.div>
+            </div>
 
             {/* WHAT'S INCLUDED CARDS */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="max-w-6xl mx-auto"
-            >
-              <h3 className="text-2xl font-bold text-white text-center mb-8">Mit kapsz a csomagban, a kurzus mellé?</h3>
+            <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-0">
+              <h3 className="text-xl sm:text-2xl font-bold text-white text-center mb-6 sm:mb-8">Mit kapsz a csomagban, a kurzus mellé?</h3>
               
               {/* Bundles */}
-              <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-3xl mb-3">⚡</div>
                   <h4 className="text-lg font-bold text-white mb-2">Eredmény 48 órán belül - 48 órás launch</h4>
@@ -204,10 +173,10 @@ const SalesHero: React.FC = () => {
               </div>
 
               {/* Bonuses */}
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-xl p-6 border border-green-400/30 hover:from-green-500/25 hover:to-emerald-500/25 transition-all duration-300">
                   <div className="text-3xl mb-3">🎁</div>
-                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #1: "6db COPY-PASTE PROFIT GENERÁTOR"</h4>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #1: 6db COPY-PASTE PROFIT GENERÁTOR"</h4>
                   <p className="text-white/80 text-sm mb-4">Kész AI promptok új kampányokhoz, blog posztokhoz...</p>
                   <button 
                     onClick={() => window.location.href = '#bonuses'}
@@ -219,7 +188,7 @@ const SalesHero: React.FC = () => {
 
                 <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-6 border border-purple-400/30 hover:from-purple-500/25 hover:to-pink-500/25 transition-all duration-300">
                   <div className="text-3xl mb-3">🎯</div>
-                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #2: "VERSENYTÁRS VADÁSZ RENDSZER" </h4>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #2: VERSENYTÁRS VADÁSZ RENDSZER</h4>
                   <p className="text-white/80 text-sm mb-4">Versenytárs elemzés + 1:1 meeting az eredményekkel.</p>
                   <button 
                     onClick={() => window.location.href = '#bonuses'}
@@ -231,7 +200,7 @@ const SalesHero: React.FC = () => {
 
                 <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm rounded-xl p-6 border border-orange-400/30 hover:from-orange-500/25 hover:to-red-500/25 transition-all duration-300">
                   <div className="text-3xl mb-3">🛡️</div>
-                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #3: "PROFIT MENTÉS GARANCIA</h4>
+                  <h4 className="text-lg font-bold text-white mb-2">BÓNUSZ #3: PROFIT MENTÉS GARANCIA</h4>
                   <p className="text-white/80 text-sm mb-4">1 év korlátlan support + kampány átírási garancia.</p>
                   <button 
                     onClick={() => window.location.href = '#bonuses'}
@@ -241,17 +210,12 @@ const SalesHero: React.FC = () => {
                   </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-          </motion.div>
+          </div>
 
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="mb-8 sm:mb-12 lg:mb-16"
-          >
+          <div className="mb-8 sm:mb-12 lg:mb-16">
             <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
               <PurchaseButton
                 courseId="ai-copywriting-course"
@@ -259,7 +223,7 @@ const SalesHero: React.FC = () => {
                 onPurchaseStart={() => trackButton('Grand Slam Purchase', 'sales-hero-purchase-button')}
               />
             </div>
-          </motion.div>
+          </div>
 
 
         </div>

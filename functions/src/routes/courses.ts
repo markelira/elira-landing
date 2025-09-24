@@ -345,7 +345,7 @@ export const getCoursesHandler = async (req: Request, res: Response): Promise<vo
       filteredCourses = courses.filter(course => 
         course.title.toLowerCase().includes(searchLower) ||
         course.description.toLowerCase().includes(searchLower) ||
-        course.tags?.some(tag => tag.toLowerCase().includes(searchLower))
+        course.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
       );
     }
     
@@ -863,7 +863,7 @@ export const purchaseCourseHandler = async (req: Request, res: Response): Promis
     }
     
     const courseData = courseDoc.data()!;
-    const stripePriceId = courseData.stripePriceId || process.env.NEXT_PUBLIC_STRIPE_DEFAULT_PRICE_ID || 'price_1S2g4HHhqyKpFIBMp3uCFZta';
+    const stripePriceId = courseData.stripePriceId || process.env.NEXT_PUBLIC_STRIPE_DEFAULT_PRICE_ID || 'price_1SAbPbHhqyKpFIBMcfdPF1Lh';
     
     console.log('[Purchase] Course found:', { courseId, stripePriceId, price: courseData.price });
     

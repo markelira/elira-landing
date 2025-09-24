@@ -24,7 +24,7 @@ export default function Home() {
       <InfoBar />
       <ScrollProgressIndicator />
       <FloatingNavbar />
-      <main className="pt-[130px] sm:pt-[140px] overflow-x-hidden">
+      <main className="pt-[90px] sm:pt-[110px] lg:pt-[140px] overflow-x-hidden">
         <SalesHero />
         <NeedEstablishment />
         <MainCourseOffer />

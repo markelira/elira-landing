@@ -237,6 +237,30 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           </div>
         )}
 
+        <div className="mt-6 bg-teal-50 rounded-lg p-4 border border-teal-200">
+          <h4 className="text-sm font-semibold text-teal-800 mb-2">A regisztrációval hozzáférsz:</h4>
+          <div className="space-y-1">
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Vállalkozói vevőpszichológia masterclass
+            </div>
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              4 webinár + 5 személyes 1:1 meeting
+            </div>
+            <div className="flex items-center text-xs text-teal-700">
+              <svg className="w-3 h-3 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              3 bónusz csomag + tripla garancia
+            </div>
+          </div>
+        </div>
+
         <div className="mt-4 text-xs text-gray-500 text-center">
           A regisztrációval elfogadod az{' '}
           <a href="/terms" className="text-teal-600 hover:text-teal-500">

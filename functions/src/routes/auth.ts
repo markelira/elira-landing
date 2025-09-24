@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
-import { RegisterRequest, RegisterResponse, GoogleAuthRequest } from '../../../src/types/auth';
+import { RegisterRequest, RegisterResponse, GoogleAuthRequest } from '../../../types/auth';
 import { sendLeadMagnetEmail } from '../services/sendgrid';
 
 const db = admin.firestore();

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, GraduationCap, Building2, Users, Microscope } from 'lucide-react';
 import VideoSelectionModal from '@/components/modals/VideoSelectionModal';
+import SurveyCard from '@/components/sales/SurveyCard';
 
 const GuaranteeSection: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -104,6 +105,17 @@ const GuaranteeSection: React.FC = () => {
             ))}
           </motion.div>
 
+          {/* Survey Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-md mx-auto mb-12"
+          >
+            <SurveyCard surveyUrl="https://www.survio.com/survey/d/G1A4N2P5Q8B1S8M9F" />
+          </motion.div>
+
           {/* Guarantee Statement */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -126,7 +138,7 @@ const GuaranteeSection: React.FC = () => {
                 onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center justify-center gap-3 bg-white backdrop-blur-xl hover:bg-gray-50 text-teal-700 border-2 border-teal-200 hover:border-teal-300 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                className="flex items-center justify-center gap-3 bg-white backdrop-blur-xl hover:bg-gray-50 text-teal-700 border-2 border-teal-200 hover:border-teal-300 px-6 py-4 md:px-8 md:py-4 min-h-[48px] rounded-2xl font-bold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
               >
                 <span className="text-xl">🎁</span>
                 <span>ELŐSZÖR AZ INGYENES VIDEÓT KÉREM</span>
@@ -136,7 +148,7 @@ const GuaranteeSection: React.FC = () => {
                 onClick={() => setModalOpen(true)}
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-4 md:px-8 md:py-4 min-h-[48px] rounded-2xl font-bold text-base md:text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 

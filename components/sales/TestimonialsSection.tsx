@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight, TrendingUp, Clock, DollarSign } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
 
@@ -59,13 +58,7 @@ const TestimonialsSection: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [testimonials.length]);
+  // Auto-scroll removed - user controls navigation manually
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
@@ -86,13 +79,7 @@ const TestimonialsSection: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-50 to-cyan-50 px-4 py-2 rounded-full border border-teal-200 shadow-sm mb-6 hover:shadow-md transition-all duration-300">
               <TrendingUp className="w-5 h-5 text-teal-600 animate-pulse" />
               <span className="font-medium text-gray-900">Eredmények és visszajelzések</span>
@@ -101,16 +88,10 @@ const TestimonialsSection: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
               Mit mondanak, akik már használják:
             </h2>
-          </motion.div>
+          </div>
 
           {/* Testimonials Carousel */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="relative mb-12"
-          >
+          <div className="relative mb-12">
             <div className="bg-gradient-to-br from-white via-gray-50/50 to-white rounded-xl border border-gray-200 p-8 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden">
               {/* Decorative quote pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
@@ -134,55 +115,49 @@ const TestimonialsSection: React.FC = () => {
 
               {/* Testimonial Content */}
               <div className="px-12">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4 }}
-                    className="text-center"
-                  >
-                    {/* Quote Icon */}
-                    <Quote className="w-8 h-8 text-gray-400 mx-auto mb-4" />
-                    
-                    {/* Testimonial Message */}
-                    <blockquote className="text-sm md:text-base text-gray-700 mb-6 leading-relaxed max-w-2xl mx-auto">
-                      "{testimonials[currentIndex].message}"
-                    </blockquote>
-                    
-                    {/* Rating */}
-                    <div className="flex justify-center gap-1 mb-4">
-                      {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      ))}
+                <div
+                  key={currentIndex}
+                  className="text-center"
+                >
+                  {/* Quote Icon */}
+                  <Quote className="w-8 h-8 text-gray-400 mx-auto mb-4" />
+                  
+                  {/* Testimonial Message */}
+                  <blockquote className="text-sm md:text-base text-gray-700 mb-6 leading-relaxed max-w-2xl mx-auto">
+                    "{testimonials[currentIndex].message}"
+                  </blockquote>
+                  
+                  {/* Rating */}
+                  <div className="flex justify-center gap-1 mb-4">
+                    {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  
+                  {/* Author Info */}
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200">
+                      <img 
+                        src={testimonials[currentIndex].avatar}
+                        alt={testimonials[currentIndex].name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    
-                    {/* Author Info */}
-                    <div className="flex items-center justify-center gap-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200">
-                        <img 
-                          src={testimonials[currentIndex].avatar}
-                          alt={testimonials[currentIndex].name}
-                          className="w-full h-full object-cover"
-                        />
+                    <div className="text-left">
+                      <div className="text-gray-900 font-semibold">
+                        {testimonials[currentIndex].name}
                       </div>
-                      <div className="text-left">
-                        <div className="text-gray-900 font-semibold">
-                          {testimonials[currentIndex].name}
-                        </div>
-                        <div className="text-gray-600 font-medium text-sm">
-                          {testimonials[currentIndex].position}
-                        </div>
-                        {testimonials[currentIndex].company && (
-                          <div className="text-gray-500 text-xs">
-                            {testimonials[currentIndex].company}
-                          </div>
-                        )}
+                      <div className="text-gray-600 font-medium text-sm">
+                        {testimonials[currentIndex].position}
                       </div>
+                      {testimonials[currentIndex].company && (
+                        <div className="text-gray-500 text-xs">
+                          {testimonials[currentIndex].company}
+                        </div>
+                      )}
                     </div>
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                </div>
               </div>
 
               {/* Carousel Dots */}
@@ -200,20 +175,14 @@ const TestimonialsSection: React.FC = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
+          <div className="text-center">
             <PurchaseButton 
               courseId="ai-copywriting-course"
             />
-          </motion.div>
+          </div>
 
         </div>
       </div>
