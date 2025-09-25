@@ -3,6 +3,7 @@
 import React from 'react';
 import { CheckCircle, Star, Shield, Gift, Zap, Users, Clock, Trophy, Video, Headphones, FileText } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
+import ConsultationButton from '@/components/buttons/ConsultationButton';
 
 const OfferSummary: React.FC = () => {
   return (
@@ -452,13 +453,24 @@ const OfferSummary: React.FC = () => {
             </div>
           </div>
 
-          {/* Purchase Button */}
+          {/* Purchase Buttons */}
           <div className="text-center">
-            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
-              <PurchaseButton 
-                courseId="ai-copywriting-course"
-                className="transform hover:scale-105 transition-transform duration-300 w-full"
-              />
+            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-2xl mx-auto">
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <PurchaseButton 
+                  courseId="ai-copywriting-course"
+                  className="transform hover:scale-105 transition-transform duration-300 flex-1 w-full md:w-auto"
+                />
+                <div className="text-gray-400 text-lg font-bold hidden md:block">VAGY</div>
+                <ConsultationButton 
+                  className="flex-1 w-full md:w-auto"
+                  variant="primary"
+                  size="lg"
+                />
+              </div>
+              <div className="mt-4 text-center text-gray-600 text-sm">
+                💬 Kérdés van? Beszéljük meg előtte!
+              </div>
             </div>
           </div>
 

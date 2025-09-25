@@ -40,13 +40,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         
         {/* Mobile Bottom Navigation */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200">
-          <div className="grid grid-cols-4 gap-1 px-2 py-2">
+          <div className="grid grid-cols-5 gap-1 px-2 py-2">
             <a 
               href="/admin/dashboard" 
               className="flex flex-col items-center py-2 px-1 text-xs text-gray-600 hover:text-teal-600"
             >
               <div className="w-6 h-6 mb-1 flex items-center justify-center">📊</div>
               Dashboard
+            </a>
+            <a 
+              href="/admin/marketing-sebeszet" 
+              className="flex flex-col items-center py-2 px-1 text-xs text-gray-600 hover:text-teal-600 relative"
+            >
+              <div className="w-6 h-6 mb-1 flex items-center justify-center">💬</div>
+              CRM
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></span>
             </a>
             <a 
               href="/admin/users" 

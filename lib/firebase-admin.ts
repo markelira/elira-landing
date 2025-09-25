@@ -92,3 +92,4 @@ try {
 
 // Export the admin services with null check
 export { adminDb, adminApp, auth };
+export { adminDb as db }; // Alias for compatibility

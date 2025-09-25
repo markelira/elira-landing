@@ -295,8 +295,8 @@ const CalendarSection: React.FC = () => {
                 <div className="p-8">
                   {/* Day names */}
                   <div className="grid grid-cols-7 gap-3 mb-6">
-                    {dayNames.map((day) => (
-                      <div key={day} className="h-10 flex items-center justify-center">
+                    {dayNames.map((day, index) => (
+                      <div key={`${day}-${index}`} className="h-10 flex items-center justify-center">
                         <span className="text-sm font-semibold text-gray-500 tracking-wide">{day}</span>
                       </div>
                     ))}
@@ -435,7 +435,7 @@ const CalendarSection: React.FC = () => {
           >
             <PurchaseButton 
               courseId="ai-copywriting-course"
-              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 rounded-lg font-semibold transition-all duration-300"
             />
           </motion.div>
         </div>

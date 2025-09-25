@@ -20,13 +20,22 @@ import {
   Settings,
   LogOut,
   Home,
-  TrendingUp
+  TrendingUp,
+  Calendar,
+  Phone,
+  MessageCircle
 } from 'lucide-react'
 
 
 const adminNavItems = [
   { title: 'Admin Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { title: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+  { 
+    title: 'Marketing Sebészet CRM', 
+    href: '/admin/marketing-sebeszet', 
+    icon: MessageCircle,
+    badge: 'NEW'
+  },
   { title: 'User Management', href: '/admin/users', icon: Users },
   { title: 'Course Management', href: '/admin/courses', icon: FolderKanban },
   { title: 'Enrollments', href: '/admin/enrollments', icon: GraduationCap },
@@ -75,14 +84,14 @@ export function AdminSidebar() {
       <nav className="flex-1 px-4 py-4 space-y-2">
         {adminNavItems.map((item) => {
           const ItemIcon = item.icon
-          const isActive = pathname === item.href
+          const isActive = pathname === item.href || pathname.startsWith(item.href)
 
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
+                'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors relative',
                 isActive 
                   ? 'bg-teal-50 text-teal-700 border-r-2 border-teal-600' 
                   : 'text-gray-700 hover:bg-gray-50'
@@ -92,7 +101,12 @@ export function AdminSidebar() {
                 'w-5 h-5 mr-3',
                 isActive ? 'text-teal-600' : 'text-gray-500'
               )} />
-              {item.title}
+              <span className="flex-1">{item.title}</span>
+              {(item as any).badge && (
+                <span className="ml-2 px-2 py-1 text-xs font-bold text-white bg-green-500 rounded-full">
+                  {(item as any).badge}
+                </span>
+              )}
             </Link>
           )
         })}

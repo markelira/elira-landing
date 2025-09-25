@@ -103,7 +103,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="x-default" href="https://elira.hu" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} academic-mode antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} academic-mode antialiased bg-gradient-to-br from-slate-900 via-teal-800 to-teal-700`}
       >
         <ClientProviders>
           {children}

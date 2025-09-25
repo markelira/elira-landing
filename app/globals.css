@@ -338,7 +338,8 @@ body.academic-mode {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - DISABLED to restore default browser scrollbar */
+/*
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -355,6 +356,7 @@ body.academic-mode {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #0a5349, #0284c7);
 }
+*/
 
 /* Hide scrollbar for mobile horizontal scrolling */
 .scrollbar-hide {

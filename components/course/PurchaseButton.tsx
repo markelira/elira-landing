@@ -206,7 +206,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
           ) : (
             <>
               <Lock className="w-5 h-5 mr-3" />
-              Biztosítsd a helyed - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
+              Jelentkezés a masterclassra - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
               <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-200 group-hover:translate-x-1" />
             </>
           )}

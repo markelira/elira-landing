@@ -23,6 +23,14 @@ service cloud.firestore {
       allow read, update, delete: if false;
     }
     
+    // Consultations: Anyone can create and read (needed for duplicate checking)
+    match /consultations/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow update: if isAuthenticated();
+      allow delete: if false;
+    }
+    
     // Activities: Public read and create for real-time feed
     match /activities/{document} {
       allow read: if true;

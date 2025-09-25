@@ -3,6 +3,7 @@
 import React from 'react';
 import { Zap, TrendingDown, Clock } from 'lucide-react';
 import PurchaseButton from '@/components/course/PurchaseButton';
+import ConsultationButton from '@/components/buttons/ConsultationButton';
 
 const FOMOSection: React.FC = () => {
 
@@ -130,10 +131,21 @@ const FOMOSection: React.FC = () => {
 
           {/* Purchase CTA */}
           <div className="text-center mt-12">
-            <PurchaseButton 
-              courseId="ai-copywriting-course"
-              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 min-w-[280px]"
-            />
+            <div className="inline-flex flex-col md:flex-row gap-4 items-center">
+              <PurchaseButton 
+                courseId="ai-copywriting-course"
+                className="px-8 py-4 rounded-lg font-semibold text-base transition-all duration-200 min-w-[280px]"
+              />
+              <div className="text-gray-500 text-lg font-bold hidden md:block">VAGY</div>
+              <ConsultationButton 
+                variant="outline"
+                size="lg"
+                className="min-w-[280px]"
+              />
+            </div>
+            <div className="mt-4 text-center text-gray-600 text-sm">
+              🤔 Bizonytalan vagy? Beszéljük meg!
+            </div>
           </div>
 
         </div>

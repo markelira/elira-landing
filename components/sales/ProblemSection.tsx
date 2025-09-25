@@ -136,7 +136,7 @@ const ProblemSection: React.FC = () => {
             {/* CTA Button */}
             <PurchaseButton 
               courseId="ai-copywriting-course"
-              className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 rounded-lg font-semibold transition-all duration-300"
             />
           </div>
 

@@ -8,7 +8,7 @@ export const content = {
   
   navbar: {
     items: [
-      { label: "Rólunk", href: "/rolunk" },
+      { label: "Díjmentes Tanácsadás", href: "#marketing-sebeszet-section" },
       { label: "Megoldás", href: "#bundles" },
       { label: "Masterclass", href: "#masterclass" },
       { label: "Bónuszok", href: "#bonuses" },

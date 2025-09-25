@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import useAnalytics from '@/hooks/useAnalytics';
 import PurchaseButton from '@/components/course/PurchaseButton';
+import ConsultationButton from '@/components/buttons/ConsultationButton';
 
 const SalesHero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,19 +37,61 @@ const SalesHero: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-24">
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 pt-32 pb-12 sm:pt-40 sm:pb-16 lg:pt-48 lg:pb-24">
         <div className="max-w-5xl mx-auto w-full">
         <div className="flex flex-col items-center text-center min-h-[calc(100vh-8rem)] sm:min-h-[calc(100vh-12rem)]">
           
           {/* Header Content */}
           <div className="text-white space-y-8 sm:space-y-12 mb-8 sm:mb-12 lg:mb-16">
             {/* MAIN HEADLINE */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight sm:leading-tight md:leading-tight text-white">
-              3x több érdeklődő
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
-                30 nap alatt
-              </span>
-            </h1>
+            <div className="relative">
+              {/* Attention-grabbing button for consultation */}
+              <motion.button
+                initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                onClick={() => {
+                  const consultationSection = document.getElementById('marketing-sebeszet-section');
+                  if (consultationSection) {
+                    consultationSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex flex-col items-center gap-1 sm:gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg mb-4 sm:mb-6 shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-xl sm:text-2xl">🔥</span>
+                  <span className="uppercase tracking-wide text-sm sm:text-base">DÍJMENTES TANÁCSADÁS</span>
+                  <span className="text-xl sm:text-2xl">🔥</span>
+                </div>
+                <span className="text-xs sm:text-sm font-normal opacity-90 group-hover:opacity-100 transition-opacity text-center">
+                  Korlátozott helyek - Kattints ide!
+                </span>
+              </motion.button>
+
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight text-white relative px-4 sm:px-0"
+              >
+                {/* Glowing effect behind text - Mobile responsive */}
+                <span className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent blur-sm opacity-50">
+                  3x több érdeklődő
+                </span>
+                
+                <span className="relative z-10">3x több érdeklődő</span>
+                
+                <motion.span 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="block bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent font-black"
+                >
+                  30 nap alatt
+                </motion.span>
+              </motion.h1>
+
+            </div>
 
             {/* SIMPLE VALUE PROP */}
             <p className="text-lg sm:text-xl text-white/80 font-normal max-w-3xl mx-auto">
@@ -214,14 +258,25 @@ const SalesHero: React.FC = () => {
 
           </div>
 
-          {/* CTA Button */}
-          <div className="mb-8 sm:mb-12 lg:mb-16">
-            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white shadow-2xl max-w-lg mx-auto">
-              <PurchaseButton
-                courseId="ai-copywriting-course"
-                className="transform hover:scale-105 transition-transform duration-300 w-full"
-                onPurchaseStart={() => trackButton('Grand Slam Purchase', 'sales-hero-purchase-button')}
-              />
+          {/* CTA Buttons - Mobile First */}
+          <div className="mb-6 sm:mb-8 lg:mb-12 px-4 sm:px-0">
+            <div className="bg-white backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white shadow-2xl max-w-2xl mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center">
+                <PurchaseButton
+                  courseId="ai-copywriting-course"
+                  className="transform hover:scale-105 transition-transform duration-300 flex-1 w-full"
+                  onPurchaseStart={() => trackButton('Grand Slam Purchase', 'sales-hero-purchase-button')}
+                />
+                <div className="text-gray-400 text-base sm:text-lg font-bold hidden sm:block">VAGY</div>
+                <ConsultationButton 
+                  className="flex-1 w-full"
+                  variant="secondary"
+                  size="lg"
+                />
+              </div>
+              <div className="mt-3 sm:mt-4 text-center text-gray-600 text-xs sm:text-sm">
+                📞 Nem vagy biztos? Beszéljük meg előtte!
+              </div>
             </div>
           </div>
 
