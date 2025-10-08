@@ -27,16 +27,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://elira.hu'),
-  title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
-  description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is) anélkül, hogy bármit újat kellene fejlesztened. 5 modul, 17 videó lecke + PDF sablonok.",
-  keywords: "vevőpszichológia, AI copywriting, buyer persona, marketing automatizáció, vevői kutatás, pszichológiai triggerek, érzelmi copywriting, online masterclass, magyar",
+  title: "Elira | Üzleti Stratégia Platform - Szakértők, Adatok, Eredmények",
+  description: "Bizonyított szakértőktől gyakorlati stratégiák magyar vállalkozásoknak. Masterclassok, átadható rendszerek, mérhető eredmények - ne próbálgass, tanulj működő módszereket.",
+  keywords: "üzleti stratégia, masterclass, szakértők, vállalkozás fejlesztés, üzleti tanácsadás, stratégiai tervezés, business development, magyar vállalkozás",
   authors: [{ name: "Elira Team" }],
   robots: "index, follow",
   
   // Open Graph / Facebook
   openGraph: {
-    title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
-    description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is). 5 modul, 17 videó lecke AI eszközökkel. Csak 10 helyre korlátozott!.",
+    title: "Elira | Üzleti Stratégia Platform - Szakértők, Adatok, Eredmények",
+    description: "Bizonyított szakértőktől gyakorlati stratégiák magyar vállalkozásoknak. Masterclassok, átadható rendszerek, mérhető eredmények - ne próbálgass, tanulj működő módszereket.",
     type: "website",
     url: "https://elira.hu",
     siteName: "Elira",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "3x több érdeklődő 30 nap alatt - Vevőpszichológia Masterclass"
+        alt: "Elira | Üzleti Stratégia Platform - Szakértők, Adatok, Eredmények"
       }
     ]
   },
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "3x több érdeklődő 30 nap alatt | Vevőpszichológia Masterclass",
-    description: "Megérted, mit akar valójában a vevőd, és ezzel többet adsz el (akár drágábban is). 5 modul, 17 videó lecke AI eszközökkel.",
+    title: "Elira | Üzleti Stratégia Platform - Szakértők, Adatok, Eredmények",
+    description: "Bizonyított szakértőktől gyakorlati stratégiák magyar vállalkozásoknak. Masterclassok, átadható rendszerek, mérhető eredmények.",
     images: ["/twitter-card.jpg"],
     site: "@elira_hu",
     creator: "@elira_hu"
@@ -101,9 +101,11 @@ export default function RootLayout({
         <link rel="canonical" href="https://elira.hu" />
         <link rel="alternate" hrefLang="hu" href="https://elira.hu" />
         <link rel="alternate" hrefLang="x-default" href="https://elira.hu" />
+        <link rel="icon" type="image/png" href="/navbar-icon.png" />
+        <link rel="shortcut icon" href="/navbar-icon.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} academic-mode antialiased bg-gradient-to-br from-slate-900 via-teal-800 to-teal-700`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
         <ClientProviders>
           {children}

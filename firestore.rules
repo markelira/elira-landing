@@ -66,11 +66,84 @@ service cloud.firestore {
     // User Progress: Users can read/update their own progress
     match /user-progress/{userId} {
       allow read, write: if isOwner(userId);
-      
+
       // Lesson progress subcollection
       match /lessons/{lessonId} {
         allow read, write: if isOwner(userId);
       }
+    }
+
+    // ========================================================================
+    // Dashboard Enhancement Collections
+    // ========================================================================
+
+    // User Progress (New Schema): Users can read/write their own
+    match /userProgress/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    // Learning Activities: Users can create and read their own
+    match /learningActivities/{userId}/activities/{activityId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update, delete: if false; // Activities are immutable
+    }
+
+    // Consultations: Users can read/update their own and instructors can read assigned ones
+    match /consultations/{consultationId} {
+      allow read: if isAuthenticated() &&
+        (request.auth.uid == resource.data.userId ||
+         request.auth.uid == resource.data.instructorId);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow delete: if false;
+    }
+
+    // Implementations: Users can read/write their own
+    match /implementations/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    // Templates: All authenticated users can read
+    match /templates/{templateId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only admin can create/update templates
+    }
+
+    // Template Downloads: Users can read/write their own
+    match /templateDownloads/{userId}/downloads/{downloadId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    // Notifications: Users can read/update their own
+    match /notifications/{userId}/items/{notificationId} {
+      allow read: if isOwner(userId);
+      allow update: if isOwner(userId) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read', 'readAt']);
+      allow create, delete: if false; // Only created by Cloud Functions
+    }
+
+    // Achievements: Users can read their own
+    match /achievements/{userId}/earned/{achievementId} {
+      allow read: if isOwner(userId);
+      allow write: if false; // Only created by Cloud Functions
+    }
+
+    // Weekly Insights: Users can read their own
+    match /weeklyInsights/{userId}/weeks/{weekId} {
+      allow read: if isOwner(userId);
+      allow write: if false; // Only created by Cloud Functions
+    }
+
+    // Course Timelines: All authenticated users can read
+    match /courseTimelines/{courseId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only admin can create/update
     }
   }
 }

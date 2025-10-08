@@ -41,7 +41,9 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
         {children}
         {/* Temporarily disabled PerformanceMonitor to fix infinite loop */}
         {/* <PerformanceMonitor /> */}
-        <ReactQueryDevtools initialIsOpen={false} />
+        {process.env.NODE_ENV === 'development' && (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )}
       </AuthProvider>
     </QueryClientProvider>
   );

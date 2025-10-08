@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CourseHero } from './CourseHero'
 import { CurriculumTab } from './CurriculumTab'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { 

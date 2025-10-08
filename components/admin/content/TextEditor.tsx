@@ -28,7 +28,7 @@ import {
   Heading3,
   FileText
 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/Card';
 import { toast } from 'sonner';
 import { uploadFile } from '@/lib/upload';
@@ -389,7 +389,7 @@ export default function TextEditor({ lessonId, content = {}, onSave }: TextEdito
         }
         
         #text-editor a {
-          color: #3b82f6;
+          color: #16222F;
           text-decoration: underline;
         }
         

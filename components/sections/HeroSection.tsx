@@ -67,7 +67,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating dots pattern */}
         <div className="absolute top-20 right-20 w-32 h-32 
-                        bg-gradient-to-br from-teal-200/20 to-cyan-200/20 
+                        bg-gradient-to-br from-gray-200/20 to-gray-300/20 
                         rounded-full blur-2xl animate-pulse-slow" />
         
         {/* Grid pattern behind cards */}
@@ -78,8 +78,8 @@ const HeroSection: React.FC = () => {
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
-      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-teal-200/30 to-cyan-200/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-gray-200/30 to-gray-300/30 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-gray-200/20 to-gray-300/20 rounded-full blur-3xl" />
       
       {/* Content Grid */}
       <div className="container mx-auto px-6 py-20 lg:py-0 relative z-10">
@@ -98,7 +98,7 @@ const HeroSection: React.FC = () => {
               className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight"
             >
               Tanulj{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-cyan-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-gray-800">
                 ingyen,
               </span>
               <br />
@@ -119,8 +119,8 @@ const HeroSection: React.FC = () => {
                   />
                   <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#0d9488" />
-                      <stop offset="100%" stopColor="#06b6d4" />
+                      <stop offset="0%" stopColor="#374151" />
+                      <stop offset="100%" stopColor="#1f2937" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -221,7 +221,7 @@ const HeroSection: React.FC = () => {
             {/* Container for cards */}
             <div className="relative">
               {/* Decorative blob behind cards */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-teal-100 to-cyan-100 
+              <div className="absolute -inset-4 bg-gradient-to-r from-gray-100 to-gray-200 
                               rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
               
               {/* Cards Grid */}
@@ -247,7 +247,7 @@ const HeroSection: React.FC = () => {
                       icon="🤖"
                       title="ChatGPT prompt sablonok"
                       subtitle="100+ sablon"
-                      gradient="from-purple-500 to-pink-500"
+                      gradient="from-gray-500 to-gray-600"
                       onClick={() => openModal('chatgpt-prompts')}
                       isSelected={selectedCards.includes('chatgpt-prompts')}
                     />
@@ -260,7 +260,7 @@ const HeroSection: React.FC = () => {
                       icon="📈"
                       title="LinkedIn növekedési naptár"
                       subtitle="30 napos terv"
-                      gradient="from-blue-500 to-cyan-500"
+                      gradient="from-gray-500 to-gray-600"
                       onClick={() => openModal('linkedin-calendar')}
                     />
                   </div>
@@ -284,7 +284,7 @@ const HeroSection: React.FC = () => {
                       icon="🎬"
                       title="TikTok algoritmus útmutató"
                       subtitle="Magyar piacra"
-                      gradient="from-pink-500 to-rose-500"
+                      gradient="from-gray-600 to-gray-700"
                       onClick={() => openModal('tiktok-guide')}
                     />
                   </div>

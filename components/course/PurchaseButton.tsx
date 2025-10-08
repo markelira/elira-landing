@@ -172,7 +172,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
       <div className={`text-center ${className}`}>
         <button
           onClick={() => router.push(`/courses/${currentCourseId}/learn`)}
-          className="group bg-teal-600 hover:bg-teal-700 text-white font-semibold px-12 py-4 rounded-full text-lg transition-all duration-300 active:scale-95 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/30"
+          className="cta-primary group font-semibold px-12 py-4 rounded-full text-lg"
         >
           <span className="flex items-center justify-center">
             <Lock className="w-5 h-5 mr-3" />
@@ -190,27 +190,28 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
         onClick={handlePurchase}
         disabled={isLoading || disabled}
         className={`
-          group bg-teal-600 hover:bg-teal-700 text-white font-semibold px-12 py-4 rounded-full text-lg transition-all duration-300 active:scale-95 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-teal-500/30
+          w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700
+          text-white font-semibold px-8 py-4 rounded-xl text-base
+          transition-all duration-200 shadow-lg hover:shadow-xl
+          flex items-center justify-center gap-2
           ${isLoading || disabled
             ? 'cursor-not-allowed opacity-50'
             : ''
           }
         `}
       >
-        <span className="flex items-center justify-center">
-          {isLoading ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-              Fizetés folyamatban...
-            </>
-          ) : (
-            <>
-              <Lock className="w-5 h-5 mr-3" />
-              Jelentkezés a masterclassra - {course ? formatPrice(course.price) : formatPrice(COURSE_CONFIG.price)}
-              <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-200 group-hover:translate-x-1" />
-            </>
-          )}
-        </span>
+        {isLoading ? (
+          <>
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+            <span>Fizetés folyamatban...</span>
+          </>
+        ) : (
+          <>
+            <Lock className="w-5 h-5" />
+            <span>Jelentkezés a masterclassra - 89 990 Ft</span>
+            <ArrowRight className="w-5 h-5" />
+          </>
+        )}
       </button>
     </div>
   );

@@ -44,14 +44,34 @@ if (!adminConfig.projectId || !adminConfig.clientEmail || !adminConfig.privateKe
     hasProjectId: !!adminConfig.projectId,
     hasClientEmail: !!adminConfig.clientEmail,
     hasPrivateKey: !!adminConfig.privateKey,
+    privateKeyLength: adminConfig.privateKey?.length || 0,
   });
 }
 
-// CRITICAL: Set emulator environment variables BEFORE ANY initialization
-if (process.env.NODE_ENV === 'development' || !process.env.FIREBASE_PROJECT_ID) {
+// Determine if we should use emulator or production
+const useEmulator = false; // Force production mode for Phase 2 testing
+const useProduction = adminConfig.projectId && adminConfig.clientEmail && adminConfig.privateKey;
+
+console.log('🔍 Firebase Admin Mode Selection:', {
+  useEmulator,
+  useProduction,
+  hasProjectId: !!adminConfig.projectId,
+  hasClientEmail: !!adminConfig.clientEmail,
+  hasPrivateKey: !!adminConfig.privateKey,
+  privateKeyFirstChars: adminConfig.privateKey?.substring(0, 30),
+});
+
+if (useEmulator) {
   process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
   process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
-  console.log('🔧 Emulator environment variables set BEFORE initialization');
+  console.log('🔧 Using Firebase Emulator');
+} else if (useProduction) {
+  // Clear any emulator settings
+  delete process.env.FIRESTORE_EMULATOR_HOST;
+  delete process.env.FIREBASE_AUTH_EMULATOR_HOST;
+  console.log('🔐 Using Production Firebase');
+} else {
+  console.warn('⚠️  No Firebase configuration available');
 }
 
 let adminApp: any = null;
@@ -61,16 +81,26 @@ let auth: any = null;
 try {
   // Check if we already have an initialized app
   const existingApps = getApps();
-  
+
   if (existingApps.length > 0) {
     console.log('♻️ Using existing Firebase Admin app');
     adminApp = existingApps[0];
   } else {
-    console.log('🆕 Initializing new Firebase Admin app for emulator');
-    // Initialize WITHOUT credentials for emulator
-    adminApp = initializeApp({
-      projectId: 'elira-landing-ce927',
-    });
+    if (useProduction) {
+      console.log('🆕 Initializing Firebase Admin with production credentials');
+      adminApp = initializeApp({
+        credential: cert({
+          projectId: adminConfig.projectId!,
+          clientEmail: adminConfig.clientEmail!,
+          privateKey: adminConfig.privateKey!,
+        }),
+      });
+    } else {
+      console.log('🆕 Initializing Firebase Admin for emulator');
+      adminApp = initializeApp({
+        projectId: 'elira-landing-ce927',
+      });
+    }
   }
   
   // Initialize services

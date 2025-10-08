@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useUserProgress } from '@/hooks/useUserProgress'
 import { ProgressBar, CircularProgress } from '@/components/ui/ProgressBar'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import {

@@ -10,6 +10,7 @@ import Link from 'next/link';
 const FloatingNavbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMasterclassDropdownOpen, setIsMasterclassDropdownOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -53,6 +54,21 @@ const FloatingNavbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMasterclassDropdownOpen) {
+        const target = event.target as Element;
+        if (!target.closest('.masterclass-dropdown')) {
+          setIsMasterclassDropdownOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMasterclassDropdownOpen]);
+
   const scrollToSection = (href: string) => {
     const element = document.getElementById(href.replace('#', ''));
     if (element) {
@@ -87,14 +103,14 @@ const FloatingNavbar: React.FC = () => {
           ease: [0.16, 1, 0.3, 1],
           type: 'tween'
         }}
-        className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-50 w-auto translate-x-0"
+        className="sticky top-4 left-4 right-4 md:left-8 md:right-8 z-50 mx-4 md:mx-8"
       >
         {/* InfoBar Integration */}
         <motion.div
           initial={{ opacity: 0, height: 0, scale: 0.95 }}
           animate={{ opacity: 1, height: 'auto', scale: 1 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg mb-0 overflow-hidden rounded-t-2xl"
+          className="bg-gradient-to-r from-teal-600/80 to-teal-700/80 backdrop-blur-xl text-white shadow-lg mb-0 overflow-hidden rounded-t-2xl border border-white/20"
         >
               <div className="px-4 md:px-6 py-2 md:py-3">
                 {/* Mobile InfoBar */}
@@ -157,32 +173,33 @@ const FloatingNavbar: React.FC = () => {
         {/* Main Navbar */}
         <motion.nav
           layout
-          className="bg-white/95 backdrop-blur-xl shadow-xl border border-gray-200/50 transition-all duration-500 ease-out rounded-b-2xl"
+          className="bg-white/20 backdrop-blur-2xl shadow-lg border border-white/30 transition-all duration-500 ease-out rounded-b-2xl"
           style={{
-            boxShadow: '0 20px 60px rgba(0,0,0,0.08)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            backdropFilter: 'blur(40px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(180%)'
           }}
         >
           <div className="px-4 md:px-6 py-3 md:py-4">
             
             {/* Main Navbar Content */}
             <div className="flex items-center justify-between">
-                  {/* Logo */}
-                  <motion.div 
-                    layout
-                    className="flex items-center space-x-3"
-                  >
-                    <img 
-                      src="/eliraicon.png" 
-                      alt="Elira logo" 
-                      className="w-8 h-8 md:w-10 md:h-10 object-contain"
-                    />
-                    <span className="text-xl md:text-2xl font-bold text-gray-900">
-                      Elira
-                    </span>
-                  </motion.div>
+                  {/* Logo and Navigation Links */}
+                  <div className="flex items-center space-x-8">
+                    {/* Logo */}
+                    <motion.div 
+                      layout
+                      className="flex items-center"
+                    >
+                      <img 
+                        src="/navbar-icon.png" 
+                        alt="Elira logo" 
+                        className="w-8 h-8 md:w-10 md:h-10 object-contain"
+                      />
+                    </motion.div>
 
-                  {/* Desktop Menu */}
-                  <div className="hidden lg:flex items-center space-x-6">
+                    {/* Desktop Navigation Links */}
+                    <div className="hidden lg:flex items-center space-x-6">
                     {user && !loading ? (
                       // Authenticated user navigation
                       <>
@@ -199,58 +216,120 @@ const FloatingNavbar: React.FC = () => {
                         >
                           Tanulás
                         </Link>
-                        <Link
-                          href="/dashboard/profile"
-                          className="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-700 transition-colors flex items-center space-x-1 shadow-lg hover:shadow-xl"
-                        >
-                          <User size={16} />
-                          <span>{user.firstName}</span>
-                        </Link>
                       </>
                     ) : (
                       // Public navigation
                       <>
-                        {content.navbar.items.map((item) => {
-                          const isConsultation = item.label === "Díjmentes Tanácsadás";
-                          
-                          if (item.href.startsWith('/')) {
-                            return (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`transition-colors font-medium px-3 py-2 rounded-lg ${
-                                  isConsultation
-                                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg hover:from-orange-600 hover:to-red-600 hover:scale-105 transform font-bold'
-                                    : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50'
-                                }`}
-                              >
-                                {item.label}
-                              </Link>
-                            );
-                          }
-                          return (
-                            <button
-                              key={item.href}
-                              onClick={() => scrollToSection(item.href)}
-                              className={`transition-colors font-medium px-3 py-2 rounded-lg ${
-                                isConsultation
-                                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg hover:from-orange-600 hover:to-red-600 hover:scale-105 transform font-bold'
-                                  : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50'
-                              }`}
-                            >
-                              {item.label}
-                            </button>
-                          );
-                        })}
-                        
                         <Link
-                          href="/auth"
-                          className="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-700 transition-colors flex items-center space-x-1 shadow-lg hover:shadow-xl"
+                          href="#"
+                          className="text-gray-700 hover:text-teal-600 transition-colors font-medium px-3 py-2 rounded-lg hover:bg-gray-50"
                         >
-                          <User size={16} />
-                          <span>Bejelentkezés</span>
+                          Pricing
                         </Link>
+                        <Link
+                          href="#"
+                          className="text-gray-700 hover:text-teal-600 transition-colors font-medium px-3 py-2 rounded-lg hover:bg-gray-50"
+                        >
+                          Enterprise
+                        </Link>
+                        
+                        {/* Masterclass Dropdown */}
+                        <div className="relative masterclass-dropdown">
+                          <button
+                            onClick={() => setIsMasterclassDropdownOpen(!isMasterclassDropdownOpen)}
+                            className="text-gray-700 hover:text-teal-600 transition-colors font-medium px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1"
+                          >
+                            Learn
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                          
+                          {/* Dropdown Menu */}
+                          {isMasterclassDropdownOpen && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                              transition={{ duration: 0.2 }}
+                              className="absolute top-full mt-2 left-0 w-80 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden"
+                              style={{
+                                backdropFilter: 'blur(40px) saturate(180%)',
+                                WebkitBackdropFilter: 'blur(40px) saturate(180%)'
+                              }}
+                            >
+                              <div className="p-6">
+                                <div className="grid grid-cols-2 gap-6">
+                                  <div>
+                                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">ABOUT</h3>
+                                    <div className="space-y-3">
+                                      <Link
+                                        href="#"
+                                        className="flex items-start gap-3 text-gray-700 hover:text-teal-600 transition-colors group"
+                                        onClick={() => setIsMasterclassDropdownOpen(false)}
+                                      >
+                                        <div className="w-5 h-5 bg-gray-100 rounded flex items-center justify-center mt-0.5 group-hover:bg-teal-50">
+                                          <svg className="w-3 h-3 text-gray-600 group-hover:text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                          </svg>
+                                        </div>
+                                        <div>
+                                          <div className="font-medium">Careers</div>
+                                          <div className="text-sm text-gray-500">We're always hiring fun people</div>
+                                        </div>
+                                      </Link>
+                                    </div>
+                                  </div>
+                                  
+                                  <div>
+                                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">MORE</h3>
+                                    <div className="space-y-3">
+                                      <Link
+                                        href="#"
+                                        className="block text-gray-700 hover:text-teal-600 transition-colors font-medium"
+                                        onClick={() => setIsMasterclassDropdownOpen(false)}
+                                      >
+                                        Blog
+                                      </Link>
+                                      <Link
+                                        href="#"
+                                        className="block text-gray-700 hover:text-teal-600 transition-colors font-medium"
+                                        onClick={() => setIsMasterclassDropdownOpen(false)}
+                                      >
+                                        Help Center
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </div>
                       </>
+                    )}
+                    </div>
+                  </div>
+
+                  {/* Right side - Login/Profile button */}
+                  <div className="hidden lg:flex items-center">
+                    {user && !loading ? (
+                      <Link
+                        href="/dashboard/profile"
+                        className="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-teal-700 transition-colors flex items-center space-x-1 shadow-lg hover:shadow-xl"
+                      >
+                        <User size={16} />
+                        <span>{user.firstName}</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/auth"
+                        className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 transition-colors flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        <span>Bejelentkezés</span>
+                      </Link>
                     )}
                   </div>
 
@@ -282,14 +361,18 @@ const FloatingNavbar: React.FC = () => {
             className="fixed inset-0 z-40"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/10 backdrop-blur-md" />
             
             <motion.div
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute bg-white rounded-2xl shadow-2xl border border-gray-200 mx-4 overflow-hidden top-32 left-4 right-4 max-w-none"
+              className="absolute bg-white/30 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 mx-4 overflow-hidden top-32 left-4 right-4 max-w-none"
+              style={{
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6">

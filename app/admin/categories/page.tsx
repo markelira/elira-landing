@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -41,7 +41,7 @@ export default function AdminCategoriesPage() {
   const [newCategory, setNewCategory] = useState<CreateCategoryData>({
     name: '',
     description: '',
-    color: '#3B82F6',
+    color: '#16222F',
     icon: '📁'
   })
   
@@ -328,7 +328,7 @@ export default function AdminCategoriesPage() {
                 onClick={() => createCategoryMutation.mutate(newCategory, {
                   onSuccess: () => {
                     setIsCreating(false)
-                    setNewCategory({ name: '', description: '', color: '#3B82F6', icon: '📁' })
+                    setNewCategory({ name: '', description: '', color: '#16222F', icon: '📁' })
                   }
                 })}
                 disabled={createCategoryMutation.isPending}

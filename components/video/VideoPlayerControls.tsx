@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
@@ -101,7 +101,7 @@ export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
 
   const noteColors = [
     { name: 'Yellow', value: '#fbbf24', class: 'bg-yellow-400' },
-    { name: 'Blue', value: '#3b82f6', class: 'bg-blue-500' },
+    { name: 'Blue', value: '#16222F', class: 'bg-blue-500' },
     { name: 'Green', value: '#10b981', class: 'bg-green-500' },
     { name: 'Purple', value: '#8b5cf6', class: 'bg-purple-500' },
     { name: 'Pink', value: '#ec4899', class: 'bg-pink-500' },

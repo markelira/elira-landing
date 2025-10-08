@@ -17,7 +17,7 @@ import {
   Plus,
   Filter
 } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 // Import our admin API infrastructure

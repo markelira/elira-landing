@@ -108,7 +108,7 @@ export const createAdminCategoryHandler = async (req: Request, res: Response): P
       name,
       slug,
       description,
-      color: color || '#3B82F6',
+      color: color || '#16222F',
       icon: icon || '📁',
       courseCount: 0,
       enrollmentCount: 0,

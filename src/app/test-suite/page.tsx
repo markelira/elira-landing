@@ -271,7 +271,7 @@ export default function TestSuitePage() {
               <button
                 onClick={runTests}
                 disabled={isRunningTests}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 bg-blue text-white rounded-md hover:bg-blue-light disabled:opacity-50"
               >
                 {isRunningTests ? 'Running Tests...' : 'Run Tests'}
               </button>
@@ -343,7 +343,7 @@ export default function TestSuitePage() {
                         setModalTab('login');
                         setShowAuthModal(true);
                       }}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      className="px-4 py-2 bg-blue text-white rounded-md hover:bg-blue-light"
                     >
                       Test Login
                     </button>
@@ -359,7 +359,7 @@ export default function TestSuitePage() {
               <div className="space-y-4">
                 <div className="p-4 bg-blue-50 rounded-lg">
                   <h3 className="font-medium text-blue-900 mb-2">Course Details</h3>
-                  <p className="text-sm text-blue-700">
+                  <p className="text-sm text-blue">
                     <strong>{COURSE_CONFIG.title}</strong><br/>
                     Price: {formatPrice(COURSE_CONFIG.price)}<br/>
                     Currency: {COURSE_CONFIG.currency.toUpperCase()}

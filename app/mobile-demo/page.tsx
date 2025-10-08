@@ -113,7 +113,7 @@ export default function MobileDemo() {
           </p>
           <div className="flex flex-wrap gap-4">
             <TouchTarget debug>
-              <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded">
+              <button className="px-3 py-1 text-sm bg-blue text-white rounded">
                 Small Button
               </button>
             </TouchTarget>
@@ -123,7 +123,7 @@ export default function MobileDemo() {
               </button>
             </TouchTarget>
             <TouchTarget debug minSize={52}>
-              <a href="#" className="text-blue-600 underline">
+              <a href="#" className="text-blue underline">
                 Link Text
               </a>
             </TouchTarget>

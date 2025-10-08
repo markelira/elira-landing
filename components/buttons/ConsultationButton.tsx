@@ -23,8 +23,8 @@ const ConsultationButton: React.FC<ConsultationButtonProps> = ({
   const baseClasses = "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2";
   
   const variantClasses = {
-    primary: "bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl focus:ring-teal-500",
-    secondary: "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg hover:shadow-xl focus:ring-orange-500",
+    primary: "cta-primary",
+    secondary: "cta-secondary", 
     outline: "border-2 border-teal-500 text-teal-600 hover:bg-teal-50 hover:border-teal-600 focus:ring-teal-500"
   };
 

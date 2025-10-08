@@ -364,3 +364,6 @@ export {
   processUploadedFile,
   generateCourseCertificate
 };
+
+// Export triggers
+export { onUserCreate } from './triggers/onUserCreate';

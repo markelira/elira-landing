@@ -36,8 +36,20 @@ const getUserProgress = async (userId: string, token?: string): Promise<UserProg
     });
 
     if (response.ok) {
-      const data = await response.json();
-      
+      const result = await response.json();
+
+      console.log('📦 Raw API response:', result);
+
+      // Handle wrapped response from API ({ success: true, data: {...} })
+      const data = result.data || result;
+
+      console.log('📦 Unwrapped data:', {
+        hasEnrolledCourses: !!data.enrolledCourses,
+        enrolledCoursesLength: data.enrolledCourses?.length,
+        totalCourses: data.totalCourses,
+        completedCourses: data.completedCourses
+      });
+
       // Ensure progress percentages are valid numbers
       if (data.enrolledCourses) {
         data.enrolledCourses = data.enrolledCourses.map((course: any) => ({
@@ -48,10 +60,15 @@ const getUserProgress = async (userId: string, token?: string): Promise<UserProg
           lastActivityAt: course.lastActivityAt ? new Date(course.lastActivityAt) : null
         }));
       }
-      
+
       return {
-        ...data,
-        overallProgress: isNaN(data.overallProgress) ? 0 : data.overallProgress
+        enrolledCourses: data.enrolledCourses || [],
+        totalCourses: data.totalCourses || 0,
+        completedCourses: data.completedCourses || 0,
+        inProgressCourses: data.enrolledCourses?.filter((c: any) => !c.isCompleted).length || 0,
+        overallProgress: isNaN(data.overallProgress) ? 0 : data.overallProgress,
+        totalLearningTime: data.totalLearningTime || 0,
+        certificates: data.certificates || []
       };
     }
     

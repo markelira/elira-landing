@@ -321,8 +321,8 @@ export const VideoPlayer: React.FC<Props> = ({
           aspectRatio: '16 / 9',
         }}
         className="w-full h-auto"
-        primaryColor="#3B82F6"
-        secondaryColor="#1E40AF"
+        primaryColor="#16222F"
+        secondaryColor="#1e2a37"
       />
       
       {/* Chapter overlay */}

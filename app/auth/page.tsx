@@ -12,8 +12,8 @@ export default function AuthPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
-  
+  const [showRegister, setShowRegister] = useState(false);
+
   // Get redirect URL from query params or default to dashboard
   const redirectTo = searchParams.get('redirect') || '/dashboard';
   const courseId = searchParams.get('courseId');
@@ -39,8 +39,8 @@ export default function AuthPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-2 border-gray-200 border-t-gray-900"></div>
       </div>
     );
   }
@@ -48,168 +48,99 @@ export default function AuthPage() {
   // If user is authenticated, show loading while redirecting
   if (user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Átirányítás...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-gray-200 border-t-gray-900 mx-auto mb-4"></div>
+          <p className="text-sm text-gray-600">Átirányítás...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 py-12 px-4" style={{ backgroundColor: '#F8F7F5' }}>
+    <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-md mx-auto">
         {/* Back to Home Link */}
-        <Link 
+        <Link
           href="/"
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
+          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-8 transition-colors"
         >
           <ChevronLeft className="w-4 h-4 mr-1" />
           <span>Vissza a főoldalra</span>
         </Link>
 
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center justify-center space-x-2">
+            <img
+              src="/navbar-icon.png"
+              alt="Elira logo"
+              className="w-10 h-10 object-contain"
+            />
+            <span className="text-2xl font-semibold text-gray-900">Elira</span>
+          </Link>
+        </div>
+
         {/* Course Purchase Banner */}
         {courseId && (
-          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-6 mb-8">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-6">
+            <div className="flex items-start space-x-3">
+              <div className="flex-shrink-0 w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Jelentkezz be a vásárlás befejezéséhez
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-1">
+                  Vásárlás folytatása
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  Egy lépésre vagy attól, hogy hozzáférj: <br />
-                  <span className="font-medium text-gray-800">3x több érdeklődő 30 nap alatt - Vállalkozói vevőpszichológia masterclass</span> (49.990 Ft)
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  Bejelentkezés után automatikusan átirányítunk a fizetéshez.
                 </p>
-                
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                    </svg>
-                    <span className="text-gray-700">Teljes masterclass + 4 webinár + 5 személyes 1:1 meeting</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                    </svg>
-                    <span className="text-gray-700">+2 extra csomag + 3 bónusz csomag + tripla garancia</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <span className="text-gray-700">Automatikus átirányítás bejelentkezés után</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-3">
-            <img 
-              src="/eliraicon.png" 
-              alt="Elira logo" 
-              className="w-12 h-12 object-contain"
-            />
-            <span className="text-3xl font-bold text-gray-900">Elira</span>
-          </Link>
-          <p className="mt-2 text-gray-600">A kurzusod vár rád!</p>
-        </div>
-
         {/* Auth Card */}
-        <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-          {/* Tab Navigation */}
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex">
-              <button
-                onClick={() => setActiveTab('login')}
-                className={`w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'login'
-                    ? 'border-teal-500 text-teal-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Bejelentkezés
-              </button>
-              <button
-                onClick={() => setActiveTab('register')}
-                className={`w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'register'
-                    ? 'border-teal-500 text-teal-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Regisztráció
-              </button>
-            </nav>
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+              {showRegister ? 'Fiók létrehozása' : 'Üdvözölünk vissza'}
+            </h1>
+            <p className="text-sm text-gray-600">
+              {showRegister
+                ? 'Csatlakozz az Elira közösséghez'
+                : 'Jelentkezz be a fiókodba'
+              }
+            </p>
           </div>
 
           {/* Form Content */}
-          <div className="p-6">
-            {activeTab === 'login' ? (
-              <LoginForm
-                onSuccess={handleAuthSuccess}
-                onSwitchToRegister={() => setActiveTab('register')}
-                className="!p-0 !shadow-none"
-              />
-            ) : (
-              <RegisterForm
-                onSuccess={handleAuthSuccess}
-                onSwitchToLogin={() => setActiveTab('login')}
-                className="!p-0 !shadow-none"
-              />
-            )}
-          </div>
+          {showRegister ? (
+            <RegisterForm
+              onSuccess={handleAuthSuccess}
+              onSwitchToLogin={() => setShowRegister(false)}
+              className="!p-0 !shadow-none !bg-transparent !border-0"
+            />
+          ) : (
+            <LoginForm
+              onSuccess={handleAuthSuccess}
+              onSwitchToRegister={() => setShowRegister(true)}
+              className="!p-0 !shadow-none !bg-transparent !border-0"
+            />
+          )}
         </div>
 
-        {/* Benefits Section */}
-        {courseId ? (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600 mb-4">🛒 Bejelentkezés után automatikusan átirányítunk a vásárlás befejezéséhez</p>
-          </div>
-        ) : (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600 mb-4">A regisztrációval hozzáférsz:</p>
-            <div className="space-y-2">
-              <div className="flex items-center justify-center text-sm text-gray-700">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Vállalkozói vevőpszichológia masterclass
-              </div>
-              <div className="flex items-center justify-center text-sm text-gray-700">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                5 webinár + 4 személyes 1:1 meeting
-              </div>
-              <div className="flex items-center justify-center text-sm text-gray-700">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                3 bónusz csomag + tripla garancia
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Privacy Links */}
-        <div className="mt-8 text-center text-xs text-gray-500">
+        <div className="mt-6 text-center text-xs text-gray-600">
           A folytatással elfogadod az{' '}
-          <Link href="/terms" className="text-teal-600 hover:text-teal-700">
+          <Link href="/terms" className="text-gray-900 hover:text-gray-700 underline">
             Általános Szerződési Feltételeket
           </Link>{' '}
           és az{' '}
-          <Link href="/privacy" className="text-teal-600 hover:text-teal-700">
+          <Link href="/privacy" className="text-gray-900 hover:text-gray-700 underline">
             Adatvédelmi Nyilatkozatot
           </Link>
         </div>
