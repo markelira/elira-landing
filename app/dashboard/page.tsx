@@ -195,8 +195,8 @@ export default function DashboardPage() {
                 <ConsultationCard />
               </div>
 
-              {/* Template Library - Temporarily disabled due to React rendering error */}
-              {/* <TemplateLibrary /> */}
+              {/* Template Library */}
+              <TemplateLibrary />
 
               {/* Results Tracker */}
               <ResultsTracker />
