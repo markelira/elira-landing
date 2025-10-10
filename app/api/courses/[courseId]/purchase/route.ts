@@ -1,22 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // Add logging to verify route is loaded
 console.log('[ROUTE LOADED] Purchase route.ts loaded at:', new Date().toISOString());
 
+// Helper to extract courseId from URL
+function getCourseIdFromUrl(url: string): string | null {
+  const match = url.match(/\/api\/courses\/([^\/]+)\/purchase/);
+  return match ? match[1] : null;
+}
+
 // Add GET handler for debugging
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ courseId: string }> }
+  props: { params: Promise<{ courseId: string }> }
 ) {
   console.log('[API Route - GET] GET handler invoked for debugging');
+  console.log('[API Route - GET] Request URL:', request.url);
+
   try {
-    const params = await context.params;
+    // Extract courseId from URL as fallback
+    const courseIdFromUrl = getCourseIdFromUrl(request.url);
+    console.log('[API Route - GET] Course ID from URL:', courseIdFromUrl);
+
+    // Try to get params from context
+    let courseId = courseIdFromUrl;
+    try {
+      const params = await props.params;
+      courseId = params.courseId || courseIdFromUrl;
+      console.log('[API Route - GET] Course ID from params:', params.courseId);
+    } catch (e) {
+      console.log('[API Route - GET] Params error, using URL extraction:', e);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'GET handler works',
-      courseId: params.courseId,
+      courseId,
+      extractedFromUrl: courseIdFromUrl,
       timestamp: new Date().toISOString()
     });
   } catch (error: any) {
@@ -31,29 +54,36 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ courseId: string }> }
+  props: { params: Promise<{ courseId: string }> }
 ) {
   console.log('[API Route - ENTRY] POST handler invoked at:', new Date().toISOString());
   console.log('[API Route - ENTRY] Request URL:', request.url);
   console.log('[API Route - ENTRY] Request method:', request.method);
-  console.log('[API Route - ENTRY] Headers present:', !!request.headers);
 
   try {
-    console.log('[API Route - PARAMS] Context:', typeof context, 'Params type:', typeof context?.params);
-    console.log('[API Route - PARAMS] Awaiting context.params...');
+    // Extract courseId from URL as primary method
+    const courseIdFromUrl = getCourseIdFromUrl(request.url);
+    console.log('[API Route - PARAMS] Course ID from URL:', courseIdFromUrl);
 
-    // Add defensive check
-    if (!context || !context.params) {
-      console.error('[API Route - PARAMS] Context or params is undefined!');
-      return NextResponse.json({
-        success: false,
-        error: 'Invalid route context'
-      }, { status: 500 });
+    // Try to get params from context as backup
+    let courseId = courseIdFromUrl;
+    try {
+      const params = await props.params;
+      courseId = params.courseId || courseIdFromUrl;
+      console.log('[API Route - PARAMS] Course ID from params:', params.courseId);
+    } catch (e) {
+      console.log('[API Route - PARAMS] Using URL extraction due to params error:', e);
     }
 
-    const params = await context.params;
-    const courseId = params?.courseId;
-    console.log('[API Route - PARAMS] Course ID extracted:', courseId);
+    if (!courseId) {
+      console.error('[API Route - PARAMS] No course ID found!');
+      return NextResponse.json({
+        success: false,
+        error: 'Course ID is required'
+      }, { status: 400 });
+    }
+
+    console.log('[API Route - PARAMS] Final Course ID:', courseId);
     
     const body = await request.json();
     const { successUrl, cancelUrl } = body;
