@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
+import { NotificationBell } from '@/components/NotificationBell'
 import { Loader2, Menu, X } from 'lucide-react'
+import Image from 'next/image'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -60,8 +62,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Menu className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               )}
             </button>
+            <Image
+              src="/navbar-icon.png"
+              alt="Elira"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
             <h1 className="font-semibold text-gray-900 dark:text-white">Elira</h1>
           </div>
+          <NotificationBell />
+        </div>
+      </div>
+
+      {/* Desktop Header Bar */}
+      <div className="hidden md:block fixed top-0 right-0 left-64 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div className="flex items-center justify-end">
+          <NotificationBell />
         </div>
       </div>
 
@@ -87,9 +104,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 md:ml-0">
-        {/* Mobile header spacer */}
+        {/* Header spacers */}
         <div className="md:hidden h-16"></div>
-        
+        <div className="hidden md:block h-16"></div>
+
         {/* Content Container */}
         <div className="flex-1 overflow-auto">
           <div className="h-full">

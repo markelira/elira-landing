@@ -72,9 +72,9 @@ function PillarCard({ pillar, index }: PillarCardProps) {
       }}
       className="h-full"
     >
-      <div className={`bg-white border-l-4 ${accentClasses.border} border-t border-r border-b border-gray-200 rounded-lg p-10 h-full flex flex-col hover:border-gray-300 transition-colors duration-200`}>
+      <div className={`bg-white border-l-4 ${accentClasses.border} border-t border-r border-b border-gray-200 rounded-lg p-6 sm:p-8 lg:p-10 h-full flex flex-col hover:border-gray-300 transition-colors duration-200`}>
         {/* Icon */}
-        <div className={`inline-flex items-center justify-center w-16 h-16 ${accentClasses.iconBg} rounded-lg mb-6`}>
+        <div className={`inline-flex items-center justify-center w-16 h-16 ${accentClasses.iconBg} rounded-lg mb-4 sm:mb-6`}>
           <div className={accentClasses.icon}>
             {getIcon()}
           </div>
@@ -107,7 +107,7 @@ interface ValueClaritySectionProps {
 
 export function ValueClaritySection({ showBackgroundPattern = true }: ValueClaritySectionProps) {
   return (
-    <section className="py-24 lg:py-32 bg-white relative">
+    <section className="py-16 sm:py-24 lg:py-32 bg-white relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <SectionHeader

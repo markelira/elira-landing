@@ -18,21 +18,21 @@ export const platformScreenshots: PlatformScreenshot[] = [
     id: 'dashboard',
     title: 'Tiszta dashboard',
     description: 'Minden kurzus, sablon és eszköz egy helyen',
-    imagePath: '/platform/dashboard.png', // Placeholder
+    imagePath: '/dashboard.png',
     alt: 'Elira platform dashboard nézet'
   },
   {
     id: 'module',
     title: 'Moduláris tanulás',
     description: 'Rövid, lényegre törő modulok saját tempóban',
-    imagePath: '/platform/module-view.png', // Placeholder
+    imagePath: '/dashboard-new.png',
     alt: 'Kurzus modul felület'
   },
   {
     id: 'templates',
     title: 'Letölthető sablonok',
     description: 'Egy kattintással letölthető, kitölthető eszközök',
-    imagePath: '/platform/templates.png', // Placeholder
+    imagePath: '/letoltheto-sablonok-3rd.png',
     alt: 'Sablon letöltési felület'
   }
 ];
@@ -44,7 +44,7 @@ export const featureBadges = [
   },
   {
     icon: 'download',
-    label: 'Offline letöltés'
+    label: 'Azonnal alkalmazható rendszerek'
   },
   {
     icon: 'template',

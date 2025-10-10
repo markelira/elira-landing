@@ -183,50 +183,98 @@ export const getUserEnrollmentsHandler = async (req: Request, res: Response): Pr
 };
 
 /**
- * Check enrollment status for a course
+ * Check enrollment status for a course - BULLETPROOF VERSION
  * GET /api/enrollments/check/:courseId
+ *
+ * This checks multiple sources to ensure accurate access status:
+ * 1. Enrollments collection (primary source)
+ * 2. User's enrolledCourses array
+ * 3. User's courseAccess field (legacy/backward compatibility)
+ * 4. Payment status (completed payments grant access)
  */
 export const checkEnrollmentHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as any).user?.uid;
     const { courseId } = req.params;
-    
+
     if (!userId) {
-      res.json({ 
-        success: true, 
+      res.json({
+        success: true,
         isEnrolled: false,
-        requiresAuth: true 
+        hasAccess: false,
+        requiresAuth: true
       });
       return;
     }
-    
+
     if (!courseId) {
-      res.status(400).json({ 
-        success: false, 
-        error: 'Course ID is required' 
+      res.status(400).json({
+        success: false,
+        error: 'Course ID is required'
       });
       return;
     }
-    
+
+    // CHECK 1: Enrollments collection (primary source)
     const enrollmentId = `${userId}_${courseId}`;
     const enrollment = await db.collection('enrollments').doc(enrollmentId).get();
-    
+    let isEnrolled = enrollment.exists;
+    let hasAccess = isEnrolled;
+
+    // Get user document for additional checks
+    const userDoc = await db.collection('users').doc(userId).get();
+    const userData = userDoc.exists ? userDoc.data() : null;
+
+    if (userData) {
+      // CHECK 2: User's enrolledCourses array
+      const enrolledCourses = userData.enrolledCourses || [];
+      if (enrolledCourses.includes(courseId)) {
+        hasAccess = true;
+        isEnrolled = true;
+      }
+
+      // CHECK 3: Legacy courseAccess field (for backward compatibility with default course)
+      if (courseId === 'ai-copywriting-course' || courseId === 'default-course') {
+        if (userData.courseAccess === true) {
+          hasAccess = true;
+          isEnrolled = true;
+        }
+      }
+    }
+
+    // CHECK 4: Payment status - if user has completed payment, they have access
+    if (!hasAccess) {
+      const paymentQuery = await db.collection('payments')
+        .where('userId', '==', userId)
+        .where('courseId', '==', courseId)
+        .where('status', '==', 'completed')
+        .limit(1)
+        .get();
+
+      if (!paymentQuery.empty) {
+        hasAccess = true;
+        isEnrolled = true;
+      }
+    }
+
     res.json({
       success: true,
-      isEnrolled: enrollment.exists,
+      isEnrolled,
+      hasAccess,
+      enrolled: isEnrolled, // Alias for backward compatibility
       enrollmentData: enrollment.exists ? {
-        progress: enrollment.data()?.progress,
+        progress: enrollment.data()?.progress || 0,
         completedLessons: enrollment.data()?.completedLessons?.length || 0,
         totalLessons: enrollment.data()?.totalLessons || 0,
         certificateEarned: enrollment.data()?.certificateEarned || false
       } : null
     });
-    
+
   } catch (error) {
     console.error('Check enrollment error:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to check enrollment' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to check enrollment'
     });
   }
 };

@@ -16,11 +16,11 @@ async function seedTestCourse() {
   try {
     console.log('🌱 Seeding test course...');
     
-    // Create a test course
-    const courseId = 'test-course-mvp';
+    // Create a test course (matching production structure)
+    const courseId = 'ai-copywriting-course';
     const courseData = {
-      title: 'AI Copywriting Mastery - Teljes Kurzus',
-      slug: 'ai-copywriting-mastery',
+      title: 'AI Copywriting Kurzus - Teljes Program',
+      slug: 'ai-copywriting-course',
       description: `Ez a gyakorlatorientált kurzus mindent megtanít, amit tudnod kell a modern AI-alapú copywritingról.
       
       A kurzus során megismered a ChatGPT és más AI eszközök hatékony használatát, megtanulod a prompt engineering alapjait és haladó technikáit, valamint valós projekteken keresztül gyakorolhatod a konverziót növelő szövegek írását.
@@ -183,7 +183,7 @@ async function seedTestCourse() {
     
     console.log('\n🎉 Test course seeded successfully!');
     console.log(`📍 Course ID: ${courseId}`);
-    console.log(`🔗 View at: http://localhost:3000/courses/${courseId}`);
+    console.log(`🔗 View at: http://localhost:3000/courses/${courseId}/learn`);
     
   } catch (error) {
     console.error('❌ Error seeding course:', error);

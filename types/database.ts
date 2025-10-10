@@ -401,3 +401,36 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   total: number;
   hasMore: boolean;
 }
+
+
+// ============================================================================
+// Achievements (Phase 3)
+// ============================================================================
+
+export type AchievementTier = 'bronze' | 'silver' | 'gold' | 'platinum';
+
+export type AchievementCriteriaType =
+  | 'days_completed'
+  | 'deliverables_submitted'
+  | 'lessons_completed'
+  | 'consultation_attended';
+
+export interface AchievementCriteria {
+  type: AchievementCriteriaType;
+  threshold: number;
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string; // Icon name from lucide-react
+  tier: AchievementTier;
+  criteria: AchievementCriteria;
+}
+
+export interface UserAchievement {
+  achievementId: string;
+  userId: string;
+  earnedAt: Timestamp | Date;
+}

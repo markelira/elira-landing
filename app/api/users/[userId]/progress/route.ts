@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, db } from '@/lib/firebase-admin';
-import { UserProgress } from '@/types/database';
 import { FieldValue } from 'firebase-admin/firestore';
 
 export const dynamic = 'force-dynamic';
@@ -109,21 +108,148 @@ export async function GET(
       enrolledCoursesCount: data?.enrolledCourses?.length
     });
 
+    // Fetch ALL enrollments (don't filter by status - user might have access via other means)
+    const enrollmentsSnapshot = await db
+      .collection('enrollments')
+      .where('userId', '==', userId)
+      .get();
+
+    console.log('[Progress API] All enrollments found:', enrollmentsSnapshot.size);
+
+    // Get user document to check for additional course access sources
+    const userDoc = await db.collection('users').doc(userId).get();
+    const userData = userDoc.exists ? userDoc.data() : null;
+
+    // Build set of accessible course IDs from multiple sources
+    const accessibleCourseIds = new Set<string>();
+
+    // Source 1: Enrollment documents
+    enrollmentsSnapshot.docs.forEach(doc => {
+      const enrollmentData = doc.data();
+      accessibleCourseIds.add(enrollmentData.courseId);
+    });
+
+    // Source 2: User's enrolledCourses array
+    if (userData?.enrolledCourses) {
+      userData.enrolledCourses.forEach((courseId: string) => {
+        accessibleCourseIds.add(courseId);
+      });
+    }
+
+    // Source 3: Check for completed payments (grants access)
+    const paymentsSnapshot = await db
+      .collection('payments')
+      .where('userId', '==', userId)
+      .where('status', '==', 'completed')
+      .get();
+
+    paymentsSnapshot.docs.forEach(doc => {
+      const paymentData = doc.data();
+      if (paymentData.courseId) {
+        accessibleCourseIds.add(paymentData.courseId);
+      }
+    });
+
+    // Source 4: Legacy courseAccess for default course
+    if (userData?.courseAccess === true) {
+      accessibleCourseIds.add('ai-copywriting-course');
+      accessibleCourseIds.add('default-course');
+    }
+
+    console.log('[Progress API] Accessible courses from all sources:', {
+      totalAccessible: accessibleCourseIds.size,
+      courseIds: Array.from(accessibleCourseIds),
+      fromEnrollments: enrollmentsSnapshot.size,
+      fromUserArray: userData?.enrolledCourses?.length || 0,
+      fromPayments: paymentsSnapshot.size
+    });
+
+    // BUILD enrolled courses array - combine userProgress data with actual enrollments
+    const enrolledCoursesMap = new Map();
+
+    // Start with courses from userProgress (has detailed progress data)
+    if (data?.enrolledCourses && Array.isArray(data.enrolledCourses)) {
+      data.enrolledCourses.forEach((course: any) => {
+        if (accessibleCourseIds.has(course.courseId)) {
+          enrolledCoursesMap.set(course.courseId, course);
+        }
+      });
+    }
+
+    // Add courses from enrollment documents that aren't in userProgress yet
+    for (const enrollmentDoc of enrollmentsSnapshot.docs) {
+      try {
+        const enrollment = enrollmentDoc.data();
+        const courseId = enrollment?.courseId;
+
+        if (!courseId) {
+          console.warn('[Progress API] Enrollment missing courseId:', enrollmentDoc.id);
+          continue;
+        }
+
+        if (accessibleCourseIds.has(courseId) && !enrolledCoursesMap.has(courseId)) {
+          // Fetch course details from courses collection
+          let courseData = null;
+          try {
+            const courseDoc = await db.collection('courses').doc(courseId).get();
+            courseData = courseDoc.exists ? courseDoc.data() : null;
+          } catch (courseError) {
+            console.error('[Progress API] Error fetching course:', courseId, courseError);
+          }
+
+          // Build course progress object from enrollment data
+          enrolledCoursesMap.set(courseId, {
+            courseId,
+            courseTitle: enrollment.courseTitle || courseData?.title || 'Untitled Course',
+            totalLessons: enrollment.totalLessons || courseData?.totalLessons || 0,
+            completedLessons: enrollment.completedLessons?.length || 0,
+            progressPercentage: enrollment.progress || 0,
+            lastActivityAt: enrollment.lastAccessedAt || enrollment.enrolledAt,
+            isCompleted: enrollment.certificateEarned || false,
+            nextLessonId: null,
+            nextLessonTitle: null
+          });
+        }
+      } catch (enrollmentError) {
+        console.error('[Progress API] Error processing enrollment:', enrollmentDoc.id, enrollmentError);
+        // Continue processing other enrollments
+        continue;
+      }
+    }
+
+    const activeEnrolledCourses = Array.from(enrolledCoursesMap.values());
+
+    console.log('[Progress API] Final enrolled courses:', {
+      total: activeEnrolledCourses.length,
+      courseIds: activeEnrolledCourses.map(c => c.courseId),
+      courseTitles: activeEnrolledCourses.map(c => c.courseTitle)
+    });
+
     // Convert Firestore timestamps to dates for JSON serialization
     const serializedData = {
       ...data,
-      createdAt: data?.createdAt?.toDate?.() || data?.createdAt,
-      updatedAt: data?.updatedAt?.toDate?.() || data?.updatedAt,
-      lastActivityAt: data?.lastActivityAt?.toDate?.() || data?.lastActivityAt,
-      enrolledCourses: data?.enrolledCourses?.map((course: any) => ({
-        ...course,
-        enrolledAt: course.enrolledAt?.toDate?.() || course.enrolledAt,
-        lastAccessedAt: course.lastAccessedAt?.toDate?.() || course.lastAccessedAt,
-        completedAt: course.completedAt?.toDate?.() || course.completedAt,
-      })) || [],
+      createdAt: data?.createdAt?.toDate?.() || data?.createdAt || null,
+      updatedAt: data?.updatedAt?.toDate?.() || data?.updatedAt || null,
+      lastActivityAt: data?.lastActivityAt?.toDate?.() || data?.lastActivityAt || null,
+      enrolledCourses: activeEnrolledCourses.map((course) => ({
+        courseId: course.courseId,
+        courseTitle: course.courseTitle,
+        totalLessons: course.totalLessons || 0,
+        completedLessons: course.completedLessons || 0,
+        progressPercentage: course.progressPercentage || 0,
+        lastActivityAt: course.lastActivityAt?.toDate?.() || course.lastActivityAt || null,
+        isCompleted: course.isCompleted || false,
+        nextLessonId: course.nextLessonId || null,
+        nextLessonTitle: course.nextLessonTitle || null,
+        enrolledAt: course.enrolledAt?.toDate?.() || course.enrolledAt || null,
+        lastAccessedAt: course.lastAccessedAt?.toDate?.() || course.lastAccessedAt || null,
+        completedAt: course.completedAt?.toDate?.() || course.completedAt || null,
+      })),
+      // Update counts to reflect only active enrollments
+      totalCourses: activeEnrolledCourses.length,
     };
 
-    console.log('[Progress API] Serialized data:', {
+    console.log('[Progress API] Serialized data (activeonly):', {
       totalCourses: serializedData.totalCourses,
       enrolledCoursesCount: serializedData.enrolledCourses?.length
     });

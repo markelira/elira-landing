@@ -22,12 +22,12 @@ export const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
 
 // Course configuration
 export const COURSE_CONFIG = {
-  price: 9990, // HUF
+  price: 89990, // HUF
   currency: 'HUF',
   title: 'AI-alapú piac-kutatásos copywriting',
   description: 'Teljes copywriting kurzus AI-alapú piackutatással és gyakorlatokkal',
   // Stripe product and price IDs for the course
-  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1SAbPbHhqyKpFIBMcfdPF1Lh',
+  stripePriceId: process.env.STRIPE_PRICE_ID || 'price_1SGGmxHhqyKpFIBM2f3kM13h',
   stripeProductId: 'prod_SwFQ50r0KCrxss'
 };
 
@@ -164,12 +164,9 @@ export function verifyWebhookSignature(body: string, signature: string): Stripe.
   console.log('🔐 SIGNATURE VERIFICATION START:', {
     hasStripe: !!stripe,
     hasSecret: !!stripeWebhookSecret,
-    secretLength: stripeWebhookSecret?.length,
-    secretPreview: stripeWebhookSecret?.substring(0, 15) + '...',
+    // SECURITY: Never log secrets or secret previews
     bodyLength: body.length,
-    bodyPreview: body.substring(0, 50) + '...',
-    signatureLength: signature.length,
-    signaturePreview: signature.substring(0, 30) + '...'
+    signatureLength: signature.length
   });
   
   if (!stripe || !stripeWebhookSecret) {

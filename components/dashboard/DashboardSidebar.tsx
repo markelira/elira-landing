@@ -6,9 +6,9 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
-import { 
+import {
   Home,
-  BookOpen, 
+  BookOpen,
   GraduationCap,
   TrendingUp,
   Settings,
@@ -17,8 +17,7 @@ import {
   Users,
   LogOut,
   Building2,
-  FolderOpen,
-  Video
+  FolderOpen
 } from 'lucide-react'
 
 /**
@@ -37,8 +36,7 @@ const navigationSections = {
       title: 'Tanulás',
       items: [
         { title: 'Kezdőlap', href: '/dashboard', icon: Home },
-        { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
-        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: 'Masterclass', href: '/dashboard/learning', icon: BookOpen },
         { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
@@ -58,8 +56,7 @@ const navigationSections = {
       title: 'Diák Nézet',
       items: [
         { title: 'Diák Dashboard', href: '/dashboard', icon: GraduationCap },
-        { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
-        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: 'Masterclass', href: '/dashboard/learning', icon: BookOpen },
         { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
@@ -85,8 +82,7 @@ const navigationSections = {
       title: 'Diák Nézet',
       items: [
         { title: 'Diák Dashboard', href: '/dashboard', icon: GraduationCap },
-        { title: 'Tanulás', href: '/dashboard/learning', icon: BookOpen },
-        { title: 'Webinárok', href: '/dashboard/webinars', icon: Video },
+        { title: 'Masterclass', href: '/dashboard/learning', icon: BookOpen },
         { title: '1:1 Meetingek', href: '/dashboard/meetings', icon: Users },
       ]
     }
@@ -176,11 +172,11 @@ export function DashboardSidebar({ onNavigate }: DashboardSidebarProps = {}) {
       <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
         <Link href="/dashboard" className="flex items-center space-x-3 group">
           <div className="relative w-8 h-8 flex-shrink-0 transition-transform group-hover:scale-105">
-            <Image 
-              src="/eliraicon.png" 
-              alt="Elira logo" 
+            <Image
+              src="/navbar-icon.png"
+              alt="Elira logo"
               fill
-              className="object-contain rounded-full"
+              className="object-contain"
               sizes="32px"
               priority
             />

@@ -150,32 +150,6 @@ export function InteractiveHowItWorks() {
             </motion.div>
           ))}
         </div>
-
-        {/* CTA Section */}
-        <motion.div
-          className="mt-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="bg-white border border-gray-200 rounded-lg p-10 text-center">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-              Válassz méretet a részletekért
-            </h3>
-            <p className="text-base text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Minden vállalati méret ugyanezt a 4 fázist követi - de a támogatás mélysége változik. Görgess fel, válassz méretet, és lásd a pontos részleteket.
-            </p>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg font-medium text-base hover:bg-gray-800 transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-              Ugrás a méret választáshoz
-            </button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

@@ -79,11 +79,11 @@ async function fetchCoursesCatalog(filters: CourseCatalogFilters = {}): Promise<
     console.log('🔍 [useCoursesCatalog] Fetching real course data from API');
     
     // Use the existing Cloud Function to fetch courses
-    const functionsUrl = process.env.NODE_ENV === 'development' 
-      ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
+    const functionsUrl = process.env.NODE_ENV === 'development'
+      ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
       : (process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app');
-    
-    const fullUrl = `${functionsUrl}/api/courses`;
+
+    const fullUrl = `${functionsUrl}/courses`;
     console.log('🌐 [useCoursesCatalog] Full API URL:', fullUrl);
     console.log('🔧 [useCoursesCatalog] Env check:', { 
       NODE_ENV: process.env.NODE_ENV,

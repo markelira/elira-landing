@@ -1,18 +1,22 @@
-import * as functions from 'firebase-functions/v2/auth';
+import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { UserProgress } from '../../../types/database';
 
 /**
- * Cloud Function trigger that initializes user progress when a new user signs up
+ * Cloud Function that initializes user progress when called
+ * Note: This is an HTTP function that should be called after user creation
  *
- * This function runs automatically when:
- * - A new user registers with email/password
- * - A new user signs up with Google OAuth
- *
- * It creates the initial userProgress document with default values
+ * TODO: Convert to auth trigger when firebase-functions is updated
  */
-export const onUserCreate = functions.onUserCreated(async (event) => {
-  const user = event.data;
+export const onUserCreate = onRequest(async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    res.status(400).json({ success: false, error: 'userId is required' });
+    return;
+  }
+
+  const user = { uid: userId };
   const db = admin.firestore();
 
   console.log(`[onUserCreate] Initializing progress for user ${user.uid}`);
@@ -71,19 +75,19 @@ export const onUserCreate = functions.onUserCreated(async (event) => {
 
     console.log(`[onUserCreate] Welcome notification created for user ${user.uid}`);
 
-    return {
+    res.json({
       success: true,
       userId: user.uid,
-    };
+    });
   } catch (error) {
     console.error(`[onUserCreate] Error initializing user ${user.uid}:`, error);
 
     // Don't throw error - we don't want user creation to fail if progress init fails
     // The progress will be created lazily when they first access the dashboard
-    return {
+    res.status(500).json({
       success: false,
       userId: user.uid,
       error: error instanceof Error ? error.message : 'Unknown error',
-    };
+    });
   }
 });

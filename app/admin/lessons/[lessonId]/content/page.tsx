@@ -492,15 +492,14 @@ export default function LessonContentPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          as="a"
-                          href={resource.url}
-                          target="_blank"
-                        >
-                          View
-                        </Button>
+                        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                          >
+                            View
+                          </Button>
+                        </a>
                         <Button
                           size="sm"
                           variant="outline"

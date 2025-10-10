@@ -244,31 +244,54 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
 
   return (
     <CourseAccessGuard courseId={courseId}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50">
-        {/* Enhanced Header */}
-        <header className="bg-white/95 backdrop-blur-md border-b border-gray-200/50 px-4 md:px-6 py-4 sticky top-0 z-30 shadow-sm">
+      <div
+        className="min-h-screen"
+        style={{
+          background: 'linear-gradient(to bottom, #16222F 0%, #2a3d54 50%, #466C95 100%)'
+        }}
+      >
+        {/* Premium Header - Matching Homepage */}
+        <header
+          className="px-4 md:px-6 py-4 sticky top-0 z-30"
+          style={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden p-2 text-gray-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-all"
+                className="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
               >
                 {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
-              <Link href="/" className="flex items-center gap-2 text-gray-600 hover:text-teal-600 transition-colors">
+              <Link href="/" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
                 <Home className="w-4 h-4 md:w-5 md:h-5" />
                 <span className="font-medium text-sm md:text-base hidden sm:block">Vissza a főoldalra</span>
                 <span className="font-medium text-sm md:text-base sm:hidden">Vissza</span>
               </Link>
             </div>
-            
+
             <div className="flex items-center gap-2 md:gap-4">
-              <h1 className="text-lg md:text-xl font-bold text-gray-900 hidden lg:block">
+              <h1 className="text-lg md:text-xl font-semibold text-white hidden lg:block">
                 {course.title}
               </h1>
-              <div className="flex items-center gap-2 md:gap-3 bg-teal-50 px-2 md:px-4 py-1 md:py-2 rounded-full border border-teal-200">
-                <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-teal-600" />
-                <span className="text-xs md:text-sm font-semibold text-teal-700">
+              <div
+                className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 rounded-xl"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(20px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
+              >
+                <BarChart3 className="w-3 h-3 md:w-4 md:h-4 text-white" />
+                <span className="text-xs md:text-sm font-semibold text-white">
                   {getTotalProgress()}%
                 </span>
               </div>
@@ -277,25 +300,53 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
         </header>
 
         <div className="flex">
-          {/* Enhanced Sidebar */}
+          {/* Premium Glassmorphic Sidebar */}
           <aside className={`${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } fixed inset-0 md:inset-y-0 md:left-0 z-40 w-full md:w-96 bg-gradient-to-b from-white to-gray-50/50 md:border-r border-gray-200/50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 mt-0 md:mt-0 shadow-xl md:shadow-none`}>
-            
+          } fixed inset-0 md:inset-y-0 md:left-0 z-40 w-full md:w-96 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 mt-0 md:mt-0 shadow-xl md:shadow-none`}
+            style={{
+              background: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(40px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              borderRight: '1px solid rgba(255, 255, 255, 0.18)'
+            }}
+          >
+
             <div className="h-full flex flex-col">
-              {/* Enhanced Sidebar Header */}
-              <div className="p-4 md:p-6 bg-gradient-to-br from-teal-600 via-teal-700 to-cyan-700 text-white relative overflow-hidden">
+              {/* Premium Sidebar Header */}
+              <div
+                className="p-4 md:p-6 text-white relative overflow-hidden"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(20px) saturate(150%)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 {/* Mobile Close Button */}
                 <button
                   onClick={() => setSidebarOpen(false)}
-                  className="md:hidden absolute top-4 right-4 z-20 p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                  className="md:hidden absolute top-4 right-4 z-20 p-2 bg-white/15 hover:bg-white/25 rounded-lg transition-colors"
+                  style={{
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
                 >
                   <X className="w-5 h-5 text-white" />
                 </button>
-                
-                {/* Background decorative elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
+
+                {/* Ambient glow decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full -translate-y-16 translate-x-16"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)',
+                    filter: 'blur(30px)'
+                  }} />
+                <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full translate-y-12 -translate-x-12"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
+                    filter: 'blur(30px)'
+                  }} />
                 
                 <div className="relative z-10">
                   {/* Course Title and Info */}
@@ -316,40 +367,77 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                     </p>
                   </div>
 
-                  {/* Course Stats */}
+                  {/* Course Stats - Premium Cards */}
                   <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4">
-                    <div className="bg-white/10 rounded-lg p-2 md:p-3 text-center backdrop-blur-sm">
+                    <div
+                      className="rounded-xl p-2 md:p-3 text-center"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.12)',
+                        backdropFilter: 'blur(20px) saturate(200%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
+                    >
                       <div className="text-base md:text-lg font-bold text-white">{course.modules.length}</div>
-                      <div className="text-xs text-teal-100">Modul</div>
+                      <div className="text-xs text-white/70">Modul</div>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-2 md:p-3 text-center backdrop-blur-sm">
+                    <div
+                      className="rounded-xl p-2 md:p-3 text-center"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.12)',
+                        backdropFilter: 'blur(20px) saturate(200%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
+                    >
                       <div className="text-base md:text-lg font-bold text-white">
                         {course.modules.reduce((acc, m) => acc + m.lessons.length, 0)}
                       </div>
-                      <div className="text-xs text-teal-100">Videó</div>
+                      <div className="text-xs text-white/70">Videó</div>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-2 md:p-3 text-center backdrop-blur-sm">
+                    <div
+                      className="rounded-xl p-2 md:p-3 text-center"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.12)',
+                        backdropFilter: 'blur(20px) saturate(200%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
+                    >
                       <div className="text-base md:text-lg font-bold text-white">
-                        {Math.round(course.modules.reduce((acc, m) => 
+                        {Math.round(course.modules.reduce((acc, m) =>
                           acc + m.lessons.reduce((lessonAcc, l) => lessonAcc + (l.duration || 0), 0), 0) / 60)}
                       </div>
-                      <div className="text-xs text-teal-100">Perc</div>
+                      <div className="text-xs text-white/70">Perc</div>
                     </div>
                   </div>
 
-                  {/* Progress Section */}
+                  {/* Premium Progress Section */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-semibold text-white">Előrehaladás</span>
-                      <span className="text-sm font-bold text-teal-100">{getTotalProgress()}%</span>
+                      <span className="text-sm font-bold text-white/90">{getTotalProgress()}%</span>
                     </div>
-                    <div className="bg-white/20 rounded-full h-3 mb-2 shadow-inner">
-                      <div 
-                        className="bg-gradient-to-r from-yellow-300 to-orange-300 h-3 rounded-full transition-all duration-500 shadow-sm"
-                        style={{ width: `${getTotalProgress()}%` }}
+                    <div
+                      className="rounded-full h-3 mb-2 overflow-hidden"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <div
+                        className="h-3 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${getTotalProgress()}%`,
+                          background: 'linear-gradient(90deg, rgba(251, 191, 36, 0.9) 0%, rgba(251, 146, 60, 0.9) 100%)',
+                          boxShadow: '0 0 10px rgba(251, 191, 36, 0.5)'
+                        }}
                       />
                     </div>
-                    <p className="text-teal-100 text-xs">
+                    <p className="text-white/70 text-xs">
                       {completedLessons.size} / {course.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lecke befejezve
                       {completedLessons.size > 0 && (
                         <span className="ml-2">🎯</span>
@@ -365,22 +453,37 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                   const isExpanded = expandedModules.has(module.id);
                   const moduleProgress = getModuleProgress(module.id);
                   const hasCurrentLesson = module.lessons.some(l => l.id === currentLessonId);
-                  
+
                   return (
-                    <div key={module.id} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                    <div
+                      key={module.id}
+                      className="rounded-xl transition-all duration-200"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(20px) saturate(150%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                      }}
+                    >
                       {/* Module Header */}
                       <button
                         onClick={() => toggleModule(module.id)}
-                        className="w-full p-4 text-left flex items-center justify-between hover:bg-gray-50 rounded-xl transition-colors"
+                        className="w-full p-4 text-left flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors"
                       >
                         <div className="flex items-center gap-4 flex-1">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm ${
-                            hasCurrentLesson 
-                              ? 'bg-gradient-to-r from-teal-500 to-cyan-500'
-                              : moduleProgress === 100
-                              ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
-                              : 'bg-gradient-to-r from-gray-400 to-gray-500'
-                          }`}>
+                          <div
+                            className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm"
+                            style={{
+                              background: hasCurrentLesson
+                                ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.8), rgba(6, 182, 212, 0.8))'
+                                : moduleProgress === 100
+                                ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.8), rgba(16, 185, 129, 0.8))'
+                                : 'rgba(255, 255, 255, 0.15)',
+                              backdropFilter: 'blur(10px)',
+                              border: '1px solid rgba(255, 255, 255, 0.2)'
+                            }}
+                          >
                             {moduleProgress === 100 ? (
                               <CheckCircle className="w-6 h-6" />
                             ) : (
@@ -388,29 +491,39 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-gray-900 text-sm leading-tight mb-1">
+                            <h3 className="font-semibold text-white text-sm leading-tight mb-1">
                               {moduleIndex + 1}. modul
                             </h3>
-                            <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">
+                            <p className="text-xs text-white/70 leading-relaxed line-clamp-2">
                               {module.title}
                             </p>
                             {/* Module Progress */}
                             <div className="mt-2">
-                              <div className="bg-gray-200 rounded-full h-1.5">
-                                <div 
-                                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                                    moduleProgress === 100 ? 'bg-green-500' : 'bg-teal-500'
-                                  }`}
-                                  style={{ width: `${moduleProgress}%` }}
+                              <div
+                                className="rounded-full h-1.5 overflow-hidden"
+                                style={{
+                                  background: 'rgba(255, 255, 255, 0.2)',
+                                  boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)'
+                                }}
+                              >
+                                <div
+                                  className="h-1.5 rounded-full transition-all duration-300"
+                                  style={{
+                                    width: `${moduleProgress}%`,
+                                    background: moduleProgress === 100
+                                      ? 'linear-gradient(90deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9))'
+                                      : 'linear-gradient(90deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.9))',
+                                    boxShadow: '0 0 8px rgba(20, 184, 166, 0.4)'
+                                  }}
                                 />
                               </div>
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-white/60 mt-1">
                                 {module.lessons.filter(l => completedLessons.has(l.id)).length}/{module.lessons.length} lecke
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
+                        <div className={`w-6 h-6 text-white/60 transition-transform duration-200 ${
                           isExpanded ? 'rotate-90' : ''
                         }`}>
                           <ChevronRight className="w-4 h-4" />
@@ -424,7 +537,9 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="border-t border-gray-100"
+                          style={{
+                            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                          }}
                         >
                           <div className="p-2 space-y-1">
                             {module.lessons.map((lesson, lessonIndex) => (
@@ -434,22 +549,50 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                                   navigateToLesson(module.id, lesson.id);
                                   if (window.innerWidth < 1024) setSidebarOpen(false);
                                 }}
-                                className={`w-full text-left p-3 rounded-lg transition-all duration-200 group ${
+                                className="w-full text-left p-3 rounded-lg transition-all duration-200 group"
+                                style={
                                   currentLessonId === lesson.id
-                                    ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-md'
+                                    ? {
+                                        background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(6, 182, 212, 0.3))',
+                                        backdropFilter: 'blur(10px)',
+                                        border: '1px solid rgba(20, 184, 166, 0.4)',
+                                        boxShadow: '0 4px 12px rgba(20, 184, 166, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                                      }
                                     : completedLessons.has(lesson.id)
-                                    ? 'bg-green-50 border border-green-200 hover:bg-green-100 text-green-900'
-                                    : 'hover:bg-gray-50 text-gray-700'
-                                }`}
+                                    ? {
+                                        background: 'rgba(34, 197, 94, 0.15)',
+                                        backdropFilter: 'blur(10px)',
+                                        border: '1px solid rgba(34, 197, 94, 0.3)'
+                                      }
+                                    : {
+                                        background: 'rgba(255, 255, 255, 0.03)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)'
+                                      }
+                                }
                               >
                                 <div className="flex items-start gap-3">
-                                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                                    currentLessonId === lesson.id
-                                      ? 'bg-white/20 text-white'
-                                      : completedLessons.has(lesson.id)
-                                      ? 'bg-green-200 text-green-700'
-                                      : 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
-                                  }`}>
+                                  <div
+                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
+                                    style={
+                                      currentLessonId === lesson.id
+                                        ? {
+                                            background: 'rgba(255, 255, 255, 0.25)',
+                                            color: 'white',
+                                            border: '1px solid rgba(255, 255, 255, 0.3)'
+                                          }
+                                        : completedLessons.has(lesson.id)
+                                        ? {
+                                            background: 'rgba(34, 197, 94, 0.3)',
+                                            color: 'rgb(34, 197, 94)',
+                                            border: '1px solid rgba(34, 197, 94, 0.4)'
+                                          }
+                                        : {
+                                            background: 'rgba(255, 255, 255, 0.1)',
+                                            color: 'rgba(255, 255, 255, 0.7)',
+                                            border: '1px solid rgba(255, 255, 255, 0.15)'
+                                          }
+                                    }
+                                  >
                                     {completedLessons.has(lesson.id) ? (
                                       <CheckCircle className="w-4 h-4" />
                                     ) : currentLessonId === lesson.id ? (
@@ -459,35 +602,35 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                                     )}
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-medium leading-tight mb-1 ${
-                                      currentLessonId === lesson.id ? 'text-white' : ''
-                                    }`}>
+                                    <p className="text-sm font-medium leading-tight mb-1 text-white">
                                       {lesson.title}
                                     </p>
-                                    <div className="flex items-center gap-2">
-                                      <Clock className={`w-3 h-3 ${
-                                        currentLessonId === lesson.id ? 'text-white/80' : 'text-gray-500'
-                                      }`} />
-                                      <span className={`text-xs ${
-                                        currentLessonId === lesson.id ? 'text-white/80' : 'text-gray-500'
-                                      }`}>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <Clock className="w-3 h-3 text-white/60" />
+                                      <span className="text-xs text-white/60">
                                         {Math.round((lesson.duration || 0) / 60)} perc
                                       </span>
                                       {lesson.type === 'VIDEO' && (
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${
-                                          currentLessonId === lesson.id 
-                                            ? 'bg-white/20 text-white' 
-                                            : 'bg-blue-100 text-blue-700'
-                                        }`}>
+                                        <span
+                                          className="text-xs px-2 py-0.5 rounded-full"
+                                          style={{
+                                            background: 'rgba(59, 130, 246, 0.2)',
+                                            color: 'rgb(147, 197, 253)',
+                                            border: '1px solid rgba(59, 130, 246, 0.3)'
+                                          }}
+                                        >
                                           Videó
                                         </span>
                                       )}
                                       {lesson.isFreePreview && (
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${
-                                          currentLessonId === lesson.id 
-                                            ? 'bg-white/20 text-white' 
-                                            : 'bg-green-100 text-green-700'
-                                        }`}>
+                                        <span
+                                          className="text-xs px-2 py-0.5 rounded-full"
+                                          style={{
+                                            background: 'rgba(34, 197, 94, 0.2)',
+                                            color: 'rgb(134, 239, 172)',
+                                            border: '1px solid rgba(34, 197, 94, 0.3)'
+                                          }}
+                                        >
                                           Ingyenes
                                         </span>
                                       )}
@@ -504,26 +647,42 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                 })}
                 
                 {/* PDF Sablonok Section */}
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                <div
+                  className="rounded-xl transition-all duration-200"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(20px) saturate(150%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                  }}
+                >
                   {/* PDF Section Header */}
                   <button
                     onClick={() => setPdfSectionExpanded(!pdfSectionExpanded)}
-                    className="w-full p-4 text-left flex items-center justify-between hover:bg-gray-50 rounded-xl transition-colors"
+                    className="w-full p-4 text-left flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors"
                   >
                     <div className="flex items-center gap-4 flex-1">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm bg-gradient-to-r from-orange-500 to-red-500">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.8), rgba(239, 68, 68, 0.8))',
+                          backdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(249, 115, 22, 0.3)'
+                        }}
+                      >
                         <FileText className="w-6 h-6" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm leading-tight mb-1">
+                        <h3 className="font-semibold text-white text-sm leading-tight mb-1">
                           PDF Sablonok (7)
                         </h3>
-                        <p className="text-xs text-gray-600 leading-relaxed">
+                        <p className="text-xs text-white/70 leading-relaxed">
                           Letölthető AI prompt sablonok
                         </p>
                       </div>
                     </div>
-                    <div className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
+                    <div className={`w-6 h-6 text-white/60 transition-transform duration-200 ${
                       pdfSectionExpanded ? 'rotate-90' : ''
                     }`}>
                       <ChevronRight className="w-4 h-4" />
@@ -537,7 +696,9 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="border-t border-gray-100"
+                      style={{
+                        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                      }}
                     >
                       <div className="p-2 space-y-1">
                         {[
@@ -554,17 +715,43 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                             href={pdf.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full text-left p-3 rounded-lg transition-all duration-200 group hover:bg-orange-50 text-gray-700 flex items-center gap-3"
+                            className="w-full text-left p-3 rounded-lg transition-all duration-200 group flex items-center gap-3"
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.03)',
+                              border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'rgba(249, 115, 22, 0.1)';
+                              e.currentTarget.style.border = '1px solid rgba(249, 115, 22, 0.3)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                              e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                            }}
                           >
-                            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 bg-orange-100 text-orange-700 group-hover:bg-orange-200">
+                            <div
+                              className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
+                              style={{
+                                background: 'rgba(249, 115, 22, 0.2)',
+                                color: 'rgb(251, 146, 60)',
+                                border: '1px solid rgba(249, 115, 22, 0.3)'
+                              }}
+                            >
                               <FileText className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium leading-tight mb-1">
+                              <p className="text-sm font-medium leading-tight mb-1 text-white">
                                 {pdf.name}.pdf
                               </p>
                               <div className="flex items-center gap-2">
-                                <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
+                                <span
+                                  className="text-xs px-2 py-0.5 rounded-full"
+                                  style={{
+                                    background: 'rgba(249, 115, 22, 0.2)',
+                                    color: 'rgb(251, 146, 60)',
+                                    border: '1px solid rgba(249, 115, 22, 0.3)'
+                                  }}
+                                >
                                   PDF
                                 </span>
                               </div>
@@ -587,32 +774,55 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
             />
           )}
 
-          {/* Enhanced Main Content */}
+          {/* Premium Main Content */}
           <main className="flex-1 md:ml-0 min-h-screen">
             <div className="p-4 md:p-6 max-w-5xl mx-auto">
-              {/* Lesson Header */}
+              {/* Premium Lesson Header */}
               <div className="mb-6 md:mb-8">
-                <div className="flex items-center gap-2 text-xs md:text-sm text-teal-600 mb-3">
-                  <span className="bg-teal-100 px-2 md:px-3 py-1 rounded-full font-medium">
+                <div className="flex items-center gap-2 text-xs md:text-sm mb-3">
+                  <span
+                    className="px-3 md:px-4 py-1.5 rounded-full font-medium"
+                    style={{
+                      background: 'rgba(20, 184, 166, 0.2)',
+                      color: 'rgb(94, 234, 212)',
+                      border: '1px solid rgba(20, 184, 166, 0.3)',
+                      backdropFilter: 'blur(10px)'
+                    }}
+                  >
                     {currentModule?.title}
                   </span>
                 </div>
-                <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight">
+                <h1 className="text-xl md:text-3xl font-bold text-white mb-4 md:mb-6 leading-tight">
                   {currentLesson?.title}
                 </h1>
                 {currentLesson?.description && (
-                  <p className="text-gray-600 text-sm md:text-lg leading-relaxed">
+                  <p className="text-white/70 text-sm md:text-lg leading-relaxed">
                     {currentLesson.description}
                   </p>
                 )}
               </div>
 
-              {/* Video Content */}
+              {/* Premium Video Content */}
               {currentLesson?.type === 'VIDEO' && currentLesson.videoUrl && (
-                <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border border-gray-200/50 p-4 md:p-8 mb-6 md:mb-8">
+                <div
+                  className="rounded-xl md:rounded-2xl p-4 md:p-8 mb-6 md:mb-8"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(40px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)'
+                  }}
+                >
                   <div className="relative">
-                    {/* Video Container */}
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-2xl">
+                    {/* Video Container with Premium Frame */}
+                    <div
+                      className="rounded-xl overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9))',
+                        boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+                      }}
+                    >
                       <iframe
                         src={currentLesson.videoUrl}
                         style={{ width: '100%', border: 'none', aspectRatio: '16/9' }}
@@ -621,33 +831,66 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                         className="rounded-xl"
                       />
                     </div>
-                    
-                    {/* Video Info */}
+
+                    {/* Premium Video Info */}
                     <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                       <div className="flex items-center gap-2 md:gap-4">
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Clock className="w-4 h-4" />
-                          <span className="text-xs md:text-sm font-medium">
+                        <div
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: '1px solid rgba(255, 255, 255, 0.2)'
+                          }}
+                        >
+                          <Clock className="w-4 h-4 text-white/80" />
+                          <span className="text-xs md:text-sm font-medium text-white/90">
                             {Math.round((currentLesson.duration || 0) / 60)} perc
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Play className="w-4 h-4" />
-                          <span className="text-xs md:text-sm font-medium">HD videó</span>
+                        <div
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: '1px solid rgba(255, 255, 255, 0.2)'
+                          }}
+                        >
+                          <Play className="w-4 h-4 text-white/80" />
+                          <span className="text-xs md:text-sm font-medium text-white/90">HD videó</span>
                         </div>
                       </div>
-                      
+
                       {!completedLessons.has(currentLessonId) && (
                         <button
                           onClick={() => markLessonComplete(currentLessonId)}
-                          className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 md:px-6 py-2 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl text-sm md:text-base"
+                          className="px-4 md:px-6 py-2 rounded-xl font-semibold transition-all duration-200 text-sm md:text-base"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9))',
+                            color: 'white',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            boxShadow: '0 8px 24px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = '0 12px 32px rgba(34, 197, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 8px 24px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                          }}
                         >
                           ✓ Lecke befejezése
                         </button>
                       )}
-                      
+
                       {completedLessons.has(currentLessonId) && (
-                        <div className="flex items-center gap-2 text-green-600">
+                        <div
+                          className="flex items-center gap-2 px-4 py-2 rounded-xl"
+                          style={{
+                            background: 'rgba(34, 197, 94, 0.2)',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            color: 'rgb(134, 239, 172)'
+                          }}
+                        >
                           <CheckCircle className="w-5 h-5" />
                           <span className="font-semibold">Befejezve</span>
                         </div>
@@ -657,8 +900,17 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                 </div>
               )}
 
-              {/* Enhanced Lesson Navigation */}
-              <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border border-gray-200/50 p-4 md:p-6">
+              {/* Premium Lesson Navigation */}
+              <div
+                className="rounded-xl md:rounded-2xl p-4 md:p-6"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  backdropFilter: 'blur(40px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-3 md:gap-4">
                   <button
                     onClick={() => {
@@ -669,16 +921,31 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                       }
                     }}
                     disabled={!getPrevLesson()}
-                    className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md text-sm md:text-base w-full md:w-auto justify-center"
+                    className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 text-sm md:text-base w-full md:w-auto justify-center font-medium text-white/90"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (getPrevLesson()) {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    <span className="font-medium">Előző lecke</span>
+                    <span>Előző lecke</span>
                   </button>
 
-                  {/* Progress Indicator */}
+                  {/* Premium Progress Indicator */}
                   <div className="text-center">
-                    <div className="text-xs md:text-sm text-gray-600 mb-1">Kurzus előrehaladás</div>
-                    <div className="text-xl md:text-2xl font-bold text-teal-600">{getTotalProgress()}%</div>
+                    <div className="text-xs md:text-sm text-white/60 mb-1">Kurzus előrehaladás</div>
+                    <div className="text-xl md:text-2xl font-bold text-white">{getTotalProgress()}%</div>
                   </div>
 
                   <button
@@ -690,21 +957,54 @@ export default function CoursePlayerPage({}: CoursePlayerPageProps) {
                       }
                     }}
                     disabled={!getNextLesson()}
-                    className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl hover:from-teal-600 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl text-sm md:text-base w-full md:w-auto justify-center"
+                    className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 text-sm md:text-base w-full md:w-auto justify-center font-medium"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.9))',
+                      color: 'white',
+                      border: '1px solid rgba(20, 184, 166, 0.3)',
+                      boxShadow: '0 8px 24px rgba(20, 184, 166, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (getNextLesson()) {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 12px 32px rgba(20, 184, 166, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(20, 184, 166, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                    }}
                   >
-                    <span className="font-medium">Következő lecke</span>
+                    <span>Következő lecke</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 {/* Lesson Completion Status */}
                 {!completedLessons.has(currentLessonId) && (
-                  <div className="mt-6 pt-4 border-t border-gray-100 text-center">
-                    <p className="text-gray-600 text-sm mb-3">
+                  <div
+                    className="mt-6 pt-4 text-center"
+                    style={{
+                      borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}
+                  >
+                    <p className="text-white/70 text-sm mb-3">
                       Fejezd be ezt a leckét a folytatáshoz
                     </p>
-                    <div className="bg-gray-100 rounded-full h-2 mb-3">
-                      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 h-2 rounded-full w-0 animate-pulse" />
+                    <div
+                      className="rounded-full h-2 mb-3 overflow-hidden"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <div
+                        className="h-2 rounded-full w-0 animate-pulse"
+                        style={{
+                          background: 'linear-gradient(90deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.9))',
+                          boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)'
+                        }}
+                      />
                     </div>
                   </div>
                 )}

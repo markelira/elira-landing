@@ -4,7 +4,7 @@ import { auth } from '@/lib/firebase';
 
 // Use same Firebase Functions URL as other APIs
 const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development'
-  ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
+  ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
   : 'https://api-5k33v562ya-ew.a.run.app/api';
 
 export const useEnrollmentStatus = (courseId: string) => {
@@ -14,7 +14,7 @@ export const useEnrollmentStatus = (courseId: string) => {
     queryKey: ['enrollment', courseId, user?.uid],
     queryFn: async () => {
       if (!user?.uid) {
-        return { enrolled: false };
+        return { enrolled: false, hasAccess: false };
       }
       
       try {
@@ -39,19 +39,21 @@ export const useEnrollmentStatus = (courseId: string) => {
         
         if (!response.ok) {
           console.error('Failed to check enrollment status');
-          return { enrolled: false };
+          return { enrolled: false, hasAccess: false };
         }
         
         const data = await response.json();
-        
+
         // Transform response to match expected format
+        // hasAccess is the most comprehensive check (checks all sources)
         return {
-          enrolled: data.isEnrolled || data.enrolled || false,
+          enrolled: data.isEnrolled || data.enrolled || data.hasAccess || false,
+          hasAccess: data.hasAccess || data.isEnrolled || data.enrolled || false,
           enrollmentData: data.enrollmentData || null
         };
       } catch (error) {
         console.error('Error checking enrollment:', error);
-        return { enrolled: false };
+        return { enrolled: false, hasAccess: false };
       }
     },
     enabled: !!user?.uid && !!courseId,

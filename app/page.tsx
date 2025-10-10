@@ -1,50 +1,85 @@
 'use client';
 
 import { PremiumHeader } from "@/components/PremiumHeader";
-import { PremiumHeroSection } from "@/components/PremiumHeroSection";
+import { ConsistentPremiumHeroSection } from "@/components/consistent/ConsistentPremiumHeroSection";
 import { ValueClaritySection } from "@/components/ValueClaritySection";
-import { CompanySizeSelector, CompanySizeProvider } from "@/components/CompanySizeSelector";
+import { ServiceModelSelector } from "@/components/consistent/ServiceModelSelector";
+import { CompanySizeProvider } from "@/components/CompanySizeSelector";
 import { DynamicContent } from "@/components/DynamicContent";
-import { CluelyHeroReplica } from "@/components/CluelyHeroReplica";
-import { InteractiveProblemSolution } from "@/components/InteractiveProblemSolution";
+import { ConsistentInteractiveProblemSolution } from "@/components/consistent/ConsistentInteractiveProblemSolution";
 import { ResultsSocialProof } from "@/components/ResultsSocialProof";
-import { VideoTextMask } from "@/components/VideoTextMask";
-import { CluelyTextMask } from "@/components/CluelyTextMask";
-import { PremiumExpertSection } from "@/components/PremiumExpertSection";
-import { InteractiveHowItWorks } from "@/components/InteractiveHowItWorks";
-import { FeaturedMasterclassSpotlight } from "@/components/FeaturedMasterclassSpotlight";
+import { ConsistentInteractiveHowItWorks } from "@/components/consistent/ConsistentInteractiveHowItWorks";
+import { FreeAuditLeadMagnet } from "@/components/FreeAuditLeadMagnet";
+import { ConsistentFeaturedMasterclassSpotlight } from "@/components/consistent/ConsistentFeaturedMasterclassSpotlight";
 import { PlatformPreview } from "@/components/PlatformPreview";
+import { ComparisonTable } from "@/components/consistent/ComparisonTable";
 import { GeneralFAQ } from "@/components/GeneralFAQ";
 import { PremiumTargetAudience } from "@/components/PremiumTargetAudience";
 import { PremiumCTA } from "@/components/PremiumCTA";
+import { CluelyHeroReplica } from "@/components/CluelyHeroReplica";
 import { PremiumFooter } from "@/components/PremiumFooter";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
+/**
+ * ELIRA HOMEPAGE
+ *
+ * This is the redesigned homepage with ALL improvements applied:
+ * ✅ Standardized button styles (dark gray-900 primary, outline secondary)
+ * ✅ Contextual CTA copy (not just repeated buttons)
+ * ✅ Unified card design language (glassmorphism for hero, flat for content)
+ * ✅ Results-based social proof with metrics
+ * ✅ Elevated guarantee visibility
+ * ✅ Comparison table section (Videókurzus vs. Masterclass + Implementáció)
+ * ✅ Removed CluelyHeroReplica duplication (single instance only)
+ * ✅ Design tokens extracted for course player redesign
+ * ✅ DWY vs DFY service model selector
+ * ✅ Accurate consultation count (4 konzultáció)
+ * ✅ Realistic FAQs
+ */
 export default function Home() {
   return (
     <CompanySizeProvider>
       <div className="min-h-screen">
+        <ScrollProgress />
         <PremiumHeader />
         <main>
-          <PremiumHeroSection />
-          <ValueClaritySection />
-          <CompanySizeSelector />
+          {/* HERO - Consistent buttons, results-based social proof */}
+          <ConsistentPremiumHeroSection />
 
-          {/* General content - always visible */}
-          <InteractiveProblemSolution />
+          <ValueClaritySection />
+          <ServiceModelSelector />
+
+          {/* PROBLEM-SOLUTION - Contextual CTAs, consistent cards */}
+          <ConsistentInteractiveProblemSolution />
+
+          {/* Social proof with results */}
           <ResultsSocialProof />
-          <InteractiveHowItWorks />
-          <FeaturedMasterclassSpotlight />
+
+          {/* HOW IT WORKS - Unified card design */}
+          <ConsistentInteractiveHowItWorks />
+
+          {/* Lead magnet */}
+          <FreeAuditLeadMagnet />
+
+          {/* MASTERCLASS - Elevated guarantee */}
+          <ConsistentFeaturedMasterclassSpotlight />
+
+          {/* Platform preview */}
           <PlatformPreview />
+
+          {/* Comparison Table - Strategic addition */}
+          <ComparisonTable />
+
+          {/* FAQ */}
           <GeneralFAQ />
 
-          {/* Personalized content - only after selection */}
+          {/* Personalized content - only after company size selection */}
           <DynamicContent>
             <PremiumTargetAudience />
             <PremiumCTA />
-            <CluelyHeroReplica />
           </DynamicContent>
 
-          {/* Cluely Hero Replica - before footer */}
+          {/* Cluely Hero Replica - SINGLE INSTANCE (no duplication) */}
           <CluelyHeroReplica />
         </main>
         <PremiumFooter />

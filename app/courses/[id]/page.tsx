@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseDetailClient from './CourseDetailClient'
-import FloatingNavbar from '@/components/FloatingNavbar'
-import Footer from '@/components/Footer'
+import { PremiumHeader } from '@/components/PremiumHeader'
+import { PremiumFooter } from '@/components/PremiumFooter'
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator'
 import { PerformanceProvider } from '@/components/PerformanceProvider'
 
@@ -23,11 +23,11 @@ export default async function CourseDetailPage({ params }: Props) {
   return (
     <PerformanceProvider>
       <ScrollProgressIndicator />
-      <FloatingNavbar />
-      <main className="pt-16 md:pt-0">
+      <PremiumHeader />
+      <main>
         <CourseDetailClient courseId={resolvedParams.id} />
       </main>
-      <Footer />
+      <PremiumFooter />
     </PerformanceProvider>
   )
 }

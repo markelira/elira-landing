@@ -90,31 +90,71 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
 
 /**
  * Optional authentication middleware - allows requests with or without auth
+ * SECURITY: Always verifies tokens in production
  */
 export const optionalAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const idToken = authHeader.split('Bearer ')[1];
-      
+
       if (idToken) {
         try {
-          const decodedToken = await admin.auth().verifyIdToken(idToken);
-          (req as any).user = {
-            uid: decodedToken.uid,
-            email: decodedToken.email,
-            emailVerified: decodedToken.email_verified,
-          };
+          // SECURITY: Always verify tokens in production
+          if (process.env.NODE_ENV === 'production') {
+            // Production: ALWAYS verify token signature
+            const decodedToken = await admin.auth().verifyIdToken(idToken);
+            console.log('✅ Production token verified for user:', decodedToken.uid);
+            (req as any).user = {
+              uid: decodedToken.uid,
+              email: decodedToken.email,
+              emailVerified: decodedToken.email_verified,
+            };
+          } else {
+            // Development: Only decode without verification if explicitly in emulator mode
+            const isEmulator = process.env.FIREBASE_AUTH_EMULATOR_HOST &&
+                              process.env.NODE_ENV === 'development';
+
+            if (isEmulator) {
+              console.warn('⚠️ DEVELOPMENT MODE: Using emulator - tokens not cryptographically verified');
+              const decoded = JSON.parse(Buffer.from(idToken.split('.')[1], 'base64').toString());
+              (req as any).user = {
+                uid: decoded.uid || decoded.user_id,
+                email: decoded.email,
+                emailVerified: decoded.email_verified,
+              };
+            } else {
+              // Verify token even in development if not in emulator
+              const decodedToken = await admin.auth().verifyIdToken(idToken);
+              console.log('✅ Development token verified for user:', decodedToken.uid);
+              (req as any).user = {
+                uid: decodedToken.uid,
+                email: decodedToken.email,
+                emailVerified: decodedToken.email_verified,
+              };
+            }
+          }
         } catch (error) {
-          console.warn('⚠️ Optional auth failed, continuing without user:', error);
+          console.warn('⚠️ Optional auth failed, continuing without user');
+          // Don't log error details in production
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn('⚠️ Error details:', {
+              message: (error as any).message,
+              code: (error as any).code
+            });
+          }
         }
       }
     }
-    
+
     next();
   } catch (error) {
-    console.error('💥 Optional auth middleware error:', error);
+    console.error('💥 Optional auth middleware error');
+    // Don't expose error details in production
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(error);
+    }
     next(); // Continue even if optional auth fails
   }
 };

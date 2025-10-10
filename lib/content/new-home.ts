@@ -177,19 +177,19 @@ export const newHomeContent = {
     title: 'Készen állsz működő stratégiákra?',
     subtitle: 'Fedezd fel masterclassainkat, ismerd meg szakértőinket, vagy kezdj egy ingyenes tanácsadással.',
     buttons: [
-      { 
-        text: 'Masterclassok felfedezése', 
-        href: '/masterclasses', 
+      {
+        text: 'Masterclassok felfedezése',
+        href: '/masterclass',
         variant: 'primary' as const,
       },
-      { 
-        text: 'Céges megoldások', 
-        href: '/cegeknek', 
+      {
+        text: 'Céges megoldások',
+        href: '/cegeknek',
         variant: 'secondary' as const,
       },
-      { 
-        text: 'Ingyenes Audit Kérése', 
-        href: '/audit', 
+      {
+        text: 'Díjmentes audit',
+        href: '/dijmentes-audit',
         variant: 'outline' as const,
       },
     ],

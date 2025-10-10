@@ -2,6 +2,8 @@ import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import express from 'express';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 // Initialize Firebase Admin
 if (process.env.NODE_ENV !== 'production') {
@@ -22,8 +24,108 @@ if (!admin.apps.length) {
 // Create Express app
 const app = express();
 
-// Middleware
-app.use(cors({ origin: true }));
+// CORS Configuration - Production-ready with whitelist
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? [
+      'https://elira.hu',
+      'https://www.elira.hu',
+      'https://elira-landing-ce927.web.app',
+      'https://elira-landing-ce927.firebaseapp.com'
+    ]
+  : [
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      'http://localhost:5000',
+      'http://127.0.0.1:5000'
+    ];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`🚫 CORS blocked request from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
+  maxAge: 600 // Cache preflight requests for 10 minutes
+}));
+
+// Rate Limiting Configuration - Production-ready
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per window per IP
+  message: { success: false, error: 'Too many requests, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 attempts per window
+  skipSuccessfulRequests: true,
+  message: { success: false, error: 'Too many authentication attempts, please try again later' }
+});
+
+const paymentLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // 10 payment sessions per hour
+  message: { success: false, error: 'Payment rate limit exceeded, please try again later' }
+});
+
+const subscribeLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 3, // 3 subscription attempts per minute
+  message: { success: false, error: 'Too many subscription requests' }
+});
+
+// Apply general rate limiter to all API routes
+app.use('/api/', apiLimiter);
+
+// Security Headers - Production-ready with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://js.stripe.com", "https://www.googletagmanager.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      connectSrc: [
+        "'self'",
+        "https://api.stripe.com",
+        "https://*.firebase.com",
+        "https://*.firebaseio.com",
+        "https://*.googleapis.com"
+      ],
+      frameSrc: ["'self'", "https://js.stripe.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
+    }
+  },
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true
+  },
+  frameguard: {
+    action: 'deny' // Prevent clickjacking
+  },
+  xssFilter: true, // Enable XSS filter
+  noSniff: true, // Prevent MIME type sniffing
+  referrerPolicy: {
+    policy: 'strict-origin-when-cross-origin'
+  }
+}));
 
 // Use express.raw for webhook with detailed logging
 app.use('/api/payment/webhook', (req, res, next) => {
@@ -52,7 +154,7 @@ app.use((req, res, next) => {
 });
 
 // Import middleware
-import { authenticateUser } from './middleware/auth';
+import { authenticateUser, optionalAuth } from './middleware/auth';
 import { verifyCourseAccess, optionalCourseAccess } from './middleware/courseAccess';
 
 // Import route handlers
@@ -158,13 +260,13 @@ import {
 } from './routes/settings';
 
 // Mount routes
-app.post('/api/subscribe', subscribeHandler);
+app.post('/api/subscribe', subscribeLimiter, subscribeHandler);
 app.post('/api/init-stats', initStats);
 
-// Auth routes
-app.post('/api/auth/register', registerHandler);
-app.post('/api/auth/google-callback', googleCallbackHandler);
-app.post('/api/user/update-login', updateLoginHandler);
+// Auth routes - with strict rate limiting
+app.post('/api/auth/register', authLimiter, registerHandler);
+app.post('/api/auth/google-callback', authLimiter, googleCallbackHandler);
+app.post('/api/user/update-login', authLimiter, updateLoginHandler);
 
 // User routes
 app.get('/api/user/profile', getProfileHandler);
@@ -184,9 +286,9 @@ app.get('/api/admin/dashboard-stats', authenticateUser, getDashboardStatsHandler
 app.get('/api/courses/:courseId/access-check', checkCourseAccessHandler);
 app.post('/api/courses/:courseId/enroll', enrollUserInCourseHandler);
 
-// Payment routes
-app.post('/api/payment/create-session', createSessionHandler);
-app.post('/api/payment/webhook', stripeWebhookHandler); // No auth for webhooks
+// Payment routes - with payment-specific rate limiting
+app.post('/api/payment/create-session', paymentLimiter, createSessionHandler);
+app.post('/api/payment/webhook', stripeWebhookHandler); // No auth/rate limit for webhooks (Stripe handles this)
 app.get('/api/payment/status/:sessionId', getPaymentStatusHandler);
 app.get('/api/payment/session/:sessionId', getSessionDetailsHandler);
 
@@ -247,7 +349,7 @@ app.get('/api/users/:userId/last-watched', authenticateUser, getLastWatchedHandl
 // Enrollment routes
 app.post('/api/enrollments', authenticateUser, createEnrollmentHandler);
 app.get('/api/enrollments', authenticateUser, getUserEnrollmentsHandler);
-app.get('/api/enrollments/check/:courseId', authenticateUser, checkEnrollmentHandler);
+app.get('/api/enrollments/check/:courseId', optionalAuth, checkEnrollmentHandler);
 
 // Admin migration routes
 app.post('/api/admin/migrate-user-enrollment', migrateUserEnrollment);
@@ -366,4 +468,15 @@ export {
 };
 
 // Export triggers
-export { onUserCreate } from './triggers/onUserCreate';
+// Temporarily commented out - onUserCreate converted to HTTP function
+// export { onUserCreate } from './triggers/onUserCreate';
+
+// Export scheduled functions
+export {
+  consultationReminder,
+  consultationReminderOneHour
+} from './scheduled/consultationReminder';
+export {
+  weeklyInsights,
+  triggerWeeklyInsightsManual
+} from './scheduled/weeklyInsights';

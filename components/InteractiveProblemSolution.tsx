@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { SectionHeader } from "./ui/SectionHeader";
+import Link from "next/link";
 
 const problems = [
   {
@@ -113,26 +114,30 @@ export function InteractiveProblemSolution() {
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <Button
-            size="lg"
-            className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-base font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>Próbáld ki ingyen</span>
-          </Button>
+          <Link href="/dijmentes-audit">
+            <Button
+              size="lg"
+              className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-base font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Díjmentes audit</span>
+            </Button>
+          </Link>
 
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-2 border-gray-900 text-gray-900 hover:bg-gray-50 px-8 py-6 text-base font-medium rounded-lg transition-all duration-200"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <span>Masterclassok felfedezése</span>
-          </Button>
+          <Link href="/masterclass">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-gray-900 text-gray-900 hover:bg-gray-50 px-8 py-6 text-base font-medium rounded-lg transition-all duration-200"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              <span>Masterclassok felfedezése</span>
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

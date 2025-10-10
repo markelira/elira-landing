@@ -8,6 +8,7 @@ interface SectionHeaderProps {
   description?: string;
   alignment?: 'left' | 'center';
   className?: string;
+  variant?: 'light' | 'dark';
 }
 
 export function SectionHeader({
@@ -15,10 +16,13 @@ export function SectionHeader({
   title,
   description,
   alignment = 'center',
-  className = ''
+  className = '',
+  variant = 'light'
 }: SectionHeaderProps) {
   const alignClass = alignment === 'center' ? 'text-center' : 'text-left';
   const maxWidthClass = alignment === 'center' ? 'max-w-4xl mx-auto' : 'max-w-4xl';
+
+  const isDark = variant === 'dark';
 
   return (
     <motion.div
@@ -30,23 +34,31 @@ export function SectionHeader({
     >
       {eyebrow && (
         <motion.div
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-xl rounded-full border border-gray-200/60 shadow-sm mb-6"
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border shadow-sm mb-6 ${
+            isDark
+              ? 'bg-white/10 backdrop-blur-xl border-white/20'
+              : 'bg-white/90 backdrop-blur-xl border-gray-200/60'
+          }`}
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}
+          style={{ boxShadow: isDark ? '0 2px 8px rgba(0, 0, 0, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.04)' }}
         >
-          <div className="w-1.5 h-1.5 bg-gray-500 rounded-full" />
-          <span className="text-gray-700 text-sm font-medium">{eyebrow}</span>
+          <div className={`w-1.5 h-1.5 rounded-full ${isDark ? 'bg-white/60' : 'bg-gray-500'}`} />
+          <span className={`text-sm font-medium ${isDark ? 'text-white/80' : 'text-gray-700'}`}>{eyebrow}</span>
         </motion.div>
       )}
 
-      <h2 className={`text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-6 ${maxWidthClass}`}>
+      <h2 className={`text-4xl lg:text-5xl font-semibold leading-tight mb-6 ${maxWidthClass} ${
+        isDark ? 'text-white' : 'text-gray-900'
+      }`}>
         {title}
       </h2>
 
       {description && (
-        <p className={`text-lg text-gray-600 leading-relaxed ${maxWidthClass}`}>
+        <p className={`text-lg leading-relaxed ${maxWidthClass} ${
+          isDark ? 'text-white/80' : 'text-gray-600'
+        }`}>
           {description}
         </p>
       )}

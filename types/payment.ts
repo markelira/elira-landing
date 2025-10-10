@@ -25,9 +25,9 @@ export interface CreateSessionResponse {
 
 export const COURSE_CONFIG = {
   title: '3x több érdeklődő - vállalkozói vevőpszichológia masterclass',
-  price: 49990,
+  price: 89990,
   currency: 'HUF' as const,
   description: 'Teljes Grand Slam ajánlat: masterclass + 3 bundle + 3 bónusz + tripla garancia',
-  stripePriceId: 'price_1S0MvyHhqyKpFIBMQdiSPodM',
+  stripePriceId: 'price_1SGGmxHhqyKpFIBM2f3kM13h',
   stripeProductId: 'prod_SwFQ50r0KCrxss'
 };

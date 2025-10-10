@@ -5,11 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../contexts/AuthContext';
 import { paymentApi } from '@/lib/payment';
 import AuthWrapper from '../../../components/auth/AuthWrapper';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function PaymentSuccessPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, refreshUser } = useAuth();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'failed'>('pending');
@@ -30,10 +32,24 @@ export default function PaymentSuccessPage() {
         
         if (status.success) {
           setPaymentStatus(status.status);
-          
+
           if (status.courseAccess) {
             // Refresh user data to get updated course access
             await refreshUser();
+
+            // Invalidate React Query caches to ensure dashboard shows correct enrollment state
+            console.log('[Payment Success] Invalidating React Query caches for user:', user?.id);
+            queryClient.invalidateQueries({ queryKey: ['userProgress'] });
+            queryClient.invalidateQueries({ queryKey: ['enrollment'] });
+
+            // Force refetch userProgress with current user ID
+            if (user?.id) {
+              await queryClient.refetchQueries({
+                queryKey: ['userProgress', user.id],
+                exact: true
+              });
+            }
+            console.log('[Payment Success] Cache invalidation complete');
           }
         } else {
           setError(status.error || 'Fizetés ellenőrzése sikertelen');
@@ -47,7 +63,7 @@ export default function PaymentSuccessPage() {
     };
 
     verifyPayment();
-  }, [sessionId, refreshUser]);
+  }, [sessionId, refreshUser, queryClient, user?.id]);
 
   const handleContinueToCourse = () => {
     router.push('/dashboard/course');

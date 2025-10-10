@@ -46,7 +46,7 @@ export function HowItWorksSection() {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center space-y-4 mb-16">
-          <span className="inline-block px-3 py-1 bg-blue-100 text-blue rounded-full text-sm"
+          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
             Hogyan működik
           </span>
           <h2 className="text-3xl lg:text-4xl text-gray-900">

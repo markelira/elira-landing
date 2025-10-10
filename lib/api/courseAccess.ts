@@ -9,7 +9,7 @@ interface CourseAccessResponse {
 
 // Use same Firebase Functions URL as course data
 const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development'
-  ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
+  ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
   : 'https://api-5k33v562ya-ew.a.run.app/api';
 
 export const checkCourseAccess = async (

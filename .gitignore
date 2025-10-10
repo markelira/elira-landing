@@ -55,3 +55,12 @@ serviceAccountKey.json
 # Data Connect
 dataconnect-generated/
 .dataconnect/
+# Firebase Emulator Data
+firestore-export/
+
+# Sentry
+.sentryclirc
+sentry.properties
+
+# Sentry Auth Token
+.env.sentry-build-plugin

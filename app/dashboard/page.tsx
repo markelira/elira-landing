@@ -4,15 +4,12 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useUserProgress } from '@/hooks/useUserProgress'
-import { useTrendingCourses } from '@/hooks/useCoursesCatalog'
 import { Button } from '@/components/ui/button'
 import { featuredMasterclass } from '@/components/FeaturedMasterclassSpotlight'
 import { Card } from '@/components/ui/Card'
 import { ProgressBar } from '@/components/ui/ProgressBar'
-import { UniversalCourseCard } from '@/components/course/UniversalCourseCard'
 import { DashboardRoleRedirect } from '@/components/RoleBasedRedirect'
 import PurchaseButton from '@/components/course/PurchaseButton'
-import type { CourseData, EnrollmentData } from '@/components/course/UniversalCourseCard'
 import Image from 'next/image'
 import {
   BookOpen,
@@ -27,15 +24,14 @@ import {
 } from 'lucide-react'
 
 // Phase 2: Dashboard enhancement components
-import { ConsultationCard } from '@/components/dashboard/ConsultationCard'
 import { TemplateLibrary } from '@/components/dashboard/TemplateLibrary'
-import { JourneyTimeline } from '@/components/dashboard/JourneyTimeline'
-import { ResultsTracker } from '@/components/dashboard/ResultsTracker'
+import { CourseQuickAccess } from '@/components/dashboard/CourseQuickAccess'
+// Phase 3: Premium features
+import { LearningPathVisualizer } from '@/components/dashboard/LearningPathVisualizer'
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth()
   const { data: progressData, isLoading } = useUserProgress()
-  const { data: catalogData, isLoading: coursesLoading } = useTrendingCourses(6, 'popular')
   const router = useRouter()
 
   // Redirect to auth if not logged in
@@ -45,7 +41,7 @@ export default function DashboardPage() {
     }
   }, [user, authLoading, router])
 
-  const isPageLoading = authLoading || isLoading || coursesLoading
+  const isPageLoading = authLoading || isLoading
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600)
@@ -53,53 +49,6 @@ export default function DashboardPage() {
     return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
   }
 
-  // Get available courses (excluding enrolled ones)
-  const availableCourses = React.useMemo(() => {
-    if (!catalogData?.courses) return [];
-    
-    const enrolledCourseIds = progressData?.enrolledCourses?.map(c => c.courseId) || [];
-    
-    return catalogData.courses
-      .filter(course => !course.isEnrolled && !enrolledCourseIds.includes(course.id))
-      .slice(0, 3) // Show only 3 available courses
-      .map((catalogCourse): CourseData => ({
-        id: catalogCourse.id,
-        title: catalogCourse.title,
-        description: catalogCourse.description,
-        thumbnail: catalogCourse.thumbnailUrl,
-        instructor: {
-          firstName: catalogCourse.instructor.firstName,
-          lastName: catalogCourse.instructor.lastName,
-          title: 'Oktató'
-        },
-        category: catalogCourse.category,
-        price: 9990, // Use consistent pricing
-        currency: 'HUF',
-        duration: 480, // 8 hours default
-        lessonsCount: 24, // Default lesson count
-        studentsCount: catalogCourse.enrollmentCount,
-        rating: catalogCourse.averageRating,
-        level: catalogCourse.difficulty === 'EXPERT' ? 'ADVANCED' : catalogCourse.difficulty,
-        status: 'PUBLISHED' as const
-      }));
-  }, [catalogData, progressData])
-
-  // Mock enrollment data (check if user is enrolled in any featured courses)
-  const getEnrollmentData = (courseId: string): EnrollmentData | undefined => {
-    const enrolledCourse = progressData?.enrolledCourses?.find(c => c.courseId === courseId)
-    if (enrolledCourse) {
-      return {
-        isEnrolled: true,
-        progressPercentage: enrolledCourse.progressPercentage,
-        completedLessons: enrolledCourse.completedLessons,
-        totalLessons: enrolledCourse.totalLessons,
-        lastAccessedAt: enrolledCourse.lastActivityAt || undefined,
-        nextLessonId: enrolledCourse.nextLessonId,
-        isCompleted: enrolledCourse.isCompleted
-      }
-    }
-    return { isEnrolled: false }
-  }
 
   if (isPageLoading) {
     return (
@@ -125,118 +74,88 @@ export default function DashboardPage() {
     )
   }
 
+  // Check if user has any enrollments
+  const hasEnrollments = progressData?.enrolledCourses && progressData.enrolledCourses.length > 0;
+
   return (
     <div className="min-h-screen bg-white">
       <DashboardRoleRedirect />
       <div className="px-6 py-8">
         <div className="max-w-6xl mx-auto space-y-8">
-          
+
           {/* Welcome Header */}
           <div className="border-b border-gray-200 pb-6">
             <h1 className="text-3xl font-semibold text-gray-900 mb-2">
               Üdvözöljük, {user?.firstName || user?.email?.split('@')[0]}
             </h1>
             <p className="text-base text-gray-600">
-              Itt követheti nyomon a tanulási előrehaladását és hozzáférhet a masterclass anyagokhoz
+              {hasEnrollments
+                ? 'Itt követheti nyomon a tanulási előrehaladását és hozzáférhet a masterclass anyagokhoz'
+                : 'Fedezze fel szakértői masterclass programjainkat és kezdje el tanulási útját'
+              }
             </p>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-2">Masterclass beiratkozások</p>
-                  <p className="text-3xl font-semibold text-gray-900">
-                    {progressData?.totalCourses || 0}
-                  </p>
+          {/* Stats Cards - Only show for enrolled users */}
+          {hasEnrollments && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">Masterclass beiratkozások</p>
+                    <p className="text-3xl font-semibold text-gray-900">
+                      {progressData?.totalCourses || 0}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-6 h-6 text-gray-700" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-gray-700" />
+              </Card>
+
+              <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">Befejezett programok</p>
+                    <p className="text-3xl font-semibold text-gray-900">
+                      {progressData?.completedCourses || 0}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-gray-700" />
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
 
-            <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-2">Befejezett programok</p>
-                  <p className="text-3xl font-semibold text-gray-900">
-                    {progressData?.completedCourses || 0}
-                  </p>
+              <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">Tanulási idő</p>
+                    <p className="text-3xl font-semibold text-gray-900">
+                      {formatTime(progressData?.totalLearningTime || 0)}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-gray-700" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-gray-700" />
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-2">Tanulási idő</p>
-                  <p className="text-3xl font-semibold text-gray-900">
-                    {formatTime(progressData?.totalLearningTime || 0)}
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-gray-700" />
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          {/* Phase 2: Engagement Features - Only show for enrolled users */}
-          {progressData?.enrolledCourses && progressData.enrolledCourses.length > 0 && (
-            <>
-              {/* Journey Timeline & Consultation Card */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <JourneyTimeline />
-                <ConsultationCard />
-              </div>
-
-              {/* Template Library */}
-              <TemplateLibrary />
-
-              {/* Results Tracker */}
-              <ResultsTracker />
-            </>
-          )}
-
-          {/* Available Courses Section */}
-          {availableCourses.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Elérhető programok
-                </h2>
-                <Button
-                  onClick={() => router.push('/courses')}
-                  variant="outline"
-                  size="sm"
-                  className="gap-2 text-gray-700 hover:text-gray-900 rounded-lg"
-                >
-                  Összes program
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {availableCourses.map((course) => (
-                  <UniversalCourseCard
-                    key={course.id}
-                    course={course}
-                    enrollment={{ isEnrolled: false }}
-                    variant="featured"
-                    onEnroll={(courseId) => router.push(`/courses/${courseId}`)}
-                  />
-                ))}
-              </div>
+              </Card>
             </div>
           )}
 
+          {/* Phase 2 & 3: Engagement Features - Only show for enrolled users */}
+          {hasEnrollments && (
+            <>
+              {/* Course Quick Access - Full Width */}
+              <CourseQuickAccess />
+
+              {/* Template Library - Full Width */}
+              <TemplateLibrary />
+            </>
+          )}
+
           {/* Continue Learning Section */}
-          {progressData?.enrolledCourses && progressData.enrolledCourses.length > 0 ? (
+          {hasEnrollments ? (
             <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold text-gray-900">
@@ -298,7 +217,27 @@ export default function DashboardPage() {
             </div>
           ) : (
             /* Masterclass Featured Offer Card when not enrolled */
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <>
+              {/* Professional capacity notice */}
+              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Kiemelt Masterclass
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      A személyre szabott rendszer és egyéni támogatás biztosítása érdekében
+                      az októberi beiratkozás maximum 15 főre limitált.
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 px-4 py-2 bg-gray-50 rounded-lg border border-gray-200">
+                    <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Kapacitás</p>
+                    <p className="text-base font-semibold text-gray-900">Max. 15 fő</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 {/* Image Side */}
                 <div className="relative h-64 lg:h-auto min-h-[400px]">
@@ -356,7 +295,11 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
+            </>
           )}
+
+          {/* Learning Path Visualizer - Only show for non-enrolled users */}
+          {!hasEnrollments && <LearningPathVisualizer />}
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

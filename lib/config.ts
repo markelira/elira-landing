@@ -160,10 +160,10 @@ export const developmentConfig = {
 export const getFirebaseFunctionsURL = (): string => {
   const isDevelopment = process.env.NODE_ENV === 'development'
   const useEmulators = process.env.USE_FIREBASE_EMULATORS === 'true'
-  
-  return process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
+
+  return process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL ||
          (isDevelopment && useEmulators
-           ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api'
+           ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
            : 'https://api-5k33v562ya-ew.a.run.app')
 }
 

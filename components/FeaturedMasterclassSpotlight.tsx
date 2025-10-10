@@ -3,11 +3,13 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import Image from "next/image";
+import PurchaseButton from "@/components/course/PurchaseButton";
+import PremiumZoliIntroduction from "@/components/sales/PremiumZoliIntroduction";
 
 // The one featured masterclass
 export const featuredMasterclass = {
   id: 'ai-copywriting-course',
-  title: '30 nap - működő marketing rendszer',
+  title: 'Olvass a vevőid gondolataiban',
   subtitle: 'Kutatás-alapú kampányok, konkrét eredmények',
   description: '30 nap múlva minden marketing szöveged konkrét piackutatáson fog alapulni, nem találgatáson. Pontosan tudni fogod, milyen fájdalompontokat kell megszólítanod, milyen nyelvet használj, és hogyan írj ajánlatokat, amik után a vevők jelentkeznek. Működő kampánysablonokkal, amik a te termékedre vannak szabva - nem általános elméletekkel.',
   duration: 30, // 30 days
@@ -59,9 +61,10 @@ export function FeaturedMasterclassSpotlight() {
   };
 
   return (
-    <section ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-white to-blue-50/30 pointer-events-none" />
+    <>
+      <section ref={sectionRef} className="py-16 sm:py-24 bg-white relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-white to-blue-50/30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         {/* Header with Badge */}
@@ -86,9 +89,19 @@ export function FeaturedMasterclassSpotlight() {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="relative"
         >
+          {/* Title and Description - Above Image */}
+          <div className="mb-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+              {featuredMasterclass.title}
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-3xl">
+              {featuredMasterclass.subtitle}
+            </p>
+          </div>
+
           {/* Large Feature Image with Liquid Glass Overlay */}
           <div className="relative rounded-2xl overflow-hidden bg-gray-900 mb-12 shadow-2xl">
-            <div className="relative h-[400px] lg:h-[500px]">
+            <div className="relative h-[350px] sm:h-[400px] lg:h-[500px]">
               <Image
                 src={featuredMasterclass.thumbnailUrl}
                 alt={featuredMasterclass.title}
@@ -106,39 +119,32 @@ export function FeaturedMasterclassSpotlight() {
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-              {/* Content over image */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
+              {/* Content over image - Only Stats Badges */}
+              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-12">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
-                  <h2 className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                    {featuredMasterclass.title}
-                  </h2>
-                  <p className="text-xl text-gray-200 mb-6 max-w-3xl">
-                    {featuredMasterclass.subtitle}
-                  </p>
-
                   {/* Stats Row - Top 3 Value Props */}
-                  <div className="flex flex-wrap gap-6 mb-8">
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6">
+                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20">
+                      <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-white font-semibold">Működő rendszer 30 nap alatt</span>
+                      <span className="text-white text-sm sm:text-base font-semibold">Működő rendszer 30 nap alatt</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20">
+                      <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                       </svg>
-                      <span className="text-white font-semibold">Kutatás-alapú, nem találgatás</span>
+                      <span className="text-white text-sm sm:text-base font-semibold">Kutatás-alapú, nem találgatás</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20">
+                      <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
-                      <span className="text-white font-semibold">Pénzvisszafizetési garancia</span>
+                      <span className="text-white text-sm sm:text-base font-semibold">Pénzvisszafizetési garancia</span>
                     </div>
                   </div>
                 </motion.div>
@@ -302,9 +308,16 @@ export function FeaturedMasterclassSpotlight() {
                 </div>
 
                 <div className="space-y-3 mb-6">
-                  <button className="w-full px-6 py-4 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
-                    Működő marketing rendszer 30 nap alatt
-                  </button>
+                  <PurchaseButton
+                    courseId={featuredMasterclass.id}
+                    course={{
+                      id: featuredMasterclass.id,
+                      title: featuredMasterclass.title,
+                      price: featuredMasterclass.price,
+                      currency: 'HUF'
+                    }}
+                    className="w-full"
+                  />
                   <button className="w-full px-6 py-3 bg-purple-500/30 text-white rounded-lg font-semibold hover:bg-purple-500/40 transition-colors border border-purple-400/30">
                     Program és garancia részletei
                   </button>
@@ -322,5 +335,9 @@ export function FeaturedMasterclassSpotlight() {
         </motion.div>
       </div>
     </section>
+
+    {/* Zoli Introduction Section */}
+    <PremiumZoliIntroduction />
+    </>
   );
 }

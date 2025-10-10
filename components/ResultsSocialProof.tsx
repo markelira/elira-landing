@@ -39,7 +39,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
       }}
       className="h-full"
     >
-      <div className={`bg-white border-l-4 ${roleColors} border-t border-r border-b border-gray-200 p-10 h-full flex flex-col`}>
+      <div className={`bg-white border-l-4 ${roleColors} border-t border-r border-b border-gray-200 p-6 sm:p-8 lg:p-10 h-full flex flex-col`}>
         {/* Author Info - McKinsey style: credentials first */}
         <div className="flex items-start gap-5 mb-8 pb-8 border-b border-gray-100">
           <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-gray-100 ring-1 ring-gray-200">
@@ -97,7 +97,7 @@ export function ResultsSocialProof({ showTestimonials = true, maxTestimonials = 
   const displayedTestimonials = realTestimonials.slice(0, maxTestimonials);
 
   return (
-    <section className="py-24 lg:py-32 bg-white relative">
+    <section className="py-16 sm:py-24 lg:py-32 bg-white relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <SectionHeader
@@ -129,7 +129,7 @@ export function ResultsSocialProof({ showTestimonials = true, maxTestimonials = 
         </motion.div>
 
         {/* Testimonials Grid - increased spacing */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {showTestimonials && displayedTestimonials.map((testimonial, index) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
           ))}
