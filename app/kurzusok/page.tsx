@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import FloatingNavbar from '@/components/FloatingNavbar';
+import { PremiumHeader } from '@/components/PremiumHeader';
 import Footer from '@/components/Footer';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
 import { PerformanceProvider } from '@/components/PerformanceProvider';
@@ -21,7 +21,7 @@ export default function KurzusokPage() {
   return (
     <PerformanceProvider>
       <ScrollProgressIndicator />
-      <FloatingNavbar />
+      <PremiumHeader />
       <main className="pt-16 md:pt-0">
         <SalesHero />
         <CourseDetailsSection />

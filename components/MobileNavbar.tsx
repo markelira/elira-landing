@@ -23,6 +23,7 @@ export function MobileNavbar({ links }: MobileNavbarProps) {
   const defaultLinks: NavLink[] = [
     { label: 'Díjmentes audit', href: '/dijmentes-audit' },
     { label: 'Masterclass', href: '/masterclass' },
+    { label: 'Rólunk', href: '/rolunk' },
   ];
 
   const navigationLinks = links || defaultLinks;

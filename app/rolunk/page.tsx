@@ -1,386 +1,695 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import FloatingNavbar from '@/components/FloatingNavbar';
-import Footer from '@/components/Footer';
-import { BookOpen, Wrench, Target, Users, Award } from 'lucide-react';
-import Link from 'next/link';
-import TestimonialsSection from '@/components/sales/TestimonialsSection';
+import { motion } from 'motion/react';
+import { PremiumHeader } from '@/components/PremiumHeader';
+import { PremiumFooter } from '@/components/PremiumFooter';
+import { TrendingUp, Target, Users, Zap, Shield, BookOpen } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F8F7F5' }}>
-      <FloatingNavbar />
-      
-      {/* Hero Section - Academic Harvard/Yale Style */}
-      <section className="relative py-12 sm:py-20 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-stone-50 to-amber-50/30" />
-        
-        {/* Academic Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <svg width="100%" height="100%" viewBox="0 0 100 100" className="absolute inset-0">
-            <pattern id="academic-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-              <circle cx="10" cy="10" r="0.5" fill="currentColor"/>
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#academic-grid)" />
-          </svg>
-        </div>
-        
-        {/* Elegant Border Frame */}
-        <div className="absolute inset-4 border border-amber-300/20 rounded-lg pointer-events-none"></div>
-        <div className="absolute inset-8 border border-amber-400/10 rounded pointer-events-none"></div>
-        
-        <div className="relative z-10 container max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20 xl:py-28">
-          <div className="text-center max-w-4xl mx-auto">
-            
-            {/* Academic Header with Decorative Elements */}
-            <div className="mb-8 sm:mb-12">
-              {/* Decorative Top Line */}
-              <div className="flex items-center justify-center mb-6 sm:mb-8">
-                <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent w-16 sm:w-24"></div>
-                <div className="mx-3 sm:mx-4">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-600/60 rounded-full"></div>
-                </div>
-                <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent w-16 sm:w-24"></div>
-              </div>
-              
-              {/* Academic Badge */}
+    <div className="min-h-screen">
+      <PremiumHeader />
+
+      {/* Hero Section */}
+      <section
+        className="relative min-h-screen overflow-hidden -mt-20 pt-20"
+        style={{
+          background: 'linear-gradient(to bottom, #16222F 0%, #466C95 100%)'
+        }}
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 lg:py-24 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start min-h-[80vh]">
+
+            {/* Left Column */}
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+              {/* Badge */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-amber-100/80 border border-amber-300/50 rounded-sm text-xs font-medium tracking-widest text-amber-900 uppercase mb-6 sm:mb-8"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <span>ELIRA KÖTELESSÉGE</span>
+                <div className="inline-flex flex-wrap items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm"
+                     style={{
+                       background: 'rgba(255, 255, 255, 0.1)',
+                       backdropFilter: 'blur(20px) saturate(150%)',
+                       WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+                       border: '1px solid rgba(255, 255, 255, 0.2)',
+                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                     }}>
+                  <div className="flex items-center gap-2">
+                    <Target className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                    <span className="font-semibold text-white">Küldetésünk</span>
+                  </div>
+                  <div className="h-4 w-px bg-white/20 hidden sm:block"></div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-white/90">Alapítva 2025-ben</span>
+                  </div>
+                </div>
               </motion.div>
-              
-              {/* Title - Academic Typography */}
-              <motion.h1
+
+              {/* Main Headlines */}
+              <motion.div
+                className="space-y-4 sm:space-y-6"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light leading-tight mb-6 sm:mb-8 text-slate-900 px-2 sm:px-0"
+                transition={{ duration: 0.8, delay: 0.1 }}
               >
-                <span className="font-serif tracking-tight">
-                  Minden magyar számára elérhetővé tesszük<br />
-                  az egyetemi oktatást
-                </span>
-              </motion.h1>
-              
-              {/* Description - Academic Style */}
-              <div className="max-w-3xl mx-auto mb-8 sm:mb-12 px-2 sm:px-0">
-                <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent mb-6"></div>
-                <motion.p
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="text-sm sm:text-base lg:text-lg text-slate-700 leading-relaxed font-light italic mb-4 sm:mb-6"
-                >
-                  Anélkül, hogy vissza kellene ülni az iskolapadba
-                </motion.p>
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="text-slate-700 font-light mb-4 sm:mb-6"
-                >
-                  <p className="mb-3 font-medium text-slate-900">A célunk:</p>
-                  <p className="leading-relaxed">
-                    mindenki számára <span className="font-medium text-amber-700">egyenlő esélyt teremteni</span> a karrierfejlődésben, háttérétől függetlenül.
-                  </p>
-                </motion.div>
-                <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent mt-6"></div>
-              </div>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.1] text-white">
+                  Átvisszük a tudást
+                  <br />
+                  <span className="text-white">végrehajtásba</span>
+                </h1>
+
+                <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed">
+                  Felgyorsítjuk a magyar vállalkozások növekedését azzal, hogy megszüntetjük a tanulás és az alkalmazás közötti szakadékot. Tiszta megközelítés. Gyakorlati fókusz. Azonnal használható stratégiák és implementáció.
+                </p>
+              </motion.div>
+
+              {/* Trust Stats */}
+              <motion.div
+                className="pt-4 sm:pt-6 lg:pt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <div className="flex flex-wrap gap-6 sm:gap-8 lg:gap-12">
+                  <div className="flex items-center gap-2 text-white/90">
+                    <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm font-semibold">Alkalmazható tudás</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/90">
+                    <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span className="text-sm font-semibold">Gyors eredmények</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/90">
+                    <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm font-semibold">Gyakorlati fókusz</span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-            
-            {/* Academic Button */}
+
+            {/* Right Column */}
+            <motion.div
+              className="relative mt-8 lg:mt-0 space-y-8 lg:pt-16"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              {/* Main Card */}
+              <div className="relative rounded-2xl sm:rounded-[32px] p-3 sm:p-4"
+                   style={{
+                     background: 'rgba(255, 255, 255, 0.05)',
+                     backdropFilter: 'blur(40px) saturate(180%)',
+                     WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                     border: '1px solid rgba(255, 255, 255, 0.18)',
+                     boxShadow: `
+                       0 8px 32px 0 rgba(0, 0, 0, 0.2),
+                       inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+                       inset 0 -1px 0 0 rgba(0, 0, 0, 0.1)
+                     `
+                   }}>
+
+                <div className="rounded-[24px] overflow-hidden relative bg-white/10 aspect-[4/3]"
+                     style={{
+                       boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.2)'
+                     }}>
+                  <Image
+                    src="/rolunk-hero.png"
+                    alt="Elira founders working together"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* Floating Badges */}
+                <motion.div
+                  className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl flex"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.12)',
+                    backdropFilter: 'blur(20px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.25)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                  }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-white font-semibold text-xs sm:text-sm">DWY / DFY</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute -bottom-2 sm:-bottom-3 -left-2 sm:-left-3 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.12)',
+                    backdropFilter: 'blur(20px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.25)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                  }}
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <BookOpen className="w-3 h-3 sm:w-4 sm:h-4 text-blue-300" />
+                    <span className="text-white font-semibold text-xs sm:text-sm">Masterclass platform</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute top-8 -left-6 px-4 py-2.5 rounded-xl hidden lg:flex"
+                  style={{
+                    background: 'rgba(139, 92, 246, 0.25)',
+                    backdropFilter: 'blur(20px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+                    border: '1.5px solid rgba(167, 139, 250, 0.3)',
+                    boxShadow: '0 8px 24px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                  }}
+                  animate={{ x: [-3, 3, -3] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-purple-200" />
+                    <span className="text-white font-semibold text-xs">Implementáció</span>
+                  </div>
+                </motion.div>
+
+                <div className="absolute inset-0 rounded-[32px] pointer-events-none"
+                     style={{
+                       background: 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08), transparent 70%)'
+                     }} />
+              </div>
+
+              {/* Founders */}
+              <div className="mt-8 lg:mt-12">
+                <p className="text-xs sm:text-sm text-white/60 mb-4 sm:mb-6 font-medium text-center">
+                  Az alapítók
+                </p>
+
+                <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 lg:gap-10">
+                  <div className="flex flex-col items-center space-y-2 opacity-80 hover:opacity-100 transition-opacity duration-300">
+                    <div className="h-12 w-12 border border-white/20 rounded-xl overflow-hidden relative">
+                      <Image
+                        src="/MARK1.png"
+                        alt="Márk - Co-founder"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-white font-medium text-sm">Márk</div>
+                      <div className="text-white/60 text-xs">Co-founder</div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center space-y-2 opacity-80 hover:opacity-100 transition-opacity duration-300">
+                    <div className="h-12 w-12 border border-white/20 rounded-xl overflow-hidden relative">
+                      <Image
+                        src="/ARON1.jpeg"
+                        alt="Áron - Co-founder"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-white font-medium text-sm">Áron</div>
+                      <div className="text-white/60 text-xs">Co-founder</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Our Impact */}
+      <section className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-gray-900 to-gray-800 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-white mb-4 sm:mb-6 tracking-tight">
+                Alapítva 2025-ben. Már ma hatással vagyunk.
+              </h2>
+              <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+                Indulás óta folyamatosan építjük a hidat a tudás és a végrehajtás között magyar vállalkozásoknak.
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col items-center space-y-6"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-center"
             >
-              <button className="mobile-btn academic-button inline-flex items-center justify-center px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-sm transition-all duration-300 bg-academic-slate-700 text-white border border-academic-slate-800 hover:bg-academic-slate-800 hover:shadow-lg transform hover:-translate-y-1 uppercase tracking-wide w-full sm:w-auto">
-                <BookOpen className="w-5 h-5 mr-3" />
-                ISMERD MEG A KÜLDETÉSÜNKET
-              </button>
-            </motion.div>
-            
-            {/* Bottom Academic Decoration */}
-            <div className="flex items-center justify-center mt-12">
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent w-32"></div>
-              <div className="mx-6 flex space-x-2">
-                <div className="w-1.5 h-1.5 bg-amber-600/60 rounded-full"></div>
-                <div className="w-1.5 h-1.5 bg-amber-600/40 rounded-full"></div>
-                <div className="w-1.5 h-1.5 bg-amber-600/60 rounded-full"></div>
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
+                3
               </div>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent w-32"></div>
-            </div>
+              <div className="text-sm sm:text-base text-white/60 font-medium">
+                Vállalkozási szint
+              </div>
+              <div className="text-xs sm:text-sm text-white/50 mt-2">
+                Startupoktól középvállalatokig
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
+                30-90
+              </div>
+              <div className="text-sm sm:text-base text-white/60 font-medium">
+                Perc az eredményig
+              </div>
+              <div className="text-xs sm:text-sm text-white/50 mt-2">
+                Mikrokurzusoknál
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
+                1 hónap
+              </div>
+              <div className="text-sm sm:text-base text-white/60 font-medium">
+                Működő rendszer
+              </div>
+              <div className="text-xs sm:text-sm text-white/50 mt-2">
+                Integrált programoknál
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Academic Knowledge Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6" style={{ backgroundColor: '#F8F7F5' }}>
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            {/* Academic Section Header */}
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-6"></div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-slate-900 mb-4 sm:mb-6 font-serif px-2 sm:px-0">
-              A gyakorlati <span className="text-amber-700 font-medium">tudás hiánya</span>
-            </h2>
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-6 mb-12"></div>
-            
-            {/* Academic Content Card */}
-            <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-4 sm:p-8 shadow-sm max-w-4xl mx-auto">
-              <div className="space-y-8 text-left">
-                <div className="border-l-3 border-amber-600/50 pl-6">
-                  <p className="text-slate-700 leading-relaxed font-light">
-                    <span className="font-medium text-amber-700 uppercase tracking-wider text-sm">Felismerés:</span><br />
-                    Az egyetemek kiváló elméleti alapokat adnak, de a piaci gyakorlat gyakran más készségeket igényel.
-                  </p>
-                </div>
-                <div className="border-l-3 border-amber-600/50 pl-6">
-                  <p className="text-slate-700 leading-relaxed font-light">
-                    <span className="font-medium text-amber-700 uppercase tracking-wider text-sm">Kihívás:</span><br />
-                    A friss diplomások rendelkeznek tudással, de nem mindig gyakorlati tapasztalattal és alkalmazható készségekkel.
-                  </p>
-                </div>
-                <div className="border-l-3 border-amber-600/50 pl-6">
-                  <p className="text-slate-700 leading-relaxed font-light">
-                    <span className="font-medium text-amber-700 uppercase tracking-wider text-sm">Megoldás:</span><br />
-                    Mi áthidaljuk ezt a szakadékot gyakorlati, alkalmazható képzésekkel.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {/* The Problem We Solve */}
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-3xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-4 sm:mb-6 tracking-tight">
+                Miért létezünk
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Magyar vállalkozások befektetnek tanulásba, de a tudás nem konvertálódik eredményre. Megszüntetjük ezt a szakadékot.
+              </p>
+            </motion.div>
+          </div>
 
-          {/* Academic Comparison */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-gradient-to-br from-amber-50/60 to-stone-50/60 rounded border-2 border-amber-300/30 p-8 shadow-md"
-          >
-            <div className="text-center mb-8">
-              <h3 className="text-xl font-serif font-light text-slate-900 mb-4">
-                Együttműködés, nem verseny
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-6 sm:p-8 border border-red-100"
+            >
+              <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Elméleti tudás, nincs alkalmazás
               </h3>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent"></div>
-            </div>
-            
-            <div className="grid lg:grid-cols-2 gap-8">
-              {/* Left - University strengths */}
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <div className="flex items-center gap-3 text-amber-700 mb-6">
-                  <BookOpen className="w-5 h-5" />
-                  <h4 className="font-serif font-medium text-slate-900">Egyetemi oktatás erősségei</h4>
-                </div>
-                <ul className="space-y-3 text-slate-700">
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Mély elméleti tudás</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Tudományos módszertan</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Kritikai gondolkodás</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Akadémiai hitelesség</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Szisztematikus tanulás</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Right - Elira strengths */}
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <div className="flex items-center gap-3 text-amber-700 mb-6">
-                  <Wrench className="w-5 h-5" />
-                  <h4 className="font-serif font-medium text-slate-900">ELIRA kiegészítő szerepe</h4>
-                </div>
-                <ul className="space-y-3 text-slate-700">
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Gyakorlati alkalmazás</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Piaci készségek</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Eszközök használata</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Valós projektek</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="font-light leading-relaxed">Azonnali használhatóság</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Academic Platform Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-slate-50/60 to-stone-50/60 border-y border-amber-200/30">
-        <div className="container mx-auto max-w-6xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Academic Section Header */}
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-6"></div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-slate-900 mb-6 font-serif">
-              Mi egy gyakorlati képző<br />
-              <span className="text-amber-700 font-medium">platform vagyunk</span>
-            </h2>
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-6 mb-12"></div>
-            
-            <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-8 shadow-sm max-w-3xl mx-auto mb-12">
-              <p className="text-slate-700 leading-relaxed font-light italic text-lg">
-                Nem helyettesítjük az egyetemeket - gyakorlati készségekkel egészítjük ki őket.
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <div className="border-l-3 border-amber-600/50 pl-4">
-                  <p className="text-slate-700 leading-relaxed font-light">
-                    <span className="font-medium text-amber-700 uppercase tracking-wider text-sm">Hisszük:</span><br />
-                    Az elméleti tudás + gyakorlati készségek = <span className="font-medium text-slate-900">piacképes szakember</span>.
-                  </p>
-                </div>
-              </div>
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <div className="border-l-3 border-amber-600/50 pl-4">
-                  <p className="text-slate-700 leading-relaxed font-light">
-                    <span className="font-medium text-amber-700 uppercase tracking-wider text-sm">Célunk:</span><br />
-                    Hogy <span className="font-medium text-slate-900">bárkiből</span> - végzettségtől függetlenül - piacképes szakembert neveljünk <span className="font-medium text-slate-900">bizonyított módszerekkel</span>.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-amber-50/60 to-stone-50/60 rounded border-2 border-amber-300/30 p-8 shadow-md">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Target className="w-6 h-6 text-amber-700" />
-                <h3 className="text-xl font-serif font-light text-slate-900">Elmélet + Gyakorlat = Siker</h3>
-              </div>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-6"></div>
-              <p className="text-slate-700 leading-relaxed font-light text-center">
-                <span className="font-medium text-slate-900">Együtt neveljük</span> azokat a szakembereket, akik mind tudják az elméletet, mind alkalmazni is tudják a gyakorlatban.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Hogyan született meg a gyakorlati oktatás víziónk */}
-      <section className="py-20 px-6" style={{ backgroundColor: '#F8F7F5' }}>
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
-              HOGYAN SZÜLETETT MEG<br />
-              <span className="text-teal-600">A GYAKORLATI OKTATÁS VÍZIÓNK</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="space-y-6 text-gray-700"
-            >
-              <p>
-                <strong className="text-teal-600">2024-ben</strong> felismertük valamit, ami megváltoztatta a látásmódunkat:
-              </p>
-              <p className="text-blue-600 font-semibold text-lg">
-                A legjobb oktatás akkor jön létre, amikor az egyetemi tudást a piaci sikerekkel kombináljuk.
-              </p>
-              <p className="text-gray-700">
-                Nem elég a tudást átadni - bizonyított eredményekkel kell alátámasztani.
-              </p>
-              <p className="text-gray-700">
-                Ezért választottuk azt az utat, hogy <strong>csak olyan oktatókat alkalmazunk, akiknek valós, mérhető sikereik vannak</strong> piacon - és ezt az egyetemi szintű tudással párosítjuk.
-              </p>
-              <p className="text-gray-700">
-                <strong className="text-teal-600">Az ELIRA különlegessége:</strong><br />
-                Oktatóink nem csak tanítanak <strong>-élő bizonyítékai</strong> annak, amit tanítanak.
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Vállalkozások befektetnek képzésekbe, kurzusokba, konferenciákba. A tudás megvan, de a gyakorlatban nem generál valós eredményt. Az elméleti kereteket senki nem fordítja át működő rendszerré.
               </p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-6 sm:p-8 border border-amber-100"
+            >
+              <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Nincs kapacitás alkalmazni
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Csapatok operatív feladatokkal túlterheltek. Nincs idő és erőforrás az általános kereteket saját kontextusra átfordítani. A megtanult tudás sosem kerül alkalmazásba.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 sm:p-8 border-2 border-teal-200"
+            >
+              <div className="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center mb-4">
+                <Target className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Elira: Átvezetjük a tudást végrehajtásba
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Nem tanítjuk az elméletet. Átvezetjük azt implementációba. Keretrendszerek, sablonok, munkafolyamatok – minden, ami kell a végrehajtáshoz. Tiszta implementáció, azonnali alkalmazhatóság.
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* How We're Different */}
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-3xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-4 sm:mb-6 tracking-tight">
+                Az Elira megközelítés
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Minden vállalkozási szinten ugyanaz a cél: azonnali alkalmazhatóság és mérhető eredmények
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="max-w-6xl mx-auto space-y-8">
+
+            {/* Level 1 - Startups */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-200 shadow-sm"
+            >
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center">
+                    <Zap className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">Startupoknak: Gyors, fókuszált megoldások</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Amikor minden perc számít, célzott tudást biztosítunk konkrét kihívásokra. Buyer persona, konkurencia elemzés, email stratégia – 30-90 perc múlva használható keretrendszerrel és sablonokkal rendelkezel. Azonnali gyakorlati alkalmazás, minden elméleti felvezetés nélkül.
+                  </p>
+                  <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Azonnali alkalmazhatóság
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Gyors implementáció
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Level 2 - Small Business */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-200 shadow-sm"
+            >
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-teal-500 rounded-xl flex items-center justify-center">
+                    <BookOpen className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">Kisvállalkozásoknak: Teljes rendszerépítés rugalmas támogatással</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Átfogó programok, amelyek teljes működő rendszert építenek 4-8 óra alatt. Minden eszközt megkapsz: videók, sablonok, munkafolyamatok, esettanulmányok. Alapvetően önálló implementációra tervezve. Szükség esetén rugalmas támogatással: konzultáció vagy közös megvalósítás (DWY/DFY). Teljesen a te igényeid szerint.
+                  </p>
+                  <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Teljes rendszer, használható eszközök
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Támogatás igény szerint
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Level 3 - Mid-size */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-200 shadow-sm"
+            >
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">Középvállalatoknak: Integrált implementáció változásmenedzsmenttel</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Amikor a szervezeti átállás kulcsfontosságú, nem csak tanítunk – együtt implementálunk. 1 hónap alatt a teljes rendszer felépül: 4 konzultáció, személyre szabott roadmap, osztályközi koordináció, dokumentált playbook. Nem tanácsadás – hanem közös munka, amely fenntartható, dokumentált, mérhető eredményeket hoz.
+                  </p>
+                  <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Dokumentált, mérhető, fenntartható
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Változásmenedzsment támogatás
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Our Principles */}
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-3xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-4 sm:mb-6 tracking-tight">
+                Miből indulunk ki
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Elvek, amik minden döntésünket vezetik
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-6">
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border-2 border-teal-200 p-8"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex gap-4 p-6 bg-gray-50 rounded-xl"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center">
-                  <Target className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-teal-800">A TÖKÉLETES KOMBINÁCIÓ:</h3>
+              <div className="flex-shrink-0 w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                <Zap className="w-5 h-5 text-white" />
               </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Azonnali alkalmazhatóság</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Minden tartalom azonnali gyakorlati értéket nyújt. Nincs várakozás, nincs késleltetett alkalmazás. A használhatóság az elsődleges kritérium minden megoldásunknál.
+                </p>
+              </div>
+            </motion.div>
 
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Elméleti alapok:</span>
-                  <span className="text-blue-600 font-semibold">Egyetemi szint ✓</span>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex gap-4 p-6 bg-gray-50 rounded-xl"
+            >
+              <div className="flex-shrink-0 w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
+                <Target className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Tisztán gyakorlati megközelítés</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Bevált gyakorlatok helyett konkrét, működő eszközöket biztosítunk. Nincs általános elméleti keretek magyarázata. Csak specifikus megoldások valós problémákra. Gyakorlati, működő, bizonyított.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex gap-4 p-6 bg-gray-50 rounded-xl"
+            >
+              <div className="flex-shrink-0 w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Hatékony időkeretek</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  30 perc – használható eredmény. 4 óra – teljes rendszer. 1 hónap – szervezeti átalakulás. Strukturált, gyors folyamatok mérhető eredményekkel, hatékony végrehajtással.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex gap-4 p-6 bg-gray-50 rounded-xl"
+            >
+              <div className="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Teljes átláthatóság</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Minden költség, eredmény és folyamat előre tisztázott. Pontos elvárások, mérhető célok, világos struktúra. Átlátható működés minden szinten, meglepetések nélkül.
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12 sm:mb-16"
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-6 tracking-tight">
+                Honnan jöttünk
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-2xl p-8 sm:p-12 border border-gray-200 shadow-sm"
+            >
+              <p className="text-lg sm:text-xl text-gray-700 leading-relaxed mb-6">
+                Amikor 2025-ben elindítottuk az Elirát, egyetlen kérdés vezetett minket: miért van szakadék aközött, amit a vállalkozások megtanulnak, és amit ténylegesen alkalmaznak?
+              </p>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6">
+                Láttuk, hogy vállalkozások vesznek részt drága képzéseken, olvasnak számtalan könyvet, hallgatnak podcastokat – aztán semmi nem változik. Nem azért, mert a tudás rossz. Hanem azért, mert nincs idő, kapacitás vagy keretrendszer az alkalmazáshoz.
+              </p>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Így született meg az Elira: egy platform, amely nem csak tanít, hanem át is vezeti a tudást végrehajtásba. Mikrokurzusok startupoknak. Masterclassok kisvállalkozásoknak. Integrált programok középvállalatoknak. Mindegyik ugyanazt csinálja: megszünteti a tanulás és az alkalmazás közötti szakadékot.
+              </p>
+
+              <div className="mt-10 pt-8 border-t border-gray-200 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+                <div className="flex flex-col items-center">
+                  <div className="h-16 w-16 rounded-2xl overflow-hidden relative mb-3 border border-gray-200">
+                    <Image
+                      src="/MARK1.png"
+                      alt="Márk - Co-founder & CEO"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <div className="text-gray-900 font-semibold text-base">Márk</div>
+                    <div className="text-gray-600 text-sm">Co-founder & CEO</div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Bizonyított piaci sikerek:</span>
-                  <span className="text-teal-600 font-semibold">Oktatóink ✓</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Előzetes végzettség:</span>
-                  <span className="text-purple-600 font-semibold">Nem szükséges</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Tanulási idő:</span>
-                  <span className="text-green-600 font-semibold">6-12 hét</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Végeredmény:</span>
-                  <span className="text-orange-600 font-semibold">Piacképes szakember</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Munkalehetőségek:</span>
-                  <span className="text-teal-600 font-semibold">Korlátlan</span>
+
+                <div className="flex flex-col items-center">
+                  <div className="h-16 w-16 rounded-2xl overflow-hidden relative mb-3 border border-gray-200">
+                    <Image
+                      src="/ARON1.jpeg"
+                      alt="Áron - Co-founder & CTO"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <div className="text-gray-900 font-semibold text-base">Áron</div>
+                    <div className="text-gray-600 text-sm">Co-founder & CTO</div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -388,325 +697,28 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* 2030-ra section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-slate-50/60 to-stone-50/60 border-y border-amber-200/30">
-        <div className="container mx-auto max-w-6xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Academic Section Header */}
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-6"></div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-slate-900 mb-6 font-serif">
-              2030-ra <span className="text-amber-700 font-medium">elmélet + gyakorlat</span><br />
-              lesz az aranystandard
-            </h2>
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-6 mb-12"></div>
-            
-            <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-8 shadow-sm max-w-3xl mx-auto mb-12">
-              <p className="text-slate-700 leading-relaxed font-light italic text-lg">
-                A kérdés nem az, hogy <span className="font-medium text-slate-900">elméletet vagy gyakorlatot</span> tanulj - hanem hogy <span className="font-medium text-slate-900">mindkettőt hogyan kombinálod</span> a legjobbam.
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-amber-50/60 to-stone-50/60 rounded border-2 border-amber-300/30 p-8 shadow-md">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Award className="w-6 h-6 text-amber-700" />
-                <h3 className="text-xl font-serif font-light text-slate-900">A jövő a gyakorlati tudásban van</h3>
-              </div>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-8"></div>
-              
-              <div className="grid lg:grid-cols-2 gap-8">
-                <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                  <h4 className="text-lg font-serif font-medium text-slate-900 mb-4">Elmélet + Gyakorlat kombinációval:</h4>
-                  <ul className="space-y-3 text-slate-700">
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Szilárd elméleti alap + alkalmazható tudás</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Akadémiai hitelesség + piaci releváns készségek</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Hosszú távú gondolkodás + azonnali használhatóság</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Tudományos módszer + praktikus megoldások</span>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                  <h4 className="text-lg font-serif font-medium text-slate-900 mb-4">Csak elmélet vagy csak gyakorlat:</h4>
-                  <ul className="space-y-3 text-slate-700">
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Hiányos képzettség</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Korlátozott alkalmazhatóság</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Lassabb karrier előrehaladás</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Szűkebb lehetőségek</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm max-w-2xl mx-auto">
-              <p className="text-slate-700 leading-relaxed font-light text-center">
-                <span className="font-medium text-slate-900">Mi együttműködünk az egyetemekkel, hogy te a lehető legjobban felkészült legyen.</span>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Miért pont mi? section */}
-      <section className="py-20 px-6" style={{ backgroundColor: '#F8F7F5' }}>
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Miért pont <span className="text-teal-600">mi?</span>
-            </h2>
-            <h3 className="text-2xl md:text-3xl text-gray-700 mb-8">
-              Két egyetemista, aki megtalálta a hiányzó láncszemt
-            </h3>
-            
-            <div className="max-w-3xl mx-auto space-y-6 text-lg text-gray-700">
-              <p><strong>Mi nem kritizáljuk az egyetemeket - mi értjük őket.</strong></p>
-              <p>
-                Az egyetemek fantasztikusak abban, amire létrehozták őket: mély, elméleti tudás átadása.<br />
-                <strong className="text-teal-600">DE van egy rés: a gyakorlati alkalmazás hidje.</strong>
-              </p>
-              <p className="font-semibold text-gray-900">Mi ezt a hidat építjük fel.</p>
-            </div>
-          </motion.div>
-
-          {/* Founder profiles */}
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
-            {/* Márk */}
+      {/* Simple Closing */}
+      <section className="relative py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16">
+          <div className="max-w-3xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-blue-50 rounded-2xl p-4 sm:p-8"
+              transition={{ duration: 0.6 }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-500">
-                  <img 
-                    src="/mark-profile.jpg" 
-                    alt="Márk"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">MÁRK</h3>
-                  <div className="flex items-center gap-2 text-blue-600">
-                    <BookOpen className="w-4 h-4" />
-                    <span className="font-medium">Miskolci Egyetem</span>
-                  </div>
-                  <p className="text-gray-600">Kereskedelem & Marketing</p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg p-6 mb-6">
-                <div className="text-4xl text-blue-500 mb-4">"</div>
-                <p className="text-gray-700 italic mb-4">
-                  "A vízióm egy olyan platform létrehozása, ahol a tudás végtelen és mindenki számára elérhető. Az ELIRA egyenlőséget teremt az oktatásban, gyakorlati tudást nyújtva, amit azonnal alkalmazhatsz a piacon.
-                </p>
-                <p className="text-gray-900 font-semibold">
-                  Nem elméletet tanítunk, hanem holnap használható készségeket.
-                </p>
-                <p className="text-gray-700 italic">
-                  Ez a jövő oktatása."
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Áron */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-green-50 rounded-2xl p-4 sm:p-8"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-green-500">
-                  <img 
-                    src="/אירוע מפיצים ALMA (195 of 470).JPEG" 
-                    alt="Áron"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">ÁRON</h3>
-                  <div className="flex items-center gap-2 text-green-600">
-                    <BookOpen className="w-4 h-4" />
-                    <span className="font-medium">Debreceni Egyetem</span>
-                  </div>
-                  <p className="text-gray-600">Fogorvosi szak</p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg p-6 mb-6">
-                <div className="text-4xl text-green-500 mb-4">"</div>
-                <p className="text-gray-700 italic mb-4">
-                  "A fogorvosi egyetemen megtanultam, hogy a legnagyobb felelősségünk az emberek segítése - minden döntésünknek az a célja, hogy jobbá tegyük mások életét
-                </p>
-                <p className="text-gray-900 font-semibold">
-                  Ugyanezt az elvét szeretném átvinni az oktatásba: minden kurzust úgy alakítunk ki, hogy ténylegesen segítsen az embereknek fejlődni a karrierjükben.
-                </p>
-                <p className="text-gray-700 italic">
-                  Nem azért csináljuk ezt, mert "jó üzlet", hanem mert látjuk, hogy mennyi tehetséges ember veszíti el a motivációját a rossz oktatási rendszerek miatt. Szeretnénk ezt megváltoztatni."
-                </p>
-              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 mb-6 tracking-tight">
+                Egy küldetés
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Megszüntetni a tudás és a végrehajtás közötti szakadékot magyar vállalkozásoknál. Gyorsan, tisztán, mérhető eredményekkel.
+              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-slate-50/60 to-stone-50/60 border-t border-amber-200/30">
-        <div className="container mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Academic Section Header */}
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mb-6"></div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-slate-900 mb-6 font-serif">
-              Csatlakozz <span className="text-amber-700 font-medium">a gyakorlati oktatáshoz</span>
-            </h2>
-            <div className="h-px bg-gradient-to-r from-transparent via-amber-600/40 to-transparent mt-6 mb-12"></div>
-            
-            <div className="grid gap-6 mb-12 max-w-3xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <p className="text-slate-700 font-light leading-relaxed">
-                  Van diplomád? <span className="text-green-700 font-medium">Tökéletes!</span><br />
-                  Most add hozzá a gyakorlati készségeket is.
-                </p>
-              </div>
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <p className="text-slate-700 font-light leading-relaxed">
-                  Nincs diplomád? <span className="text-amber-700 font-medium">Semmi baj!</span><br />
-                  Nálunk az számít, amit tudsz, mint a papírod színe.
-                </p>
-              </div>
-              <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                <p className="text-slate-700 font-light leading-relaxed">
-                  Egyetemre jársz? <span className="text-blue-700 font-medium">Kiváló!</span><br />
-                  Kezdd el a gyakorlati tanulást már most, párhuzamosan.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-amber-50/60 to-stone-50/60 rounded border-2 border-amber-300/30 p-8 shadow-md mb-12">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Target className="w-6 h-6 text-amber-700" />
-                <h3 className="text-xl font-serif font-light text-slate-900">A tökéletes kombináció felé</h3>
-              </div>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent mb-8"></div>
-              
-              <div className="grid lg:grid-cols-2 gap-8">
-                <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                  <h4 className="text-lg font-serif font-medium text-slate-900 mb-4">Egyetemi tudás + ELIRA:</h4>
-                  <ul className="space-y-3 text-slate-700">
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Szilárd elméleti alap</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">+ Alkalmazható gyakorlati készségek</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">= Piacképes szakértelem</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">= Maximális munkalehetőségek</span>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/60 backdrop-blur-sm rounded border border-slate-200/50 p-6 shadow-sm">
-                  <h4 className="text-lg font-serif font-medium text-slate-900 mb-4">Mit kapsz tőlünk:</h4>
-                  <ul className="space-y-3 text-slate-700">
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">6-12 hetes gyakorlati képzés</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Alkalmazható készségek</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Valós projektek</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-amber-600 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="font-light leading-relaxed">Piaci releváns tudás</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <Link
-              href="/courses/ai-copywriting-course"
-              className="academic-button inline-flex items-center justify-center px-12 py-4 text-lg font-semibold rounded-sm transition-all duration-300 bg-academic-slate-700 text-white border border-academic-slate-800 hover:bg-academic-slate-800 hover:shadow-lg transform hover:-translate-y-1 uppercase tracking-wide"
-            >
-              <Target className="w-5 h-5 mr-3" />
-              SZERZEK GYAKORLATI TUDÁST!
-            </Link>
-
-            <div className="mt-8 space-y-3 text-sm">
-              <div className="flex items-center justify-center gap-2 text-slate-600">
-                <span>🔥</span>
-                <span className="font-light">Tökéletes kiegészítés az egyetemi tanulmányokhoz</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-slate-600">
-                <span>🛡️</span>
-                <span className="font-light">30 napos pénzvisszafizetési garancia</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-slate-600">
-                <span>🤝</span>
-                <span className="font-light">Partnerség az akadémiai világgal</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <Footer />
+      <PremiumFooter />
     </div>
   );
 }

@@ -11,6 +11,7 @@ export const content = {
       { label: "Díjmentes Tanácsadás", href: "#marketing-sebeszet-section" },
       { label: "Megoldás", href: "#bundles" },
       { label: "Masterclass", href: "#masterclass" },
+      { label: "Rólunk", href: "/rolunk" },
       { label: "Bónuszok", href: "#bonuses" },
       { label: "Vélemények", href: "#testimonials" }
     ]

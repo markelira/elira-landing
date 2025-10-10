@@ -1,17 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  MessageSquare, 
-  Mail, 
-  Phone, 
-  Clock, 
+import { motion } from 'motion/react';
+import { PremiumHeader } from '@/components/PremiumHeader';
+import { PremiumFooter } from '@/components/PremiumFooter';
+import {
+  MessageSquare,
+  Mail,
+  Clock,
   HelpCircle,
-  Book,
-  CreditCard,
-  Shield,
-  Users,
   ChevronDown,
   ChevronUp,
   Send
@@ -26,48 +23,48 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     category: 'Általános',
-    question: 'Hogyan férek hozzá a megvásárolt kurzushoz?',
-    answer: 'A vásárlás után azonnal email-ben megkapod a bejelentkezési adatokat. A kurzushoz a dashboard-on keresztül férsz hozzá, ahol minden megvásárolt kurzusod megtalálható.'
+    question: 'Hogyan férhet hozzá egy megvásárolt programhoz?',
+    answer: 'A vásárlás után azonnal email-ben megkapja a bejelentkezési adatokat. A programokhoz a dashboard-on keresztül férhet hozzá, ahol minden megvásárolt tartalma megtalálható.'
   },
   {
     category: 'Általános',
-    question: 'Mennyi ideig férek hozzá a kurzushoz?',
-    answer: 'Lifetime hozzáférést biztosítunk! Ez azt jelenti, hogy egyszer fizetsz, és örökre hozzáférsz a kurzushoz, beleértve az összes jövőbeli frissítést is.'
+    question: 'Mennyi ideig érhető el a tartalom?',
+    answer: 'Korlátlan időtartamú hozzáférést biztosítunk. Ez azt jelenti, hogy egyszeri vásárlással tartósan hozzáférhet a programhoz, beleértve az összes jövőbeli frissítést is.'
   },
   {
     category: 'Fizetés',
-    question: 'Milyen fizetési módokat fogadtok el?',
+    question: 'Milyen fizetési módokat fogadunk el?',
     answer: 'Bankkártyát (Visa, Mastercard), Apple Pay-t és Google Pay-t fogadunk el. A fizetés biztonságos Stripe rendszeren keresztül történik.'
   },
   {
     category: 'Fizetés',
-    question: 'Kapok számlát a vásárlásról?',
-    answer: 'Igen, minden vásárlásról automatikusan állítunk ki elektronikus számlát, amit email-ben küldünk el.'
+    question: 'Automatikusan kiállításra kerül számla?',
+    answer: 'Igen, minden vásárlásról automatikusan elektronikus számlát állítunk ki, amelyet email-ben küldünk el.'
   },
   {
     category: 'Fizetés',
-    question: 'Van pénzvisszafizetési garancia?',
-    answer: 'Igen, 30 napos pénzvisszafizetési garanciát vállalunk. Ha nem vagy elégedett a kurzussal, visszatérítjük a teljes vételárat.'
+    question: 'Elérhető pénzvisszafizetési garancia?',
+    answer: 'Igen, 30 napos pénzvisszafizetési garanciát vállalunk. Ha nem felel meg az elvárásainak, visszatérítjük a teljes vételárat.'
   },
   {
     category: 'Technikai',
-    question: 'Milyen eszközön nézhetem a kurzust?',
-    answer: 'A kurzus bármilyen eszközön nézhető: számítógépen, tableten és mobilon is. Csak internetkapcsolat szükséges.'
+    question: 'Milyen eszközökön érhető el a tartalom?',
+    answer: 'A tartalom bármilyen eszközön elérhető: számítógépen, tableten és mobilon egyaránt. Csak internetkapcsolat szükséges.'
   },
   {
     category: 'Technikai',
-    question: 'Le tudom tölteni a videókat?',
-    answer: 'A videók streaming formátumban érhetők el, közvetlen letöltés nem lehetséges. Azonban a kurzushoz tartozó anyagok (PDF-ek, sablonok) letölthetők.'
+    question: 'Letölthetők a videók offline megtekintésre?',
+    answer: 'A videók streaming formátumban érhetők el, közvetlen letöltés nem lehetséges. Azonban a programokhoz tartozó anyagok (PDF-ek, sablonok) letölthetők.'
   },
   {
-    category: 'Kurzus',
-    question: 'Kinek ajánlott az AI Copywriting kurzus?',
-    answer: 'Vállalkozóknak, marketingeseknek, freelancereknek és mindenkinek, aki szeretné megtanulni az AI-alapú szövegírás titkait.'
+    category: 'Programok',
+    question: 'Kinek ajánlott a mikrokurzus?',
+    answer: 'Vállalkozóknak, alapítóknak és szakembereknek, akik azonnal alkalmazható megoldásokat keresnek konkrét üzleti kihívásokra.'
   },
   {
-    category: 'Kurzus',
-    question: 'Szükséges előzetes tudás?',
-    answer: 'Nem szükséges előzetes tudás! A kurzus az alapoktól indul, és lépésről lépésre vezet végig a folyamaton.'
+    category: 'Programok',
+    question: 'Szükséges előzetes szakmai tapasztalat?',
+    answer: 'Nem szükséges előzetes szakmai tapasztalat. A programok az alapoktól építkeznek, és strukturált módon vezetik végig a résztvevőket.'
   }
 ];
 
@@ -90,114 +87,124 @@ export default function SupportPage() {
     e.preventDefault();
     // Handle form submission
     console.log('Form submitted:', formData);
-    alert('Üzeneted elküldtük! Hamarosan válaszolunk.');
+    alert('Az üzenet sikeresen elküldve. Csapatunk hamarosan válaszol.');
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen">
+      <PremiumHeader />
+
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-600 to-cyan-600 opacity-90" />
-        <div className="relative z-10 container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Ügyfélszolgálat
-            </h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Segítünk minden kérdésedben! Válassz az alábbi lehetőségek közül.
-            </p>
-          </motion.div>
+      <section
+        className="relative min-h-[60vh] overflow-hidden -mt-20 pt-20 flex items-center"
+        style={{
+          background: 'linear-gradient(to bottom, #16222F 0%, #466C95 100%)'
+        }}
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 lg:py-24 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.1] text-white">
+                Támogatás
+              </h1>
+              <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed max-w-3xl mx-auto">
+                Professzionális támogatás minden lépésben. Válaszokat adunk kérdéseire, segítünk a megoldások megtalálásában.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Contact Cards */}
-      <section className="py-16 container mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="bg-white rounded-xl shadow-lg p-8 text-center"
-          >
-            <div className="w-16 h-16 bg-teal-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Mail className="w-8 h-8 text-teal-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>
-            <p className="text-gray-600 mb-4">Írj nekünk bármikor</p>
-            <a href="mailto:info@elira.hu" className="text-teal-600 font-semibold hover:underline">
-              info@elira.hu
-            </a>
-          </motion.div>
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm text-center hover:shadow-md transition-shadow duration-300"
+            >
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                <Mail className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Email kapcsolat</h3>
+              <p className="text-gray-600 text-sm mb-4">Részletes kérdések és dokumentáció</p>
+              <a href="mailto:info@elira.hu" className="text-teal-600 font-semibold hover:text-teal-700 transition-colors">
+                info@elira.hu
+              </a>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white rounded-xl shadow-lg p-8 text-center"
-          >
-            <div className="w-16 h-16 bg-cyan-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <MessageSquare className="w-8 h-8 text-cyan-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Live Chat</h3>
-            <p className="text-gray-600 mb-4">Azonnali segítség</p>
-            <button className="text-cyan-600 font-semibold hover:underline">
-              Chat indítása
-            </button>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm text-center hover:shadow-md transition-shadow duration-300"
+            >
+              <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                <MessageSquare className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Azonnali üzenetváltás</h3>
+              <p className="text-gray-600 text-sm mb-4">Technikai támogatás és tanácsadás</p>
+              <button className="text-teal-600 font-semibold hover:text-teal-700 transition-colors">
+                Kapcsolatfelvétel
+              </button>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="bg-white rounded-xl shadow-lg p-8 text-center"
-          >
-            <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Clock className="w-8 h-8 text-purple-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Válaszidő</h3>
-            <p className="text-gray-600 mb-4">Általában 24 órán belül</p>
-            <span className="text-purple-600 font-semibold">H-P: 9:00 - 17:00</span>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm text-center hover:shadow-md transition-shadow duration-300"
+            >
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                <Clock className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Válaszidő</h3>
+              <p className="text-gray-600 text-sm mb-4">Szakmai támogatás munkaidőben</p>
+              <span className="text-purple-600 font-semibold">H-P: 9:00 - 17:00</span>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-4 sm:mb-6 tracking-tight">
               Gyakran Ismételt Kérdések
             </h2>
-            <p className="text-xl text-gray-600">
-              A leggyakoribb kérdések és válaszok egy helyen
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              Gyors válaszok a leggyakoribb kérdésekre
             </p>
           </motion.div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
             {categories.map(category => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
+                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   selectedCategory === category
-                    ? 'bg-teal-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gray-900 text-white shadow-sm'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 {category}
@@ -206,33 +213,33 @@ export default function SupportPage() {
           </div>
 
           {/* FAQ Items */}
-          <div className="max-w-3xl mx-auto space-y-4">
+          <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
             {filteredFAQs.map((faq, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-50 rounded-xl overflow-hidden"
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm"
               >
                 <button
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-100 transition-colors duration-200"
+                  className="w-full px-5 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-start gap-3">
                     <HelpCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
-                    <span className="font-medium text-gray-900">{faq.question}</span>
+                    <span className="font-semibold text-gray-900 text-sm sm:text-base">{faq.question}</span>
                   </div>
                   {openFAQ === index ? (
-                    <ChevronUp className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFAQ === index && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-600 pl-8">{faq.answer}</p>
+                  <div className="px-5 sm:px-6 pb-4 sm:pb-5 pt-2">
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed pl-8">{faq.answer}</p>
                   </div>
                 )}
               </motion.div>
@@ -242,154 +249,96 @@ export default function SupportPage() {
       </section>
 
       {/* Contact Form */}
-      <section className="py-16 container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-2xl mx-auto"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Nem találtad a választ? Írj nekünk!
-          </h2>
-
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Név *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  placeholder="Teljes neved"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  placeholder="email@example.com"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Tárgy *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.subject}
-                onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                placeholder="Miben segíthetünk?"
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Üzenet *
-              </label>
-              <textarea
-                required
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({...formData, message: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
-                placeholder="Írd le részletesen a kérdésed vagy problémád..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-3 rounded-lg font-semibold hover:from-teal-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center gap-2"
-            >
-              <Send className="w-5 h-5" />
-              Üzenet küldése
-            </button>
-          </form>
-        </motion.div>
-      </section>
-
-      {/* Help Categories */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
+      <section className="relative py-16 sm:py-24 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              További segítség
-            </h2>
+            <div className="text-center mb-10 sm:mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-4 tracking-tight">
+                Kérdése van?
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Vegye fel velünk a kapcsolatot és csapatunk hamarosan válaszol
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8 lg:p-10 space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-900 font-medium mb-2 text-sm">
+                    Név *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900"
+                    placeholder="Teljes név"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-900 font-medium mb-2 text-sm">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900"
+                    placeholder="email@ceg.hu"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-900 font-medium mb-2 text-sm">
+                  Tárgy *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.subject}
+                  onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900"
+                  placeholder="Miben segíthetünk"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-900 font-medium mb-2 text-sm">
+                  Üzenet *
+                </label>
+                <textarea
+                  required
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200 text-gray-900"
+                  placeholder="Részletes leírás..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gray-900 text-white py-3 sm:py-3.5 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                <Send className="w-5 h-5" />
+                Üzenet küldése
+              </button>
+            </form>
           </motion.div>
-
-          <div className="grid md:grid-cols-4 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-200"
-            >
-              <Book className="w-12 h-12 text-teal-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Útmutatók</h3>
-              <p className="text-sm text-gray-600">Részletes leírások</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-200"
-            >
-              <CreditCard className="w-12 h-12 text-cyan-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Számlázás</h3>
-              <p className="text-sm text-gray-600">Fizetési információk</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-200"
-            >
-              <Shield className="w-12 h-12 text-purple-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Biztonság</h3>
-              <p className="text-sm text-gray-600">Adatvédelem</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-200"
-            >
-              <Users className="w-12 h-12 text-orange-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Közösség</h3>
-              <p className="text-sm text-gray-600">Discord csoportunk</p>
-            </motion.div>
-          </div>
         </div>
       </section>
+
+      <PremiumFooter />
     </div>
   );
 }
