@@ -1,13 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+
+// Add logging to verify route is loaded
+console.log('[ROUTE LOADED] Purchase route.ts loaded at:', new Date().toISOString());
+
+// Add GET handler for debugging
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ courseId: string }> }
+) {
+  console.log('[API Route - GET] GET handler invoked for debugging');
+  try {
+    const params = await context.params;
+    return NextResponse.json({
+      success: true,
+      message: 'GET handler works',
+      courseId: params.courseId,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error: any) {
+    console.error('[API Route - GET] Error:', error);
+    return NextResponse.json({
+      success: false,
+      error: error.message,
+      stack: error.stack
+    }, { status: 500 });
+  }
+}
+
 export async function POST(
   request: NextRequest,
   context: { params: Promise<{ courseId: string }> }
 ) {
+  console.log('[API Route - ENTRY] POST handler invoked at:', new Date().toISOString());
+  console.log('[API Route - ENTRY] Request URL:', request.url);
+  console.log('[API Route - ENTRY] Request method:', request.method);
+  console.log('[API Route - ENTRY] Headers present:', !!request.headers);
+
   try {
-    const { courseId } = await context.params;
-    console.log('[API Route] Purchase request for course:', courseId);
+    console.log('[API Route - PARAMS] Context:', typeof context, 'Params type:', typeof context?.params);
+    console.log('[API Route - PARAMS] Awaiting context.params...');
+
+    // Add defensive check
+    if (!context || !context.params) {
+      console.error('[API Route - PARAMS] Context or params is undefined!');
+      return NextResponse.json({
+        success: false,
+        error: 'Invalid route context'
+      }, { status: 500 });
+    }
+
+    const params = await context.params;
+    const courseId = params?.courseId;
+    console.log('[API Route - PARAMS] Course ID extracted:', courseId);
     
     const body = await request.json();
     const { successUrl, cancelUrl } = body;

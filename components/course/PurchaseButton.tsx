@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { formatPrice } from '@/lib/payment';
 import { COURSE_CONFIG } from '@/types/payment';
@@ -59,8 +59,54 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [textColor, setTextColor] = useState('text-academic-slate-600');
+  const [purchaseTriggered, setPurchaseTriggered] = useState(false);
   const currentCourseId = course?.id || courseId;
   const { data: enrollmentData, isLoading: enrollmentLoading } = useEnrollmentStatus(currentCourseId);
+
+  // Auto-trigger purchase if user just authenticated with purchase intent
+  useEffect(() => {
+    const triggerPurchaseIfIntended = async () => {
+      console.log('[PurchaseButton - Auto-trigger] Checking for purchase intent');
+      console.log('[PurchaseButton - Auto-trigger] User:', !!user, 'Triggered:', purchaseTriggered, 'Loading:', isLoading);
+
+      if (user && !purchaseTriggered && !isLoading && typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const purchaseIntent = params.get('purchaseIntent');
+        const intentCourseId = params.get('courseId');
+
+        console.log('[PurchaseButton - Auto-trigger] URL params - intent:', purchaseIntent, 'courseId:', intentCourseId);
+        console.log('[PurchaseButton - Auto-trigger] Current courseId:', currentCourseId);
+
+        if (purchaseIntent === 'true' && intentCourseId === currentCourseId) {
+          console.log('[PurchaseButton - Auto-trigger] ✅ Match found! Auto-triggering purchase...');
+
+          // Remove purchase intent from URL
+          params.delete('purchaseIntent');
+          params.delete('courseId');
+          const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+          window.history.replaceState({}, '', newUrl);
+          console.log('[PurchaseButton - Auto-trigger] URL cleaned:', newUrl);
+
+          // Mark as triggered and wait a bit for state to settle
+          setPurchaseTriggered(true);
+          setTimeout(() => {
+            // Manually trigger the purchase flow
+            const button = document.querySelector('[data-purchase-button]') as HTMLButtonElement;
+            if (button) {
+              console.log('[PurchaseButton - Auto-trigger] Clicking purchase button');
+              button.click();
+            } else {
+              console.error('[PurchaseButton - Auto-trigger] Purchase button not found!');
+            }
+          }, 500);
+        } else {
+          console.log('[PurchaseButton - Auto-trigger] No match, skipping auto-trigger');
+        }
+      }
+    };
+
+    triggerPurchaseIfIntended();
+  }, [user, currentCourseId, purchaseTriggered, isLoading]);
 
   // Check background and set text color
   useEffect(() => {
@@ -83,15 +129,24 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
 
   const handlePurchase = async () => {
     const currentCourseId = course?.id || courseId;
-    
-    // If not logged in, silently redirect to auth page with course purchase intent
+
+    console.log('[PurchaseButton - Handler] Purchase initiated for course:', currentCourseId);
+    console.log('[PurchaseButton - Handler] User:', !!user, 'Loading:', isLoading, 'Disabled:', disabled);
+
+    // If not logged in, redirect to auth page with purchase intent
+    // After auth, user will be redirected back and purchase will be triggered
     if (!user) {
-      const currentUrl = window.location.pathname;
-      router.push(`/auth?redirect=${encodeURIComponent(currentUrl)}&courseId=${currentCourseId}`);
+      const currentUrl = window.location.pathname + window.location.search;
+      const authUrl = `/auth?redirect=${encodeURIComponent(currentUrl)}&courseId=${currentCourseId}&purchaseIntent=true`;
+      console.log('[PurchaseButton - Handler] User not authenticated, redirecting to:', authUrl);
+      router.push(authUrl);
       return;
     }
-    
-    if (isLoading || disabled) return;
+
+    if (isLoading || disabled) {
+      console.log('[PurchaseButton - Handler] Blocked - Loading:', isLoading, 'Disabled:', disabled);
+      return;
+    }
 
     if (enrollmentData?.enrolled) {
       onPurchaseError?.('Már beiratkoztál erre a kurzusra');
@@ -105,39 +160,59 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     }
 
     // Use default Stripe Price ID if course doesn't have one
-    const stripePriceId = course?.stripePriceId || COURSE_CONFIG.stripePriceId || 'price_1S2g4HHhqyKpFIBMp3uCFZta';
+    const stripePriceId = course?.stripePriceId || COURSE_CONFIG.stripePriceId || 'price_1SGGmxHhqyKpFIBM2f3kM13h';
 
     setIsLoading(true);
     onPurchaseStart?.();
 
     try {
       // Get Firebase auth token
-      console.log('[PurchaseButton] Getting auth token for user:', user?.uid);
-    console.log('[PurchaseButton] Firebase Project ID being used:', process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
+      console.log('[PurchaseButton - API] Getting auth token for user:', user?.uid);
+      console.log('[PurchaseButton - API] Firebase Project ID:', process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
+
       const token = await auth.currentUser?.getIdToken();
-      console.log('[PurchaseButton] Token obtained:', token ? 'Yes' : 'No');
+      console.log('[PurchaseButton - API] Token obtained:', token ? 'Yes' : 'No', 'Length:', token?.length);
+
       if (!token) {
         throw new Error('Authentication required');
       }
 
       // Create payment session using local API route
-      console.log('[PurchaseButton] Calling purchase API for course:', currentCourseId);
-      const response = await fetch(`/api/courses/${currentCourseId}/purchase`, {
+      const apiUrl = `/api/courses/${currentCourseId}/purchase`;
+      const requestBody = {
+        successUrl: `${window.location.origin}/payment/success?session_id={CHECKOUT_SESSION_ID}&courseId=${currentCourseId}`,
+        cancelUrl: `${window.location.origin}/payment/cancel?courseId=${currentCourseId}`
+      };
+
+      console.log('[PurchaseButton - API] Making POST request to:', apiUrl);
+      console.log('[PurchaseButton - API] Request body:', requestBody);
+      console.log('[PurchaseButton - API] Headers:', {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.substring(0, 20)}...`
+      });
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          successUrl: `${window.location.origin}/payment/success?session_id={CHECKOUT_SESSION_ID}&courseId=${currentCourseId}`,
-          cancelUrl: `${window.location.origin}/payment/cancel?courseId=${currentCourseId}`
-        })
+        body: JSON.stringify(requestBody)
       });
 
-      console.log('[PurchaseButton] Response status:', response.status);
+      console.log('[PurchaseButton - API] Response received - Status:', response.status, 'OK:', response.ok);
+      console.log('[PurchaseButton - API] Response headers:', Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('[PurchaseButton] Error response:', errorData);
+        let errorData;
+        try {
+          errorData = await response.json();
+          console.error('[PurchaseButton - API] Error response JSON:', errorData);
+        } catch (e) {
+          const errorText = await response.text();
+          console.error('[PurchaseButton - API] Error response text:', errorText);
+          errorData = { error: 'Invalid response from server' };
+        }
         throw new Error(errorData.error || 'Fizetési munkamenet létrehozása sikertelen');
       }
 
@@ -166,18 +241,17 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
     }
   };
 
-  // Show "Continue Learning" button if user is enrolled
-  if (enrollmentData?.enrolled) {
+  // Show "Go to Dashboard" button if user is enrolled or has course access
+  if (enrollmentData?.enrolled || enrollmentData?.hasAccess) {
     return (
       <div className={`text-center ${className}`}>
         <button
-          onClick={() => router.push(`/courses/${currentCourseId}/learn`)}
-          className="cta-primary group font-semibold px-12 py-4 rounded-full text-lg"
+          onClick={() => router.push('/dashboard')}
+          className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold px-8 py-4 rounded-xl text-base transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
         >
-          <span className="flex items-center justify-center">
-            <Lock className="w-5 h-5 mr-3" />
-            Tanulás folytatása
-            <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-200 group-hover:translate-x-1" />
+          <span className="flex items-center justify-center gap-2">
+            Irányítópult megnyitása
+            <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
           </span>
         </button>
       </div>
@@ -187,6 +261,7 @@ const PurchaseButton: React.FC<PurchaseButtonProps> = ({
   return (
     <div className={`text-center ${className}`}>
       <button
+        data-purchase-button
         onClick={handlePurchase}
         disabled={isLoading || disabled}
         className={`

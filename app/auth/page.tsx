@@ -17,22 +17,47 @@ export default function AuthPage() {
   // Get redirect URL from query params or default to dashboard
   const redirectTo = searchParams.get('redirect') || '/dashboard';
   const courseId = searchParams.get('courseId');
+  const purchaseIntent = searchParams.get('purchaseIntent') === 'true';
 
   // Check if user came from course purchase flow
   const fromPurchase = searchParams.get('from') === 'purchase';
 
   useEffect(() => {
-    // If user is already authenticated, redirect them
+    // If user is already authenticated, handle redirect with purchase intent
     if (user && !loading) {
-      router.push(redirectTo);
+      console.log('[Auth Page] User authenticated, handling redirect');
+      console.log('[Auth Page] Purchase intent:', purchaseIntent, 'Course ID:', courseId);
+      console.log('[Auth Page] Redirect to:', redirectTo);
+
+      if ((purchaseIntent || fromPurchase) && courseId) {
+        // Build redirect URL with purchase intent params
+        const url = new URL(redirectTo, window.location.origin);
+        url.searchParams.set('purchaseIntent', 'true');
+        url.searchParams.set('courseId', courseId);
+        const finalUrl = url.pathname + url.search;
+        console.log('[Auth Page] Redirecting with purchase intent to:', finalUrl);
+        router.push(finalUrl);
+      } else {
+        console.log('[Auth Page] No purchase intent, redirecting to:', redirectTo);
+        router.push(redirectTo);
+      }
     }
-  }, [user, loading, redirectTo, router]);
+  }, [user, loading, redirectTo, purchaseIntent, fromPurchase, courseId, router]);
 
   const handleAuthSuccess = () => {
-    // If coming from course purchase, redirect to payment
-    if (fromPurchase && courseId) {
-      router.push(`/payment?courseId=${courseId}`);
+    console.log('[Auth Page] Auth success handler called');
+    console.log('[Auth Page] Purchase intent:', purchaseIntent, 'Course ID:', courseId);
+
+    // If coming from course purchase with intent, redirect with params
+    if ((purchaseIntent || fromPurchase) && courseId) {
+      const url = new URL(redirectTo, window.location.origin);
+      url.searchParams.set('purchaseIntent', 'true');
+      url.searchParams.set('courseId', courseId);
+      const finalUrl = url.pathname + url.search;
+      console.log('[Auth Page] Success: Redirecting with purchase intent to:', finalUrl);
+      router.push(finalUrl);
     } else {
+      console.log('[Auth Page] Success: No purchase intent, redirecting to:', redirectTo);
       router.push(redirectTo);
     }
   };
