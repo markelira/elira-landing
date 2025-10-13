@@ -80,9 +80,9 @@ export function middleware(request: NextRequest) {
   response.headers.set('Content-Security-Policy', cspHeader)
 
   // 10. Cross-Origin Policies
+  // COEP removed to allow Mux player iframes to load properly
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
-  response.headers.set('Cross-Origin-Embedder-Policy', 'credentialless')
-  response.headers.set('Cross-Origin-Resource-Policy', 'same-site')
+  response.headers.set('Cross-Origin-Resource-Policy', 'cross-origin')
 
   // ============================================
   // Custom Security Headers
