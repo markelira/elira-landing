@@ -30,7 +30,9 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
       'https://elira.hu',
       'https://www.elira.hu',
       'https://elira-landing-ce927.web.app',
-      'https://elira-landing-ce927.firebaseapp.com'
+      'https://elira-landing-ce927.firebaseapp.com',
+      'https://elira-landing.vercel.app',
+      'https://elira-landing-git-main-markelira.vercel.app'
     ]
   : [
       'http://localhost:3000',
