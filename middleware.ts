@@ -55,8 +55,8 @@ export function middleware(request: NextRequest) {
     'payment=(self)',
     'usb=()',
     'magnetometer=()',
-    'gyroscope=(self)',
-    'accelerometer=(self)',
+    'gyroscope=(self "https://player.mux.com" "https://stream.mux.com")',
+    'accelerometer=(self "https://player.mux.com" "https://stream.mux.com")',
   ].join(', ')
   response.headers.set('Permissions-Policy', permissionsPolicy)
 
