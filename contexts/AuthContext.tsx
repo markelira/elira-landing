@@ -47,8 +47,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Helper function to fetch complete user data from backend
   const fetchCompleteUserData = async (uid: string, token: string) => {
     const functionsUrl = getFirebaseFunctionsURL();
-    
-    const response = await fetch(`${functionsUrl}/api/user/profile?uid=${uid}`, {
+
+    const response = await fetch(`${functionsUrl}/user/profile?uid=${uid}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -216,10 +216,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     const token = await auth.currentUser.getIdToken();
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
-                        'https://api-7wtrvbj3mq-ew.a.run.app';
+    const functionsUrl = getFirebaseFunctionsURL();
 
-    const response = await fetch(`${functionsUrl}/api/admin/users/${userId}/role`, {
+    const response = await fetch(`${functionsUrl}/admin/users/${userId}/role`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,

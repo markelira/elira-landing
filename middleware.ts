@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   // Prevents XSS attacks by controlling which resources can be loaded
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://js.stripe.com https://www.google-analytics.com https://cdn.mux.com https://vercel.live https://*.sentry.io https://static.hotjar.com;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://js.stripe.com https://www.google-analytics.com https://cdn.mux.com https://vercel.live https://*.sentry.io https://static.hotjar.com https://script.hotjar.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' blob: data: https: http://localhost:* http://127.0.0.1:*;
     font-src 'self' data: https://fonts.gstatic.com;
@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
-    frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://www.youtube.com https://player.vimeo.com https://stream.mux.com;
+    frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://www.youtube.com https://player.vimeo.com https://stream.mux.com https://player.mux.com;
     connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://*.ingest.sentry.io https://api.stripe.com https://firestore.googleapis.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.cloudfunctions.net https://*.firebaseapp.com https://*.run.app https://region1.google-analytics.com https://*.hotjar.com https://stream.mux.com https://*.mux.com http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* wss://*.vercel.live;
     media-src 'self' blob: https://stream.mux.com https://*.mux.com https://storage.googleapis.com;
     worker-src 'self' blob:;
@@ -55,8 +55,8 @@ export function middleware(request: NextRequest) {
     'payment=(self)',
     'usb=()',
     'magnetometer=()',
-    'gyroscope=()',
-    'accelerometer=()',
+    'gyroscope=(self)',
+    'accelerometer=(self)',
   ].join(', ')
   response.headers.set('Permissions-Policy', permissionsPolicy)
 
