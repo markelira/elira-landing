@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -144,7 +144,7 @@ export default function AdminNotificationsPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<string>('all')
   const [audienceFilter, setAudienceFilter] = useState<string>('all')
-  const [isCreating, setIsCreating] = useState(false)
+  const [_isCreating, setIsCreating] = useState(false)
   
   const queryClient = useQueryClient()
 
@@ -159,7 +159,7 @@ export default function AdminNotificationsPage() {
   })
 
   const sendNotificationMutation = useMutation({
-    mutationFn: async (notificationId: string) => {
+    mutationFn: async (_notificationId: string) => {
       await new Promise(resolve => setTimeout(resolve, 1500))
       return { success: true }
     },
@@ -174,7 +174,7 @@ export default function AdminNotificationsPage() {
   })
 
   const deleteNotificationMutation = useMutation({
-    mutationFn: async (notificationId: string) => {
+    mutationFn: async (_notificationId: string) => {
       await new Promise(resolve => setTimeout(resolve, 500))
       return { success: true }
     },

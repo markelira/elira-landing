@@ -161,10 +161,20 @@ export const getFirebaseFunctionsURL = (): string => {
   const isDevelopment = process.env.NODE_ENV === 'development'
   const useEmulators = process.env.USE_FIREBASE_EMULATORS === 'true'
 
-  return process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL ||
+  const url = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL ||
          (isDevelopment && useEmulators
            ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
-           : 'https://api-5k33v562ya-ew.a.run.app')
+           : 'https://api-5k33v562ya-ew.a.run.app/api')
+
+  console.log('🔧 [getFirebaseFunctionsURL] Configuration:', {
+    isDevelopment,
+    useEmulators,
+    envVar: process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL,
+    resolvedUrl: url,
+    nodeEnv: process.env.NODE_ENV
+  })
+
+  return url
 }
 
 // Export as constant for backward compatibility

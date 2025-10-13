@@ -68,7 +68,7 @@ export default function Error({ error, reset }: ErrorProps) {
         <div className="space-y-4">
           <Button
             onClick={reset}
-            variant="primary"
+            variant="default"
             size="lg"
             className="w-full"
           >
@@ -78,7 +78,7 @@ export default function Error({ error, reset }: ErrorProps) {
           <Button
             onClick={() => window.location.href = '/'}
             variant="ghost"
-            size="md"
+            size="default"
             className="w-full"
           >
             Go home

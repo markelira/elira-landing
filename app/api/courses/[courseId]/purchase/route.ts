@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -77,12 +78,11 @@ export async function POST(request: NextRequest) {
     const token = authHeader.split('Bearer ')[1];
     console.log('[API Route] Token extracted, length:', token?.length);
     
-    // Forward to Firebase Functions - using correct production URL
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
-      'https://api-5k33v562ya-ew.a.run.app';
+    // Forward to Firebase Functions
+    const functionsUrl = getFirebaseFunctionsApiUrl(`/api/courses/${courseId}/purchase`);
     console.log('[API Route] Using Firebase Functions URL:', functionsUrl);
-    
-    const response = await fetch(`${functionsUrl}/api/courses/${courseId}/purchase`, {
+
+    const response = await fetch(functionsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

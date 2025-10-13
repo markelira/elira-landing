@@ -1,23 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text(); // Stripe webhooks need raw body
     const signature = request.headers.get('stripe-signature');
-    
+
     if (!signature) {
       return NextResponse.json(
         { error: 'Missing stripe-signature header' },
         { status: 400 }
       );
     }
-    
+
     // Forward to Firebase Functions
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
-      'https://api-5k33v562ya-ew.a.run.app';
-    
-    const response = await fetch(`${functionsUrl}/api/payment/webhook`, {
+    const functionsUrl = getFirebaseFunctionsApiUrl('/api/payment/webhook');
+
+    const response = await fetch(functionsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ export function SimpleIntegrationExample() {
         </p>
         
         <MarketingSebesztCTA
-          variant="primary"
+          variant="default"
           size="lg"
           showUrgency={true}
           showBenefits={true}

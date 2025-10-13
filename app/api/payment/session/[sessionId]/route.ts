@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 export async function GET(
@@ -7,12 +8,11 @@ export async function GET(
 ) {
   try {
     const { sessionId } = await context.params;
-    
+
     // Forward to Firebase Functions
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
-      'https://api-5k33v562ya-ew.a.run.app';
-    
-    const response = await fetch(`${functionsUrl}/api/payment/session/${sessionId}`, {
+    const functionsUrl = getFirebaseFunctionsApiUrl(`/api/payment/session/${sessionId}`);
+
+    const response = await fetch(functionsUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

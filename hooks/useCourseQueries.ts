@@ -8,6 +8,12 @@ const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development'
   ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
   : (process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app/api');
 
+console.log('🔧 [useCourseQueries] FUNCTIONS_BASE_URL:', {
+  url: FUNCTIONS_BASE_URL,
+  envVar: process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL,
+  nodeEnv: process.env.NODE_ENV
+});
+
 export const useCourses = () => {
   return useQuery({
     queryKey: ['courses'],
@@ -33,14 +39,22 @@ export const useCourse = (id: string) => {
         const headers: HeadersInit = {
           'Content-Type': 'application/json',
         };
-        
+
         // Add auth token if user is logged in
         if (user && auth.currentUser) {
           const token = await auth.currentUser.getIdToken();
           headers['Authorization'] = `Bearer ${token}`;
         }
-        
-        const response = await fetch(`${FUNCTIONS_BASE_URL}/courses/${id}`, {
+
+        const fullUrl = `${FUNCTIONS_BASE_URL}/courses/${id}`;
+        console.log('🌐 [useCourse] Making API request:', {
+          baseUrl: FUNCTIONS_BASE_URL,
+          fullUrl,
+          courseId: id,
+          hasAuth: !!headers['Authorization']
+        });
+
+        const response = await fetch(fullUrl, {
           headers,
         });
         

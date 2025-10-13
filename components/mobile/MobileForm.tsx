@@ -301,7 +301,7 @@ const MobileForm: React.FC<MobileFormProps> = ({
           {currentStep < fields.length - 1 ? (
             <MobileButton
               type="button"
-              variant="primary"
+              variant="default"
               onClick={nextStep}
               icon={<ChevronRight className="w-5 h-5" />}
               iconPosition="right"
@@ -311,7 +311,7 @@ const MobileForm: React.FC<MobileFormProps> = ({
           ) : (
             <MobileButton
               type="submit"
-              variant="primary"
+              variant="default"
               loading={isSubmitting}
               disabled={isSubmitting}
             >
@@ -338,7 +338,7 @@ const MobileForm: React.FC<MobileFormProps> = ({
 
       <MobileButton
         type="submit"
-        variant="primary"
+        variant="default"
         size="lg"
         fullWidth
         loading={isSubmitting}

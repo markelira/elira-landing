@@ -271,10 +271,10 @@ export default function PaymentsClient() {
               <Button
                 key={year}
                 onClick={() => setSelectedYear(year)}
-                variant={selectedYear === year ? 'primary' : 'outline'}
+                variant={selectedYear === year ? 'default' : 'outline'}
                 size="sm"
-                className={selectedYear === year 
-                  ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-600' 
+                className={selectedYear === year
+                  ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-600'
                   : 'border-slate-300 text-slate-700 hover:border-amber-400 hover:text-amber-700'
                 }
               >
@@ -394,7 +394,7 @@ export default function PaymentsClient() {
               {selectedYear === new Date().getFullYear() && (
                 <Button
                   onClick={() => router.push('/courses')}
-                  variant="primary"
+                  variant="default"
                   className="bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
                 >
                   Kurzusok böngészése
@@ -415,7 +415,7 @@ export default function PaymentsClient() {
           </p>
           <Button
             onClick={() => router.push('/support')}
-            variant="primary"
+            variant="default"
             size="sm"
             className="bg-amber-600 hover:bg-amber-700 text-white border-amber-600"
           >

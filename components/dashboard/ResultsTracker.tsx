@@ -98,7 +98,7 @@ export function ResultsTracker() {
               {Math.round(implementationProgress || 0)}%
             </span>
           </div>
-          <ProgressBar value={implementationProgress || 0} color="purple" height="sm" />
+          <ProgressBar value={implementationProgress || 0} color="blue" height="sm" />
         </div>
       </div>
 

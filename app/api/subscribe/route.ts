@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminApp } from '@/lib/firebase-admin';
 import { z } from 'zod';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -40,11 +41,6 @@ const subscribeSchema = z.object({
     selectedVideoUrl: z.string().optional(),
   }).optional(),
 });
-
-// Firebase Functions URL - HARDCODED FIX for environment variable issues
-const FUNCTIONS_URL = `https://api-5k33v562ya-ew.a.run.app/api/subscribe`; // Direct working URL
-
-console.log('🔧 Next.js API route using Functions URL:', FUNCTIONS_URL);
 
 // Get access token for authenticating with Firebase Functions
 async function getAccessToken(): Promise<string | null> {
@@ -121,7 +117,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Call Firebase Functions for other submissions
-    const functionsResponse = await fetch(FUNCTIONS_URL, {
+    const functionsUrl = getFirebaseFunctionsApiUrl('/api/subscribe');
+    const functionsResponse = await fetch(functionsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

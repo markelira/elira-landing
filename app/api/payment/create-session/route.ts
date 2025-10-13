@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Get auth token from headers
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -14,12 +15,11 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    
+
     // Forward to Firebase Functions
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 
-      'https://api-5k33v562ya-ew.a.run.app';
-    
-    const response = await fetch(`${functionsUrl}/api/payment/create-session`, {
+    const functionsUrl = getFirebaseFunctionsApiUrl('/api/payment/create-session');
+
+    const response = await fetch(functionsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

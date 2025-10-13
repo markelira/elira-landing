@@ -139,7 +139,7 @@ const PWAInstallPrompt: React.FC = () => {
                     <div className="flex items-center space-x-2 mt-3">
                       <MobileButton
                         size="sm"
-                        variant="primary"
+                        variant="default"
                         onClick={handleInstallClick}
                         icon={<Plus className="w-4 h-4" />}
                       >
@@ -253,7 +253,7 @@ const PWAInstallPrompt: React.FC = () => {
               
               <MobileButton
                 fullWidth
-                variant="primary"
+                variant="default"
                 onClick={handleDismiss}
               >
                 Értem, köszönöm

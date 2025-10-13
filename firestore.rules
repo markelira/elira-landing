@@ -5,10 +5,21 @@ service cloud.firestore {
     function isAuthenticated() {
       return request.auth != null;
     }
-    
+
     // Helper function to check if user owns the document
     function isOwner(uid) {
       return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    // Helper function to validate email format
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
     }
     
     // Stats: Public read, no client writes (admin only)
@@ -17,24 +28,33 @@ service cloud.firestore {
       allow write: if false;
     }
     
-    // Leads: Anyone can create, no reading for privacy
+    // Leads: Anyone can create (for lead capture forms), no reading for privacy
+    // Validation ensures required fields and email format
     match /leads/{document} {
-      allow create: if true;
-      allow read, update, delete: if false;
+      allow create: if request.resource.data.keys().hasAll(['email', 'createdAt']) &&
+        isValidEmail(request.resource.data.email) &&
+        request.resource.data.size() <= 20; // Limit to 20 fields max
+      allow read: if isAdmin(); // Only admins can read leads
+      allow update, delete: if false;
     }
     
-    // Consultations: Anyone can create and read (needed for duplicate checking)
-    match /consultations/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow update: if isAuthenticated();
+    // Consultations (Legacy): Restricted to authenticated users only
+    // Duplicate checking moved to Cloud Functions for security
+    match /consultations/{consultationId} {
+      allow create: if isAuthenticated() &&
+        request.resource.data.keys().hasAll(['name', 'email', 'phone', 'service', 'createdAt']) &&
+        isValidEmail(request.resource.data.email);
+      allow read: if isAuthenticated() &&
+        (request.auth.uid == resource.data.userId || isAdmin());
+      allow update: if isAuthenticated() &&
+        request.auth.uid == resource.data.userId;
       allow delete: if false;
     }
     
-    // Activities: Public read and create for real-time feed
+    // Activities: Authenticated users can read, only Cloud Functions can write
     match /activities/{document} {
-      allow read: if true;
-      allow create: if true;
+      allow read: if isAuthenticated();
+      allow create: if false; // Only created via Cloud Functions for data integrity
       allow update, delete: if false;
     }
     
@@ -65,11 +85,21 @@ service cloud.firestore {
     
     // User Progress: Users can read/update their own progress
     match /user-progress/{userId} {
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['userId']) &&
+        request.resource.data.userId == userId;
+      allow update: if isOwner(userId) &&
+        // Prevent userId from being changed
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['userId']);
+      allow delete: if false; // Progress should never be deleted
 
       // Lesson progress subcollection
       match /lessons/{lessonId} {
-        allow read, write: if isOwner(userId);
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if isOwner(userId);
+        allow update: if isOwner(userId);
+        allow delete: if false;
       }
     }
 
@@ -90,13 +120,19 @@ service cloud.firestore {
       allow update, delete: if false; // Activities are immutable
     }
 
-    // Consultations: Users can read/update their own and instructors can read assigned ones
-    match /consultations/{consultationId} {
+    // Consultations (Enhanced): Users can read/update their own, instructors can read assigned ones
+    // Note: This is separate from legacy consultations above
+    match /consultationsEnhanced/{consultationId} {
       allow read: if isAuthenticated() &&
         (request.auth.uid == resource.data.userId ||
+         request.auth.uid == resource.data.instructorId ||
+         isAdmin());
+      allow create: if isAuthenticated() &&
+        request.resource.data.keys().hasAll(['userId', 'status', 'createdAt']) &&
+        request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() &&
+        (request.auth.uid == resource.data.userId ||
          request.auth.uid == resource.data.instructorId);
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
       allow delete: if false;
     }
 

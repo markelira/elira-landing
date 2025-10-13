@@ -23,68 +23,39 @@ import {
 import { toast } from 'sonner'
 
 // Import our admin API infrastructure
-import { 
-  useAdminCategories, 
+import {
+  useAdminCategories,
   useAdminCategoryStats,
   useCreateCategory,
   useUpdateCategory,
   useDeleteCategory
 } from '@/lib/admin-hooks'
-import type { Category, CategoryStats, CreateCategoryData } from '@/lib/admin-hooks'
+import type { Category, CreateCategoryData } from '@/lib/admin-hooks'
 
 // All mock functions removed - now using real API integration
 
 export default function AdminCategoriesPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isCreating, setIsCreating] = useState(false)
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const [newCategory, setNewCategory] = useState<CreateCategoryData>({
     name: '',
     description: '',
     color: '#16222F',
     icon: '📁'
   })
-  
+
   // Use our new admin hooks with real API integration
   const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useAdminCategories()
   const { data: stats, isLoading: statsLoading } = useAdminCategoryStats()
 
   // Use integrated mutation hooks with error handling
   const createCategoryMutation = useCreateCategory()
-  const updateCategoryMutation = useUpdateCategory()
   const deleteCategoryMutation = useDeleteCategory()
 
   const filteredCategories = categories?.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     category.description.toLowerCase().includes(searchTerm.toLowerCase())
   ) || []
-
-  const handleCreateCategory = () => {
-    if (!newCategory.name.trim()) {
-      toast.error('Category name is required')
-      return
-    }
-    createCategoryMutation.mutate(newCategory)
-  }
-
-  const handleUpdateCategory = () => {
-    if (!editingCategory) return
-    updateCategoryMutation.mutate({
-      categoryId: editingCategory.id,
-      categoryData: {
-        name: editingCategory.name,
-        description: editingCategory.description,
-        color: editingCategory.color,
-        icon: editingCategory.icon
-      }
-    })
-  }
-
-  const handleDeleteCategory = (categoryId: string, categoryName: string) => {
-    if (confirm(`Are you sure you want to delete "${categoryName}"? This action cannot be undone.`)) {
-      deleteCategoryMutation.mutate(categoryId)
-    }
-  }
 
   // Enhanced loading and error states
   if (categoriesLoading || statsLoading) {

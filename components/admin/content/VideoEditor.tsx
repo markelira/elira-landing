@@ -501,9 +501,9 @@ export default function VideoEditor({ lessonId, content = {}, onSave }: VideoEdi
                   </div>
                 ) : (
                   <label className="cursor-pointer">
-                    <Button variant="outline" size="sm" as="span">
+                    <span className="inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                       Upload .vtt file
-                    </Button>
+                    </span>
                     <input
                       type="file"
                       accept=".vtt"

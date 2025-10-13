@@ -28,7 +28,7 @@ const IntegrationExamples: React.FC = () => {
 export default function MyPage() {
   return (
     <div>
-      <MarketingSebesztCTA 
+      <MarketingSebesztCTA
         variant="primary"
         size="lg"
         showUrgency={true}
@@ -39,7 +39,7 @@ export default function MyPage() {
 }`,
       component: (
         <MarketingSebesztProvider>
-          <MarketingSebesztCTA 
+          <MarketingSebesztCTA
             variant="primary"
             size="lg"
             showUrgency={true}

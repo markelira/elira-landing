@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { samplePosts, getAllCategories } from '@/lib/blog-data/sample-posts';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.elira.hu';
@@ -85,5 +86,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  return staticRoutes;
+  // Blog routes
+  const blogRoutes: MetadataRoute.Sitemap = [
+    // Main blog index page
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    // Blog search page
+    {
+      url: `${baseUrl}/blog/search`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+  ];
+
+  // Individual blog posts with actual published dates
+  const blogPostRoutes: MetadataRoute.Sitemap = samplePosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: 'monthly' as const,
+    priority: post.featured ? 0.8 : 0.7,
+  }));
+
+  // Blog category pages
+  const categories = getAllCategories();
+  const blogCategoryRoutes: MetadataRoute.Sitemap = categories.map((category) => ({
+    url: `${baseUrl}/blog/category/${category.toLowerCase()}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...blogRoutes, ...blogPostRoutes, ...blogCategoryRoutes];
 }

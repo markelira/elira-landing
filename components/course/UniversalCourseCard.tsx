@@ -282,7 +282,7 @@ export function UniversalCourseCard({
                     <span className="text-xs text-gray-500">Egyszeri fizetés</span>
                   </div>
                   <Button 
-                    variant="primary"
+                    variant="default"
                     onClick={handleEnrollClick}
                     className={`ml-3 ${isCompact ? 'h-8 text-xs px-3' : ''}`}
                   >

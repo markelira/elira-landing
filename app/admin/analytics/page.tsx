@@ -20,7 +20,6 @@ import {
 
 // Import our admin API infrastructure
 import { useAdminAnalytics } from '@/lib/admin-hooks'
-import type { AnalyticsData } from '@/lib/admin-hooks'
 
 // All mock functions removed - now using real API integration
 

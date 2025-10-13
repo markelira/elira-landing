@@ -1,28 +1,25 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
-import { 
-  Users, 
-  BookOpen, 
-  BarChart, 
-  CreditCard, 
-  TrendingUp, 
-  Activity, 
-  Award, 
-  Wifi, 
-  WifiOff, 
-  Sparkles, 
-  Zap,
-  Plus,
-  Filter
+import {
+  Users,
+  BookOpen,
+  BarChart,
+  CreditCard,
+  TrendingUp,
+  Activity,
+  Award,
+  Wifi,
+  WifiOff,
+  Sparkles,
+  Zap
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 // Import our admin API infrastructure
 import { useAdminDashboardStats, useAdminHealthCheck } from '@/lib/admin-hooks'
-import type { DashboardStats } from '@/lib/admin-hooks'
 
 // All mock functions removed - now using real API integration
 

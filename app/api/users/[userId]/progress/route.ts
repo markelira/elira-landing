@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, db } from '@/lib/firebase-admin';
-import { FieldValue } from 'firebase-admin/firestore';
+import { FieldValue, QueryDocumentSnapshot } from 'firebase-admin/firestore';
 
 export const dynamic = 'force-dynamic';
 
@@ -124,7 +124,7 @@ export async function GET(
     const accessibleCourseIds = new Set<string>();
 
     // Source 1: Enrollment documents
-    enrollmentsSnapshot.docs.forEach(doc => {
+    enrollmentsSnapshot.docs.forEach((doc: QueryDocumentSnapshot) => {
       const enrollmentData = doc.data();
       accessibleCourseIds.add(enrollmentData.courseId);
     });
@@ -143,7 +143,7 @@ export async function GET(
       .where('status', '==', 'completed')
       .get();
 
-    paymentsSnapshot.docs.forEach(doc => {
+    paymentsSnapshot.docs.forEach((doc: QueryDocumentSnapshot) => {
       const paymentData = doc.data();
       if (paymentData.courseId) {
         accessibleCourseIds.add(paymentData.courseId);

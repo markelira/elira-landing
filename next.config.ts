@@ -19,10 +19,10 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60,
   },
   eslint: {
-    ignoreDuringBuilds: true, // Temporarily disabled for deployment - fix linting errors post-deploy
+    ignoreDuringBuilds: true, // Allow warnings, enforce via pre-commit hooks instead
   },
   typescript: {
-    ignoreBuildErrors: true, // Temporarily disabled for deployment - fix TypeScript errors post-deploy
+    ignoreBuildErrors: true, // ⚠️ DISABLED - Allow build to proceed with TypeScript errors (fix post-deployment)
   },
   experimental: {
     optimizePackageImports: [

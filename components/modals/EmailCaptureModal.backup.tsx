@@ -336,10 +336,9 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
                   {/* Submit button */}
                   <Button
                     type="submit"
-                    variant="glow"
+                    variant="default"
                     size="lg"
-                    loading={submissionState === 'loading'}
-                    className="w-full mt-6"
+                    className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                     disabled={submissionState === 'loading'}
                   >
                     {submissionState === 'loading' 

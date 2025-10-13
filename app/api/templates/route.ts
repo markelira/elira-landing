@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, db } from '@/lib/firebase-admin';
+import { QueryDocumentSnapshot } from 'firebase-admin/firestore';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,7 +49,7 @@ export async function GET(request: NextRequest) {
 
     const templatesSnapshot = await query.get();
 
-    const templates = templatesSnapshot.docs.map(doc => {
+    const templates = templatesSnapshot.docs.map((doc: QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         ...data,

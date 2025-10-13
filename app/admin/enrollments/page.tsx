@@ -6,12 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { 
-  GraduationCap, 
-  Search, 
-  Filter, 
-  Users, 
-  BookOpen, 
+import {
+  GraduationCap,
+  Search,
+  Filter,
+  Users,
   TrendingUp,
   Calendar,
   Eye,

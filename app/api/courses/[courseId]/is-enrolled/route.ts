@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirebaseFunctionsApiUrl } from '@/lib/firebase-functions-url';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,18 +21,19 @@ export async function GET(
 
     // Get auth token from headers
     const authHeader = request.headers.get('authorization');
-    
-    // Forward to Firebase Functions  
-    const functionsUrl = process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_URL || 'https://api-5k33v562ya-ew.a.run.app';
+
+    // Forward to Firebase Functions
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    
+
     // Forward auth header if present
     if (authHeader) {
       headers['Authorization'] = authHeader;
     }
-    
+
+    const functionsUrl = getFirebaseFunctionsApiUrl(`/api/enrollments/check/${courseId}?userId=${userId}`);
+
     const response = await fetch(
-      `${functionsUrl}/api/enrollments/check/${courseId}?userId=${userId}`,
+      functionsUrl,
       {
         method: 'GET',
         headers,

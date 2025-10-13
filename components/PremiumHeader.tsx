@@ -40,6 +40,9 @@ export function PremiumHeader() {
               <Link href="/masterclass" className="text-gray-700 hover:text-gray-900 transition-colors duration-200">
                 Masterclass
               </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-gray-900 transition-colors duration-200">
+                Blog
+              </Link>
               <Link href="/rolunk" className="text-gray-700 hover:text-gray-900 transition-colors duration-200">
                 Rólunk
               </Link>

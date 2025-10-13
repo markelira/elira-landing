@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth, db } from '@/lib/firebase-admin';
 import { Consultation, ConsultationStatus, MeetingPlatform } from '@/types/database';
-import { FieldValue } from 'firebase-admin/firestore';
+import { FieldValue, QueryDocumentSnapshot } from 'firebase-admin/firestore';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 
     const consultationsSnapshot = await query.get();
 
-    const consultations = consultationsSnapshot.docs.map(doc => {
+    const consultations = consultationsSnapshot.docs.map((doc: QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,

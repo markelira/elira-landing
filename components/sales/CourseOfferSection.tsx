@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, Star } from 'lucide-react';
 import { UniversalCourseCard } from '../course/UniversalCourseCard';
 import { useTrendingCourses } from '@/hooks/useCoursesCatalog';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 
 const CourseOfferSection: React.FC = () => {
   const router = useRouter();
@@ -173,7 +173,7 @@ const CourseOfferSection: React.FC = () => {
                 </p>
                 <Button
                   onClick={() => router.push('/contact')}
-                  variant="primary"
+                  variant="default"
                   className="gap-2"
                 >
                   Értesítést kérek

@@ -526,15 +526,14 @@ export default function MediaLibrary({
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    as="a"
+                  <a
                     href={file.url}
                     target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center h-9 px-3 text-sm font-medium hover:bg-gray-100 rounded-md transition-colors"
                   >
                     <Eye className="w-4 h-4" />
-                  </Button>
+                  </a>
                   <Button
                     size="sm"
                     variant="ghost"

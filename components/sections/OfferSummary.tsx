@@ -464,7 +464,7 @@ const OfferSummary: React.FC = () => {
                 <div className="text-gray-400 text-lg font-bold hidden md:block">VAGY</div>
                 <ConsultationButton 
                   className="flex-1 w-full md:w-auto"
-                  variant="primary"
+                  variant="default"
                   size="lg"
                 />
               </div>

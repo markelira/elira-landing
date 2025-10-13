@@ -12,6 +12,11 @@ const FUNCTIONS_BASE_URL = process.env.NODE_ENV === 'development'
   ? 'http://127.0.0.1:5001/elira-landing-ce927/europe-west1/api/api'
   : 'https://api-5k33v562ya-ew.a.run.app/api';
 
+console.log('🔧 [courseAccess] FUNCTIONS_BASE_URL:', {
+  url: FUNCTIONS_BASE_URL,
+  nodeEnv: process.env.NODE_ENV
+});
+
 export const checkCourseAccess = async (
   courseId: string, 
   userId: string
@@ -20,19 +25,26 @@ export const checkCourseAccess = async (
     // Get Firebase auth token
     const { auth } = await import('@/lib/firebase');
     const token = await auth.currentUser?.getIdToken();
-    
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
-    
+
     // Add auth header if token available
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
-    
-    const response = await fetch(
-      `${FUNCTIONS_BASE_URL}/enrollments/check/${courseId}?userId=${userId}`,
-      {
+
+    const fullUrl = `${FUNCTIONS_BASE_URL}/enrollments/check/${courseId}?userId=${userId}`;
+    console.log('🌐 [checkCourseAccess] Making enrollment check request:', {
+      baseUrl: FUNCTIONS_BASE_URL,
+      fullUrl,
+      courseId,
+      userId,
+      hasAuth: !!token
+    });
+
+    const response = await fetch(fullUrl, {
         method: 'GET',
         headers,
       }
