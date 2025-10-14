@@ -49,7 +49,7 @@ async function createProductionCourse() {
       previewVideoUrl: 'https://player.mux.com/tTZjKcQAhn0233X1jBoj4UARa2nEKnEDRarPGZNUJ2Gg',
       
       // Pricing - CRITICAL for Stripe
-      price: 9990,
+      price: 89990,
       currency: 'HUF',
       isFree: false,
       stripePriceId: 'price_1S0MvyHhqyKpFIBMQdiSPodM', // Existing Stripe price ID

@@ -195,7 +195,7 @@ export function CourseDetailWithTabs({
                 course={{
                   id: courseData.id,
                   title: courseData.title,
-                  price: courseData.price || 9990,
+                  price: courseData.price || 89990,
                   currency: courseData.currency || 'HUF'
                 }}
                 className="px-12 py-4 text-lg"
@@ -1051,7 +1051,7 @@ function PurchaseCard({ course }: any) {
             course={{
               id: course.id,
               title: course.title,
-              price: course.price || 9990,
+              price: course.price || 89990,
               currency: course.currency || 'HUF'
             }}
             className="w-full px-6 py-4"
