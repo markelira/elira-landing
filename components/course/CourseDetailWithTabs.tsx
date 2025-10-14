@@ -1038,7 +1038,7 @@ function PurchaseCard({ course }: any) {
           ) : (
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
               <p className="text-4xl font-bold text-gray-900">
-                {course.price?.toLocaleString('hu-HU')} Ft
+                {(course.price || 89990).toLocaleString('hu-HU')} Ft
               </p>
               <p className="text-gray-600 mt-2 text-sm">Egyszeri fizetés</p>
             </div>
