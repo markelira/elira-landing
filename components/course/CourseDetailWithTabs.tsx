@@ -1028,23 +1028,6 @@ function PurchaseCard({ course }: any) {
           </div>
         </div>
 
-        {/* Modern Price - Minimal */}
-        <div className="mb-6">
-          {course.isFree ? (
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <p className="text-4xl font-bold text-gray-900">Ingyenes</p>
-              <p className="text-gray-600 mt-2 text-sm">Örökre hozzáférhető</p>
-            </div>
-          ) : (
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <p className="text-4xl font-bold text-gray-900">
-                {(course.price || 89990).toLocaleString('hu-HU')} Ft
-              </p>
-              <p className="text-gray-600 mt-2 text-sm">Egyszeri fizetés</p>
-            </div>
-          )}
-        </div>
-
         {/* Modern Enrollment Button */}
         <div className="mb-8">
           <PurchaseButton
