@@ -482,3 +482,35 @@ export {
   weeklyInsights,
   triggerWeeklyInsightsManual
 } from './scheduled/weeklyInsights';
+
+// Export Company Admin Dashboard functions (MVP)
+export { createCompany } from './company/createCompany';
+export {
+  addEmployee,
+  verifyEmployeeInvite,
+  acceptEmployeeInvite,
+} from './company/employeeInvite';
+export { enrollEmployeesInMasterclass } from './company/enrollEmployees';
+export { createCompanyMasterclass } from './company/createMasterclass';
+export { completeCompanyOnboarding } from './company/completeOnboarding';
+export {
+  assignEmployeeToMasterclass,
+  unassignEmployeeFromMasterclass,
+  getCompanyMasterclasses,
+} from './company/masterclassEnrollment';
+export {
+  purchaseCompanyMasterclass,
+  getCompanyPurchases,
+} from './company/purchaseMasterclass';
+export {
+  getCompanyDashboard,
+  getEmployeeProgressDetail,
+} from './company/progressTracking';
+export { generateCSVReport } from './company/generateCSVReport';
+export { sendEmployeeReminder } from './company/sendReminder';
+
+// Stripe payment completion
+export { completeStripeEnrollment } from './stripe/completeEnrollment';
+
+// User role management
+export { setIndividualUserRole } from './user/setIndividualRole';

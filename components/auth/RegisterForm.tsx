@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../../contexts/AuthContext';
 import { RegisterFormData } from '../../types/auth';
+import { functions } from '@/lib/firebase';
+import { httpsCallable } from 'firebase/functions';
 
 const registerSchema = z.object({
   firstName: z.string().min(2, 'A keresztnév legalább 2 karakter hosszú kell legyen'),
@@ -21,12 +23,14 @@ const registerSchema = z.object({
 interface RegisterFormProps {
   onSuccess?: (linkedDownloads?: string[]) => void;
   onSwitchToLogin?: () => void;
+  onBack?: () => void;
   className?: string;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   onSuccess,
   onSwitchToLogin,
+  onBack,
   className = ''
 }) => {
   const { register: registerUser, loginWithGoogle, loading } = useAuth();
@@ -49,6 +53,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
     try {
       await registerUser(data.email, data.password, data.firstName, data.lastName);
+
+      // Set STUDENT role for individual users
+      try {
+        const setRole = httpsCallable(functions, 'setIndividualUserRole');
+        await setRole({});
+        console.log('✅ STUDENT role set successfully');
+      } catch (roleError) {
+        console.error('Failed to set STUDENT role:', roleError);
+        // Don't block registration if role setting fails
+      }
 
       // Note: We could get linked downloads from the response, but for now just indicate success
       onSuccess?.();
@@ -80,6 +94,17 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
     try {
       await loginWithGoogle();
+
+      // Set STUDENT role for individual users
+      try {
+        const setRole = httpsCallable(functions, 'setIndividualUserRole');
+        await setRole({});
+        console.log('✅ STUDENT role set successfully');
+      } catch (roleError) {
+        console.error('Failed to set STUDENT role:', roleError);
+        // Don't block registration if role setting fails
+      }
+
       onSuccess?.();
     } catch (err: any) {
       const errorCode = err.code || '';
@@ -100,6 +125,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
   return (
     <div className={className}>
+      {/* Back button if onBack is provided */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors mb-4"
+        >
+          <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>Vissza</span>
+        </button>
+      )}
+
       {/* Google Registration - Primary CTA */}
       <button
         onClick={handleGoogleRegister}

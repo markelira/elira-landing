@@ -86,7 +86,7 @@ export function ConsistentPremiumHeroSection() {
                        boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.2)'
                      }}>
                   <Image
-                    src="/hero-card.png"
+                    src="/hero-new-1.png"
                     alt="Elira Platform Preview"
                     width={1600}
                     height={900}

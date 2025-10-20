@@ -72,7 +72,7 @@ export interface Lead extends FirestoreDocument {
 }
 
 // Role System Types
-export type UserRole = 'STUDENT' | 'INSTRUCTOR' | 'ADMIN';
+export type UserRole = 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' | 'COMPANY_ADMIN' | 'COMPANY_EMPLOYEE';
 
 export interface RolePermissions {
   // Course management

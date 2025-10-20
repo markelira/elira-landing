@@ -84,14 +84,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
         try {
-          // Get fresh ID token with custom claims
-          const idTokenResult = await firebaseUser.getIdTokenResult();
+          // Get fresh ID token with custom claims (force refresh to get latest)
+          const idTokenResult = await firebaseUser.getIdTokenResult(true);
           const customClaims = idTokenResult.claims;
-          
+
+          console.log('[AuthContext] Processing user:', firebaseUser.uid);
+          console.log('[AuthContext] Custom claims:', {
+            role: customClaims.role,
+            companyId: customClaims.companyId,
+            companyRole: customClaims.companyRole
+          });
+
           // Use role from custom claims if available, otherwise default to STUDENT
           const roleFromClaims = customClaims.role as UserRole;
           const userRole = isValidRole(roleFromClaims) ? roleFromClaims : 'STUDENT';
-          
+
           // Create user data with role from custom claims
           const userData: User = {
             id: firebaseUser.uid,
@@ -103,11 +110,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             profilePictureUrl: firebaseUser.photoURL || undefined,
             permissions: getRolePermissions(userRole),
             isActive: true,
-            courseAccess: customClaims.admin === true || userRole === 'ADMIN'
+            courseAccess: customClaims.admin === true || userRole === 'ADMIN',
+            companyId: customClaims.companyId as string | undefined,
+            companyRole: customClaims.companyRole as string | undefined
           };
-          
+
           setUser(userData);
-          console.log('✅ User authenticated with role from custom claims:', userRole);
+          console.log('✅ [AuthContext] User authenticated with role:', userRole, userData.companyId ? `(Company: ${userData.companyId})` : '');
           
           // Try to fetch additional user data from backend (non-blocking)
           try {

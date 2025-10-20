@@ -9,12 +9,14 @@ export interface User {
   firstName: string
   lastName: string
   email: string
-  role: 'STUDENT' | 'INSTRUCTOR' | 'ADMIN'
+  role: 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' | 'COMPANY_ADMIN'
   profilePictureUrl?: string
   courseAccess?: boolean
   stripeCustomerId?: string
   permissions?: RolePermissions
   isActive?: boolean
+  companyId?: string
+  companyRole?: string
 }
 
 export interface AuthResponse {

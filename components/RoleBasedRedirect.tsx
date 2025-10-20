@@ -37,8 +37,12 @@ export function RoleBasedRedirect({
     const shouldRedirect = (
       // Redirect admins from general dashboard to admin dashboard
       (userRole === 'ADMIN' && currentPath === '/dashboard') ||
-      // Redirect instructors from general dashboard to instructor dashboard  
-      (userRole === 'INSTRUCTOR' && currentPath === '/dashboard')
+      // Redirect instructors from general dashboard to instructor dashboard
+      (userRole === 'INSTRUCTOR' && currentPath === '/dashboard') ||
+      // Redirect company admins from general dashboard to company dashboard
+      (userRole === 'COMPANY_ADMIN' && currentPath === '/dashboard') ||
+      // Redirect company employees from general dashboard to employee dashboard
+      (userRole === 'COMPANY_EMPLOYEE' && currentPath === '/dashboard')
     )
 
     if (shouldRedirect) {

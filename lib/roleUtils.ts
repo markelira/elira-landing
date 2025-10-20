@@ -99,6 +99,72 @@ export const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
       canManageCategories: true,
       canModerateContent: true,
     }
+  },
+
+  COMPANY_ADMIN: {
+    role: 'COMPANY_ADMIN',
+    displayName: 'Cégadmin',
+    defaultRoute: '/company/dashboard',
+    navigationItems: ['company-dashboard', 'employees', 'masterclasses', 'reports', 'profile'],
+    permissions: {
+      // Course management
+      canCreateCourses: false,
+      canEditOwnCourses: false,
+      canEditAllCourses: false,
+      canDeleteCourses: false,
+      canPublishCourses: false,
+
+      // User management
+      canViewAllUsers: false,
+      canEditUserRoles: false,
+      canDeactivateUsers: false,
+      canDeleteUsers: false,
+
+      // Analytics and reporting
+      canViewOwnAnalytics: true,
+      canViewPlatformAnalytics: false,
+      canExportData: true,
+
+      // Platform administration
+      canModifyPlatformSettings: false,
+      canManagePayments: false,
+      canAccessAdminPanel: false,
+      canManageCategories: false,
+      canModerateContent: false,
+    }
+  },
+
+  COMPANY_EMPLOYEE: {
+    role: 'COMPANY_EMPLOYEE',
+    displayName: 'Alkalmazott',
+    defaultRoute: '/employee/dashboard',
+    navigationItems: ['employee-dashboard', 'my-courses', 'progress', 'profile'],
+    permissions: {
+      // Course management
+      canCreateCourses: false,
+      canEditOwnCourses: false,
+      canEditAllCourses: false,
+      canDeleteCourses: false,
+      canPublishCourses: false,
+
+      // User management
+      canViewAllUsers: false,
+      canEditUserRoles: false,
+      canDeactivateUsers: false,
+      canDeleteUsers: false,
+
+      // Analytics and reporting
+      canViewOwnAnalytics: true,
+      canViewPlatformAnalytics: false,
+      canExportData: false,
+
+      // Platform administration
+      canModifyPlatformSettings: false,
+      canManagePayments: false,
+      canAccessAdminPanel: false,
+      canManageCategories: false,
+      canModerateContent: false,
+    }
   }
 }
 
@@ -106,10 +172,12 @@ export const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
 export const hasRole = (userRole: UserRole, requiredRole: UserRole): boolean => {
   const roleHierarchy: Record<UserRole, number> = {
     STUDENT: 1,
+    COMPANY_EMPLOYEE: 1,
     INSTRUCTOR: 2,
+    COMPANY_ADMIN: 2,
     ADMIN: 3
   }
-  
+
   return roleHierarchy[userRole] >= roleHierarchy[requiredRole]
 }
 
@@ -126,16 +194,21 @@ export const hasPermission = (
 export const canAccessRoute = (userRole: UserRole, route: string): boolean => {
   // Define route access rules
   const routeAccess: Record<string, UserRole[]> = {
+    // Individual user dashboard (STUDENT only)
     '/dashboard': ['STUDENT', 'INSTRUCTOR', 'ADMIN'],
     '/dashboard/learning': ['STUDENT', 'INSTRUCTOR', 'ADMIN'],
     '/dashboard/payments': ['STUDENT', 'INSTRUCTOR', 'ADMIN'],
     '/dashboard/profile': ['STUDENT', 'INSTRUCTOR', 'ADMIN'],
-    '/courses': ['STUDENT', 'INSTRUCTOR', 'ADMIN'],
+    '/courses': ['STUDENT', 'INSTRUCTOR', 'ADMIN', 'COMPANY_EMPLOYEE'],
+
+    // Instructor routes
     '/instructor': ['INSTRUCTOR', 'ADMIN'],
     '/instructor/dashboard': ['INSTRUCTOR', 'ADMIN'],
     '/instructor/courses': ['INSTRUCTOR', 'ADMIN'],
     '/instructor/students': ['INSTRUCTOR', 'ADMIN'],
     '/instructor/content': ['INSTRUCTOR', 'ADMIN'],
+
+    // Admin routes
     '/admin': ['ADMIN'],
     '/admin/dashboard': ['ADMIN'],
     '/admin/users': ['ADMIN'],
@@ -143,6 +216,17 @@ export const canAccessRoute = (userRole: UserRole, route: string): boolean => {
     '/admin/analytics': ['ADMIN'],
     '/admin/payments': ['ADMIN'],
     '/admin/settings': ['ADMIN'],
+
+    // Company routes
+    '/company/dashboard': ['COMPANY_ADMIN'],
+    '/company/employees': ['COMPANY_ADMIN'],
+    '/company/masterclasses': ['COMPANY_ADMIN'],
+    '/company/reports': ['COMPANY_ADMIN'],
+
+    // Employee routes
+    '/employee/dashboard': ['COMPANY_EMPLOYEE'],
+    '/employee/my-courses': ['COMPANY_EMPLOYEE'],
+    '/employee/progress': ['COMPANY_EMPLOYEE'],
   }
 
   // Check if route has specific access rules
@@ -154,14 +238,22 @@ export const canAccessRoute = (userRole: UserRole, route: string): boolean => {
   if (route.startsWith('/admin')) {
     return userRole === 'ADMIN'
   }
-  
+
   if (route.startsWith('/instructor')) {
     return ['INSTRUCTOR', 'ADMIN'].includes(userRole)
   }
-  
-  // Default access for dashboard routes
+
+  if (route.startsWith('/company')) {
+    return userRole === 'COMPANY_ADMIN'
+  }
+
+  if (route.startsWith('/employee')) {
+    return userRole === 'COMPANY_EMPLOYEE'
+  }
+
+  // Dashboard routes - ONLY for STUDENT, INSTRUCTOR, ADMIN (NOT company users)
   if (route.startsWith('/dashboard')) {
-    return true // All authenticated users can access dashboard routes
+    return ['STUDENT', 'INSTRUCTOR', 'ADMIN'].includes(userRole)
   }
 
   // Default to allowing access for unspecified routes

@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginForm from '@/components/auth/LoginForm';
 import RegisterForm from '@/components/auth/RegisterForm';
+import { AccountTypeSelector, AccountType } from '@/components/auth/AccountTypeSelector';
+import { CompanyRegisterForm } from '@/components/auth/CompanyRegisterForm';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 
@@ -13,6 +15,7 @@ export default function AuthPage() {
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();
   const [showRegister, setShowRegister] = useState(false);
+  const [accountType, setAccountType] = useState<AccountType | null>(null);
 
   // Get redirect URL from query params or default to dashboard
   const redirectTo = searchParams.get('redirect') || '/dashboard';
@@ -132,24 +135,49 @@ export default function AuthPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-              {showRegister ? 'Fiók létrehozása' : 'Üdvözölünk vissza'}
+              {showRegister && accountType === 'company'
+                ? 'Vállalati fiók létrehozása'
+                : showRegister
+                ? 'Fiók létrehozása'
+                : 'Üdvözölünk vissza'}
             </h1>
             <p className="text-sm text-gray-600">
-              {showRegister
+              {showRegister && accountType === 'company'
+                ? 'Regisztrálj vállalati fiókot a csapatodnak'
+                : showRegister
                 ? 'Csatlakozz az Elira közösséghez'
-                : 'Jelentkezz be a fiókodba'
-              }
+                : 'Jelentkezz be a fiókodba'}
             </p>
           </div>
 
           {/* Form Content */}
           {showRegister ? (
-            <RegisterForm
-              onSuccess={handleAuthSuccess}
-              onSwitchToLogin={() => setShowRegister(false)}
-              className="!p-0 !shadow-none !bg-transparent !border-0"
-            />
+            // If showing register, first show account type selector
+            !accountType ? (
+              <AccountTypeSelector
+                onSelect={(type) => setAccountType(type)}
+                onBack={() => setShowRegister(false)}
+              />
+            ) : accountType === 'company' ? (
+              // Company registration flow
+              <CompanyRegisterForm
+                onSuccess={handleAuthSuccess}
+                onBack={() => setAccountType(null)}
+              />
+            ) : (
+              // Individual registration flow
+              <RegisterForm
+                onSuccess={handleAuthSuccess}
+                onSwitchToLogin={() => {
+                  setShowRegister(false);
+                  setAccountType(null);
+                }}
+                onBack={() => setAccountType(null)}
+                className="!p-0 !shadow-none !bg-transparent !border-0"
+              />
+            )
           ) : (
+            // Login form
             <LoginForm
               onSuccess={handleAuthSuccess}
               onSwitchToRegister={() => setShowRegister(true)}
