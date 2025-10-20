@@ -24,7 +24,7 @@ export function middleware(request: NextRequest) {
     form-action 'self';
     frame-ancestors 'none';
     frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://www.youtube.com https://player.vimeo.com https://stream.mux.com https://player.mux.com;
-    connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://*.ingest.sentry.io https://api.stripe.com https://firestore.googleapis.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.cloudfunctions.net https://*.firebaseapp.com https://*.run.app https://region1.google-analytics.com https://*.hotjar.com https://*.hotjar.io https://stream.mux.com https://*.mux.com http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* wss://*.vercel.live wss://*.hotjar.com wss://*.hotjar.io;
+    connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://*.ingest.sentry.io https://api.stripe.com https://firestore.googleapis.com https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.cloudfunctions.net https://*.firebaseapp.com https://*.run.app https://region1.google-analytics.com https://*.hotjar.com https://*.hotjar.io https://stream.mux.com https://*.mux.com http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* wss://*.vercel.live wss://*.hotjar.com wss://*.hotjar.io;
     media-src 'self' blob: https://stream.mux.com https://*.mux.com https://storage.googleapis.com;
     worker-src 'self' blob:;
     manifest-src 'self';
