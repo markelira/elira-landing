@@ -42,7 +42,7 @@ interface CompanyEmployee {
   inviteToken?: string;
   inviteExpiresAt?: Timestamp;
   enrolledMasterclasses: any[];
-  addedAt: Timestamp;
+  invitedAt: Timestamp;
 }
 
 interface AddEmployeeInput {
@@ -118,7 +118,7 @@ export default function EmployeesPage() {
         const employeesRef = collection(db, 'companies', userCompany.id, 'employees');
         const employeesQuery = query(
           employeesRef,
-          orderBy('addedAt', 'desc'),
+          orderBy('invitedAt', 'desc'),
           limit(EMPLOYEES_PER_PAGE)
         );
         const employeesSnapshot = await getDocs(employeesQuery);
@@ -161,7 +161,7 @@ export default function EmployeesPage() {
       const employeesRef = collection(db, 'companies', company.id, 'employees');
       const employeesQuery = query(
         employeesRef,
-        orderBy('addedAt', 'desc'),
+        orderBy('invitedAt', 'desc'),
         startAfter(lastDoc),
         limit(EMPLOYEES_PER_PAGE)
       );
@@ -228,7 +228,7 @@ export default function EmployeesPage() {
         // Refresh employee list
         const db = getFirestore();
         const employeesRef = collection(db, 'companies', company.id, 'employees');
-        const employeesQuery = query(employeesRef, orderBy('addedAt', 'desc'));
+        const employeesQuery = query(employeesRef, orderBy('invitedAt', 'desc'));
         const employeesSnapshot = await getDocs(employeesQuery);
 
         const employeesList: CompanyEmployee[] = employeesSnapshot.docs.map(doc => ({
