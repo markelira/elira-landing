@@ -57,6 +57,10 @@ dataconnect-generated/
 .dataconnect/
 # Firebase Emulator Data
 firestore-export/
+firebase-export-*/
+
+# Playwright MCP
+.playwright-mcp/
 
 # Sentry
 .sentryclirc
