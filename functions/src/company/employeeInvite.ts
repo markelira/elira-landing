@@ -105,7 +105,7 @@ export const addEmployee = https.onCall(
         firstName,
         lastName,
         fullName,
-        jobTitle: jobTitle || undefined,
+        jobTitle: jobTitle?.trim() || '',
         status: 'invited',
         inviteToken,
         inviteExpiresAt: Timestamp.fromDate(expiresAt),
@@ -124,12 +124,18 @@ export const addEmployee = https.onCall(
       const companyDoc = await db.collection('companies').doc(companyId).get();
       const companyName = companyDoc.data()?.name || 'Elira';
 
-      // 6. Send invitation email via SendGrid
-      await sendInvitationEmail(email, {
-        firstName,
-        companyName,
-        inviteUrl: `${process.env.APP_URL || 'https://elira.hu'}/company/invite/${inviteToken}`,
-      });
+      // 6. Send invitation email via SendGrid (non-blocking)
+      try {
+        await sendInvitationEmail(email, {
+          firstName,
+          companyName,
+          inviteUrl: `${process.env.APP_URL || 'https://elira.hu'}/company/invite/${inviteToken}`,
+        });
+        console.log(`Invitation email sent to ${email}`);
+      } catch (emailError: any) {
+        console.warn(`Failed to send invitation email to ${email}:`, emailError.message);
+        // Don't throw - employee was still added successfully
+      }
 
       return {
         success: true,
@@ -389,8 +395,8 @@ async function sendInvitationEmail(
   const sendgridApiKey = functions.config().sendgrid?.api_key || process.env.SENDGRID_API_KEY;
 
   if (!sendgridApiKey) {
-    console.error('SendGrid API key not configured');
-    throw new Error('Email service not configured');
+    console.warn('SendGrid API key not configured - skipping email');
+    return { success: false, message: 'Email service not configured' };
   }
 
   sgMail.setApiKey(sendgridApiKey);
